@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>dev.juherr.datex4j</groupId>
+  <artifactId>datex4j</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>datex4j</name>
+  <description>The reference Java SDK for the European DATEX II standard.</description>
+  <url>https://github.com/juherr/datex4j</url>
+  <inceptionYear>2026</inceptionYear>
+
+  <licenses>
+    <license>
+      <name>Apache-2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>juherr</id>
+      <name>Julien Herr</name>
+      <url>https://github.com/juherr</url>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:https://github.com/juherr/datex4j.git</connection>
+    <developerConnection>scm:git:git@github.com:juherr/datex4j.git</developerConnection>
+    <url>https://github.com/juherr/datex4j</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <modules>
+    <module>datex4j-model</module>
+    <module>datex4j-core</module>
+    <module>datex4j-xml</module>
+    <module>examples</module>
+  </modules>
+
+  <properties>
+    <!-- Build -->
+    <maven.compiler.release>25</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <!-- Reproducible builds: fixed, version-controlled timestamp. -->
+    <project.build.outputTimestamp>2026-07-23T00:00:00Z</project.build.outputTimestamp>
+
+    <!-- Dependency versions -->
+    <jakarta.xml.bind-api.version>4.0.5</jakarta.xml.bind-api.version>
+    <jaxb-runtime.version>4.0.9</jaxb-runtime.version>
+    <junit-bom.version>6.1.2</junit-bom.version>
+
+    <!-- Plugin versions -->
+    <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
+    <maven-surefire-plugin.version>3.5.6</maven-surefire-plugin.version>
+    <maven-jar-plugin.version>3.5.1</maven-jar-plugin.version>
+    <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
+    <exec-maven-plugin.version>3.6.3</exec-maven-plugin.version>
+    <jaxb-maven-plugin.version>4.0.16</jaxb-maven-plugin.version>
+    <spotless-maven-plugin.version>3.8.0</spotless-maven-plugin.version>
+    <palantir-java-format.version>2.96.0</palantir-java-format.version>
+    <jacoco-maven-plugin.version>0.8.15</jacoco-maven-plugin.version>
+
+    <!-- Release / publishing plugin versions (used only by the `release` profile) -->
+    <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+    <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
+    <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
+    <central-publishing-maven-plugin.version>0.11.0</central-publishing-maven-plugin.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- Reactor modules -->
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-xml</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <!-- Jakarta XML Binding -->
+      <dependency>
+        <groupId>jakarta.xml.bind</groupId>
+        <artifactId>jakarta.xml.bind-api</artifactId>
+        <version>${jakarta.xml.bind-api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.glassfish.jaxb</groupId>
+        <artifactId>jaxb-runtime</artifactId>
+        <version>${jaxb-runtime.version}</version>
+      </dependency>
+
+      <!-- Testing -->
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>${junit-bom.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven-compiler-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven-surefire-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>${maven-jar-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.jvnet.jaxb</groupId>
+          <artifactId>jaxb-maven-plugin</artifactId>
+          <version>${jaxb-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>${exec-maven-plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <!-- Formatting: Palantir Java Format + Apache-2.0 license header. -->
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>${spotless-maven-plugin.version}</version>
+        <configuration>
+          <java>
+            <includes>
+              <include>src/main/java/**/*.java</include>
+              <include>src/test/java/**/*.java</include>
+            </includes>
+            <palantirJavaFormat>
+              <version>${palantir-java-format.version}</version>
+            </palantirJavaFormat>
+            <removeUnusedImports />
+            <importOrder />
+            <licenseHeader>
+              <file>${maven.multiModuleProjectDirectory}/config/license-header.txt</file>
+            </licenseHeader>
+          </java>
+        </configuration>
+        <executions>
+          <execution>
+            <id>spotless-check</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Static analysis. Only scans src/main/java, so generated sources are excluded. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${maven-checkstyle-plugin.version}</version>
+        <configuration>
+          <configLocation>${maven.multiModuleProjectDirectory}/config/checkstyle/checkstyle.xml</configLocation>
+          <includeTestSourceDirectory>true</includeTestSourceDirectory>
+          <excludes>**/module-info.java</excludes>
+          <!-- Only hand-written sources; never the JAXB-generated compile roots under target/. -->
+          <sourceDirectories>
+            <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+          </sourceDirectories>
+          <testSourceDirectories>
+            <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
+          </testSourceDirectories>
+          <consoleOutput>true</consoleOutput>
+          <failOnViolation>true</failOnViolation>
+          <violationSeverity>warning</violationSeverity>
+        </configuration>
+        <executions>
+          <execution>
+            <id>checkstyle-check</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Code coverage. -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>jacoco-prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>jacoco-report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <!--
+      Opt-in profile for publishing to Maven Central via the Sonatype Central Portal.
+      Activate with `-Prelease`; requires a GPG key and Central credentials (server id `central`)
+      in settings.xml. Not exercised by `./mvnw verify`.
+    -->
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>${maven-source-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${maven-javadoc-plugin.version}</version>
+            <configuration>
+              <doclint>none</doclint>
+              <quiet>true</quiet>
+              <failOnError>false</failOnError>
+            </configuration>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>${maven-gpg-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>${central-publishing-maven-plugin.version}</version>
+            <extensions>true</extensions>
+            <configuration>
+              <publishingServerId>central</publishingServerId>
+              <!-- Review and release manually from the Central Portal after upload. -->
+              <autoPublish>false</autoPublish>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

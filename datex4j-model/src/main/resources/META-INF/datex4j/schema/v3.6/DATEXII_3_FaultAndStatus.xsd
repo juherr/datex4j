@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:fst="http://datex2.eu/schema/3/faultAndStatus" version="3.6" targetNamespace="http://datex2.eu/schema/3/faultAndStatus" xmlns:com="http://datex2.eu/schema/3/common" xmlns:loc="http://datex2.eu/schema/3/locationReferencing" xmlns:comx="http://datex2.eu/schema/3/commonExtension" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://datex2.eu/schema/3/commonExtension" schemaLocation="DATEXII_3_CommonExtension.xsd" />
+  <xs:import namespace="http://datex2.eu/schema/3/locationReferencing" schemaLocation="DATEXII_3_LocationReferencing.xsd" />
+  <xs:import namespace="http://datex2.eu/schema/3/common" schemaLocation="DATEXII_3_Common.xsd" />
+  <xs:complexType name="_DeviceComponentEnum">
+    <xs:simpleContent>
+      <xs:extension base="fst:DeviceComponentEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_DeviceHealthEnum">
+    <xs:simpleContent>
+      <xs:extension base="fst:DeviceHealthEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_DeviceTableVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="fst:DeviceTable" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_DeviceTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="fst:DeviceTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_DeviceVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="fst:Device" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_FaultImpactOnDataEnum">
+    <xs:simpleContent>
+      <xs:extension base="fst:FaultImpactOnDataEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_FaultTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="fst:FaultTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_MeasurementSiteTableVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="roa:MeasurementSiteTable" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_MeasurementSiteVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="roa:MeasurementSite" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_OperationalDeviceStateEnum">
+    <xs:simpleContent>
+      <xs:extension base="fst:OperationalDeviceStateEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_PowerSourceEnum">
+    <xs:simpleContent>
+      <xs:extension base="fst:PowerSourceEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_VmsControllerTableVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="vms:VmsControllerTable" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_VmsControllerVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="vms:VmsController" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AllFaultsOfSingleDevice">
+    <xs:sequence>
+      <xs:element name="operatingProperlySince" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deviceReference" type="fst:DeviceReference" />
+      <xs:element name="deviceFault" type="fst:DeviceFault" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="_allFaultsOfSingleDeviceExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CatalogueInformation">
+    <xs:sequence>
+      <xs:element name="catalogueReferenceByOID" type="fst:ObjectIdentifier" minOccurs="1" maxOccurs="1" />
+      <xs:element name="catalogueElement" type="com:String" minOccurs="1" maxOccurs="1" />
+      <xs:element name="_catalogueInformationExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Component">
+    <xs:complexContent>
+      <xs:extension base="fst:Device">
+        <xs:sequence>
+          <xs:element name="componentType" type="fst:_DeviceComponentEnum" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_componentExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Device">
+    <xs:sequence>
+      <xs:element name="typeOfDevice" type="fst:_DeviceTypeEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="lastUpdateOfDeviceInformation" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="externalDeviceId" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="lastDeviceCheck" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+      <xs:element name="softwareVersion" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="softwareVersionDate" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+      <xs:element name="additionalDeviceInformation" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="ipAddress" type="comx:IpAddress" minOccurs="0" maxOccurs="1" />
+      <xs:element name="portNumber" type="comx:PortNumber" minOccurs="0" maxOccurs="1" />
+      <xs:element name="accountableAuthority" type="com:InternationalIdentifier" minOccurs="0" />
+      <xs:element name="pointLocation" type="loc:PointLocation" />
+      <xs:element name="physicalDeviceDetails" type="fst:PhysicalDeviceDetails" minOccurs="0" />
+      <xs:element name="component" type="fst:Component" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="dependsOn" type="fst:DeviceReference" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="_deviceExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="version" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:simpleType name="DeviceComponentEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ambientLightMonitor" />
+      <xs:enumeration value="cabinet" />
+      <xs:enumeration value="communicationsEquipment" />
+      <xs:enumeration value="controller" />
+      <xs:enumeration value="display" />
+      <xs:enumeration value="fan" />
+      <xs:enumeration value="generalPurposeIoPort" />
+      <xs:enumeration value="heater" />
+      <xs:enumeration value="powerSupply" />
+      <xs:enumeration value="processor" />
+      <xs:enumeration value="sensor" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="DeviceFault">
+    <xs:complexContent>
+      <xs:extension base="com:Fault">
+        <xs:sequence>
+          <xs:element name="faultType" type="fst:_FaultTypeEnum" minOccurs="1" maxOccurs="1" />
+          <xs:element name="faultInstructions" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+          <xs:element name="faultImpactOnData" type="fst:_FaultImpactOnDataEnum" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="faultComponent" type="com:String" minOccurs="0" maxOccurs="1" />
+          <xs:element name="faultComponentType" type="fst:_DeviceComponentEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="faultObjectInformation" type="fst:CatalogueInformation" minOccurs="0" />
+          <xs:element name="_deviceFaultExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="DeviceHealthEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ok" />
+      <xs:enumeration value="notOk" />
+      <xs:enumeration value="functionalityPartlyOk" />
+      <xs:enumeration value="intermittentlyOk" />
+      <xs:enumeration value="alarm" />
+      <xs:enumeration value="notResponding" />
+      <xs:enumeration value="offline" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="DevicePower">
+    <xs:sequence>
+      <xs:element name="health" type="fst:_DeviceHealthEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="sourceType" type="fst:_PowerSourceEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="_devicePowerExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DevicePublication">
+    <xs:complexContent>
+      <xs:extension base="com:PayloadPublication">
+        <xs:sequence>
+          <xs:element name="headerInformation" type="com:HeaderInformation" />
+          <xs:element name="device" type="fst:Device" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="deviceTable" type="fst:DeviceTable" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_devicePublicationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DeviceReference" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="com:GlobalReference">
+        <xs:sequence>
+          <xs:element name="_deviceReferenceExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DeviceTable">
+    <xs:sequence>
+      <xs:element name="deviceTableName" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="accountableAuthority" type="com:InternationalIdentifier" minOccurs="0" />
+      <xs:element name="device" type="fst:Device" maxOccurs="unbounded" />
+      <xs:element name="_deviceTableExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="version" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="DeviceTableReference" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="com:GlobalReference">
+        <xs:sequence>
+          <xs:element name="_deviceTableReferenceExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="DeviceTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="accessControl" />
+      <xs:enumeration value="camera" />
+      <xs:enumeration value="fireDetection" />
+      <xs:enumeration value="firefightingDevice" />
+      <xs:enumeration value="itsStation" />
+      <xs:enumeration value="lighting" />
+      <xs:enumeration value="meteorological" />
+      <xs:enumeration value="roadsideTelephone" />
+      <xs:enumeration value="tollingDevice" />
+      <xs:enumeration value="trafficDetector" />
+      <xs:enumeration value="ventilation" />
+      <xs:enumeration value="parkingGuidance" />
+      <xs:enumeration value="parkingManagement" />
+      <xs:enumeration value="roadsideEquipment" />
+      <xs:enumeration value="trafficSignal" />
+      <xs:enumeration value="transportLink" />
+      <xs:enumeration value="transportRoute" />
+      <xs:enumeration value="tunnel" />
+      <xs:enumeration value="vehicle" />
+      <xs:enumeration value="vms" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="FaultImpactOnDataEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="downloadFailed" />
+      <xs:enumeration value="intermittentData" />
+      <xs:enumeration value="noData" />
+      <xs:enumeration value="unreliableData" />
+      <xs:enumeration value="unspecified" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="FaultPublication">
+    <xs:complexContent>
+      <xs:extension base="com:PayloadPublication">
+        <xs:sequence>
+          <xs:element name="headerInformation" type="com:HeaderInformation" />
+          <xs:element name="allFaultsOfSingleDevice" type="fst:AllFaultsOfSingleDevice" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="faultsOfAllDevicesFromTable" type="fst:FaultsOfAllDevicesFromTable" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_faultPublicationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="FaultsOfAllDevicesFromTable">
+    <xs:sequence>
+      <xs:element name="deviceTableReference" type="fst:DeviceTableReference" />
+      <xs:element name="allFaultsOfSingleDevice" type="fst:AllFaultsOfSingleDevice" maxOccurs="unbounded" />
+      <xs:element name="_faultsOfAllDevicesFromTableExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="FaultTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="internalCommunicationFault" />
+      <xs:enumeration value="componentFault" />
+      <xs:enumeration value="configurationError" />
+      <xs:enumeration value="disconnected" />
+      <xs:enumeration value="electronicsFault" />
+      <xs:enumeration value="generalSystemError" />
+      <xs:enumeration value="hardwareFault" />
+      <xs:enumeration value="controlFault" />
+      <xs:enumeration value="intermittentlyWorking" />
+      <xs:enumeration value="mechanicalFault" />
+      <xs:enumeration value="notWorking" />
+      <xs:enumeration value="operatingSystemFault" />
+      <xs:enumeration value="powerFailure" />
+      <xs:enumeration value="securityFault" />
+      <xs:enumeration value="softwareFault" />
+      <xs:enumeration value="synchronizationFault" />
+      <xs:enumeration value="timeOrClockFault" />
+      <xs:enumeration value="unspecifiedFault" />
+      <xs:enumeration value="unknownFault" />
+      <xs:enumeration value="otherFault" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="GeneralDeviceReference">
+    <xs:complexContent>
+      <xs:extension base="fst:DeviceReference">
+        <xs:sequence>
+          <xs:element name="deviceReference" type="fst:_DeviceVersionedReference" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_generalDeviceReferenceExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GeneralDeviceTableReference">
+    <xs:complexContent>
+      <xs:extension base="fst:DeviceTableReference">
+        <xs:sequence>
+          <xs:element name="deviceTableReference" type="fst:_DeviceTableVersionedReference" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_generalDeviceTableReferenceExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MeasurementSiteReference">
+    <xs:complexContent>
+      <xs:extension base="fst:DeviceReference">
+        <xs:sequence>
+          <xs:element name="measurementSiteReference" type="fst:_MeasurementSiteVersionedReference" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_measurementSiteReferenceExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MeasurementSiteTableReference">
+    <xs:complexContent>
+      <xs:extension base="fst:DeviceTableReference">
+        <xs:sequence>
+          <xs:element name="measurementSiteTableReference" type="fst:_MeasurementSiteTableVersionedReference" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_measurementSiteTableReferenceExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="ObjectIdentifier">
+    <xs:restriction base="com:String" />
+  </xs:simpleType>
+  <xs:simpleType name="OperationalDeviceStateEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="maintenanceMode" />
+      <xs:enumeration value="on" />
+      <xs:enumeration value="off" />
+      <xs:enumeration value="powerSafeMode" />
+      <xs:enumeration value="specialMode" />
+      <xs:enumeration value="temporarilyDeactivated" />
+      <xs:enumeration value="permanentlyDeactivated" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="OperationalState">
+    <xs:sequence>
+      <xs:element name="operationalDeviceState" type="fst:_OperationalDeviceStateEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="stateDescription" type="com:MultilingualString" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="lastStateChange" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+      <xs:element name="lastStateUpdate" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+      <xs:element name="operationalStateCatalogueInformation" type="fst:CatalogueInformation" minOccurs="0" />
+      <xs:element name="_operationalStateExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PhysicalDeviceDetails">
+    <xs:sequence>
+      <xs:element name="barcode" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="installationDate" type="com:Date" minOccurs="0" maxOccurs="1" />
+      <xs:element name="manufactureDate" type="com:Date" minOccurs="0" maxOccurs="1" />
+      <xs:element name="manufacturer" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="model" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="name" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="serialNumber" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="stockCode" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="_physicalDeviceDetailsExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="PowerSourceEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="battery" />
+      <xs:enumeration value="generator" />
+      <xs:enumeration value="hydro" />
+      <xs:enumeration value="mains" />
+      <xs:enumeration value="solar" />
+      <xs:enumeration value="wind" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="Status">
+    <xs:sequence>
+      <xs:element name="health" type="fst:_DeviceHealthEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="statusDescription" type="com:MultilingualString" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="lastStatusChange" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+      <xs:element name="lastStatusUpdate" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="relatedFault" type="com:VersionedReference" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="deviceReference" type="fst:DeviceReference" />
+      <xs:element name="operationalState" type="fst:OperationalState" minOccurs="0" />
+      <xs:element name="statusCatalogueInformation" type="fst:CatalogueInformation" minOccurs="0" />
+      <xs:element name="devicePower" type="fst:DevicePower" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="_statusExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StatusOfAllDevicesFromTable">
+    <xs:sequence>
+      <xs:element name="deviceTableReference" type="fst:DeviceTableReference" />
+      <xs:element name="status" type="fst:Status" maxOccurs="unbounded" />
+      <xs:element name="_statusOfAllDevicesFromTableExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StatusPublication">
+    <xs:complexContent>
+      <xs:extension base="com:PayloadPublication">
+        <xs:sequence>
+          <xs:element name="headerInformation" type="com:HeaderInformation" />
+          <xs:element name="status" type="fst:Status" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="statusOfAllDevicesFromTable" type="fst:StatusOfAllDevicesFromTable" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_statusPublicationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="VmsUnitReference">
+    <xs:complexContent>
+      <xs:extension base="fst:DeviceReference">
+        <xs:sequence>
+          <xs:element name="vmsUnitReference" type="fst:_VmsControllerVersionedReference" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_vmsUnitReferenceExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="VmsUnitTableReference">
+    <xs:complexContent>
+      <xs:extension base="fst:DeviceTableReference">
+        <xs:sequence>
+          <xs:element name="vmsUnitTableReference" type="fst:_VmsControllerTableVersionedReference" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_vmsUnitTableReferenceExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>
