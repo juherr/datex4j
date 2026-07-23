@@ -17,6 +17,8 @@ package dev.juherr.datex4j.ocpi.mapping;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import dev.juherr.datex4j.model.v3_7.common.MultilingualString;
+import dev.juherr.datex4j.model.v3_7.common.MultilingualStringValue;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricChargingPoint;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureSite;
 import dev.juherr.datex4j.ocpi.mapping.internal.MultilingualStrings;
@@ -217,5 +219,24 @@ class LocationMapperTest {
         Location roundTrip = mapper.toOcpi(mapper.toDatex(sampleLocation()));
 
         assertThat(roundTrip.getDirections()).isNullOrEmpty();
+    }
+
+    @Test
+    void toOcpiDefaultsDirectionLanguageWhenDatexLangIsAbsent() {
+        EnergyInfrastructureSite site = mapper.toDatex(sampleLocation());
+        MultilingualStringValue value = new MultilingualStringValue();
+        value.setLang(null);
+        value.setValue("Turn left");
+        MultilingualString.Values values = new MultilingualString.Values();
+        values.getValue().add(value);
+        MultilingualString info = new MultilingualString();
+        info.setValues(values);
+        site.getAdditionalInformation().add(info);
+
+        Location location = mapper.toOcpi(site);
+
+        assertThat(location.getDirections()).hasSize(1);
+        assertThat(location.getDirections().get(0).getLanguage()).isEqualTo("en");
+        assertThat(location.getDirections().get(0).getText()).isEqualTo("Turn left");
     }
 }
