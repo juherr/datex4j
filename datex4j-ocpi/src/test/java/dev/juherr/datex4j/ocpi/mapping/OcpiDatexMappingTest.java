@@ -28,7 +28,7 @@ class OcpiDatexMappingTest {
 
     private final OcpiDatexMapping mapping = new OcpiDatexMapping();
 
-    private Location sampleLocation() {
+    private static Location sampleLocation() {
         Location location = new Location();
         location.setId("LOC-1");
         location.setName("Main Street Hub");
