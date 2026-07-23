@@ -18,7 +18,12 @@ package dev.juherr.datex4j.ocpi.mapping;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricEnergyMix;
+import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricEnergySourceTypeEnum;
 import dev.juherr.datex4j.ocpi.model.v2_3.EnergyMix;
+import dev.juherr.datex4j.ocpi.model.v2_3.EnergySource;
+import dev.juherr.datex4j.ocpi.model.v2_3.EnergySourceCategory;
+import java.math.BigDecimal;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class EnergyMixMapperTest {
@@ -54,5 +59,57 @@ class EnergyMixMapperTest {
     void nullInputsYieldNull() {
         assertThat(mapper.toDatex(null)).isNull();
         assertThat(mapper.toOcpi(null)).isNull();
+    }
+
+    @Test
+    void toDatexMapsEnergySourceRatios() {
+        EnergyMix ocpi = new EnergyMix();
+        ocpi.setIsGreenEnergy(true);
+        EnergySource solar = new EnergySource();
+        solar.setSource(EnergySourceCategory.SOLAR);
+        solar.setPercentage(BigDecimal.valueOf(60));
+        EnergySource wind = new EnergySource();
+        wind.setSource(EnergySourceCategory.WIND);
+        wind.setPercentage(BigDecimal.valueOf(40));
+        ocpi.setEnergySources(List.of(solar, wind));
+
+        ElectricEnergyMix datex = mapper.toDatex(ocpi);
+
+        assertThat(datex.getElectricEnergySourceRatio()).hasSize(2);
+        assertThat(datex.getElectricEnergySourceRatio().get(0).getEnergySource().getValue())
+                .isEqualTo(ElectricEnergySourceTypeEnum.SOLAR);
+        assertThat(datex.getElectricEnergySourceRatio()
+                        .get(0)
+                        .getSourceRatioValue()
+                        .getPercentage())
+                .isEqualTo(60f);
+        assertThat(datex.getElectricEnergySourceRatio().get(1).getEnergySource().getValue())
+                .isEqualTo(ElectricEnergySourceTypeEnum.WIND);
+        assertThat(datex.getElectricEnergySourceRatio()
+                        .get(1)
+                        .getSourceRatioValue()
+                        .getPercentage())
+                .isEqualTo(40f);
+    }
+
+    @Test
+    void roundTripsEnergySourceRatios() {
+        EnergyMix ocpi = new EnergyMix();
+        ocpi.setIsGreenEnergy(true);
+        EnergySource solar = new EnergySource();
+        solar.setSource(EnergySourceCategory.SOLAR);
+        solar.setPercentage(BigDecimal.valueOf(60));
+        EnergySource wind = new EnergySource();
+        wind.setSource(EnergySourceCategory.WIND);
+        wind.setPercentage(BigDecimal.valueOf(40));
+        ocpi.setEnergySources(List.of(solar, wind));
+
+        EnergyMix roundTrip = mapper.toOcpi(mapper.toDatex(ocpi));
+
+        assertThat(roundTrip.getEnergySources()).hasSize(2);
+        assertThat(roundTrip.getEnergySources().get(0).getSource()).isEqualTo(EnergySourceCategory.SOLAR);
+        assertThat(roundTrip.getEnergySources().get(0).getPercentage()).isEqualByComparingTo("60");
+        assertThat(roundTrip.getEnergySources().get(1).getSource()).isEqualTo(EnergySourceCategory.WIND);
+        assertThat(roundTrip.getEnergySources().get(1).getPercentage()).isEqualByComparingTo("40");
     }
 }
