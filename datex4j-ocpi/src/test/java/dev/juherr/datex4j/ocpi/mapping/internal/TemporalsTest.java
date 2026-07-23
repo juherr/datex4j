@@ -49,4 +49,39 @@ class TemporalsTest {
     void toIsoReturnsNullForNull() {
         assertThat(Temporals.toIso(null)).isNull();
     }
+
+    @Test
+    void toXmlTimeRoundTripsThroughToHhmm() {
+        XMLGregorianCalendar cal = Temporals.toXmlTime("08:05");
+
+        assertThat(cal).isNotNull();
+        assertThat(Temporals.toHhmm(cal)).isEqualTo("08:05");
+    }
+
+    @Test
+    void toXmlTimeReturnsNullForNull() {
+        assertThat(Temporals.toXmlTime(null)).isNull();
+    }
+
+    @Test
+    void toXmlTimeReturnsNullForBlank() {
+        assertThat(Temporals.toXmlTime("   ")).isNull();
+    }
+
+    @Test
+    void toXmlTimeReturnsNullForUnparseableInput() {
+        assertThat(Temporals.toXmlTime("not-a-time")).isNull();
+    }
+
+    @Test
+    void toXmlTimeReturnsNullForOutOfRangeInput() {
+        assertThat(Temporals.toXmlTime("24:00")).isNull();
+        assertThat(Temporals.toXmlTime("08:60")).isNull();
+        assertThat(Temporals.toXmlTime("-1:00")).isNull();
+    }
+
+    @Test
+    void toHhmmReturnsNullForNull() {
+        assertThat(Temporals.toHhmm(null)).isNull();
+    }
 }

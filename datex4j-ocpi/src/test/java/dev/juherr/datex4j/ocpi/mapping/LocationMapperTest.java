@@ -27,8 +27,10 @@ import dev.juherr.datex4j.ocpi.model.v2_3.DisplayText;
 import dev.juherr.datex4j.ocpi.model.v2_3.EVSE;
 import dev.juherr.datex4j.ocpi.model.v2_3.EnergyMix;
 import dev.juherr.datex4j.ocpi.model.v2_3.GeoLocation;
+import dev.juherr.datex4j.ocpi.model.v2_3.Hours;
 import dev.juherr.datex4j.ocpi.model.v2_3.Image;
 import dev.juherr.datex4j.ocpi.model.v2_3.Location;
+import dev.juherr.datex4j.ocpi.model.v2_3.RegularHours;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
@@ -238,5 +240,47 @@ class LocationMapperTest {
         assertThat(location.getDirections()).hasSize(1);
         assertThat(location.getDirections().get(0).getLanguage()).isEqualTo("en");
         assertThat(location.getDirections().get(0).getText()).isEqualTo("Turn left");
+    }
+
+    @Test
+    void toDatexMapsTwentyfourSevenOpeningTimesToOperatingHours() {
+        Location location = sampleLocation();
+        Hours hours = new Hours();
+        hours.setTwentyfourseven(true);
+        location.setOpeningTimes(hours);
+
+        EnergyInfrastructureSite site = mapper.toDatex(location);
+
+        assertThat(site.getOperatingHours()).isNotNull();
+    }
+
+    @Test
+    void roundTripsRegularOpeningTimes() {
+        Location location = sampleLocation();
+        RegularHours regular = new RegularHours();
+        regular.setWeekday(1);
+        regular.setPeriodBegin("08:00");
+        regular.setPeriodEnd("20:00");
+        Hours hours = new Hours();
+        hours.setTwentyfourseven(false);
+        hours.setRegularHours(List.of(regular));
+        location.setOpeningTimes(hours);
+
+        Location roundTrip = mapper.toOcpi(mapper.toDatex(location));
+
+        assertThat(roundTrip.getOpeningTimes()).isNotNull();
+        assertThat(roundTrip.getOpeningTimes().getRegularHours()).hasSize(1);
+        RegularHours roundTripRegular =
+                roundTrip.getOpeningTimes().getRegularHours().get(0);
+        assertThat(roundTripRegular.getWeekday()).isEqualTo(1);
+        assertThat(roundTripRegular.getPeriodBegin()).isEqualTo("08:00");
+        assertThat(roundTripRegular.getPeriodEnd()).isEqualTo("20:00");
+    }
+
+    @Test
+    void toOcpiLeavesOpeningTimesNullWhenSiteHasNone() {
+        Location roundTrip = mapper.toOcpi(mapper.toDatex(sampleLocation()));
+
+        assertThat(roundTrip.getOpeningTimes()).isNull();
     }
 }

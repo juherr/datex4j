@@ -16,6 +16,7 @@
 package dev.juherr.datex4j.ocpi.mapping.internal;
 
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -47,6 +48,47 @@ public final class Temporals {
             return null;
         }
         return cal.toXMLFormat();
+    }
+
+    /**
+     * Parses {@code hhmm} (a local time in {@code "HH:MM"} form) into a time-only {@link
+     * XMLGregorianCalendar}, or {@code null} if {@code hhmm} is {@code null}, blank, or not a valid
+     * {@code "HH:MM"} time.
+     */
+    public static XMLGregorianCalendar toXmlTime(String hhmm) {
+        if (hhmm == null || hhmm.isBlank()) {
+            return null;
+        }
+        String[] parts = hhmm.split(":", -1);
+        if (parts.length != 2) {
+            return null;
+        }
+        try {
+            int hour = Integer.parseInt(parts[0]);
+            int minute = Integer.parseInt(parts[1]);
+            if (hour < 0 || hour > 23 || minute < 0 || minute > 59) {
+                return null;
+            }
+            return DATATYPE_FACTORY.newXMLGregorianCalendarTime(hour, minute, 0, DatatypeConstants.FIELD_UNDEFINED);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Formats {@code cal} as a zero-padded {@code "HH:MM"} local time, or {@code null} if {@code
+     * cal} is {@code null} or has no hour/minute set.
+     */
+    public static String toHhmm(XMLGregorianCalendar cal) {
+        if (cal == null) {
+            return null;
+        }
+        int hour = cal.getHour();
+        int minute = cal.getMinute();
+        if (hour == DatatypeConstants.FIELD_UNDEFINED || minute == DatatypeConstants.FIELD_UNDEFINED) {
+            return null;
+        }
+        return String.format("%02d:%02d", hour, minute);
     }
 
     private static DatatypeFactory createDatatypeFactory() {
