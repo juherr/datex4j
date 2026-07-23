@@ -18,6 +18,7 @@ package dev.juherr.datex4j.ocpi.mapping;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureSite;
+import dev.juherr.datex4j.ocpi.model.v2_3.BusinessDetails;
 import dev.juherr.datex4j.ocpi.model.v2_3.EVSE;
 import dev.juherr.datex4j.ocpi.model.v2_3.GeoLocation;
 import dev.juherr.datex4j.ocpi.model.v2_3.Location;
@@ -41,6 +42,9 @@ class LocationMapperTest {
         evse.setUid("EVSE-1");
         location.setEvses(List.of(evse));
         location.setLastUpdated("2026-07-23T10:15:30Z");
+        BusinessDetails operator = new BusinessDetails();
+        operator.setName("Acme Charging");
+        location.setOperator(operator);
         return location;
     }
 
@@ -63,6 +67,7 @@ class LocationMapperTest {
         assertThat(roundTrip.getName()).isEqualTo("Main Street Hub");
         assertThat(roundTrip.getEvses()).hasSize(1);
         assertThat(roundTrip.getLastUpdated()).isEqualTo("2026-07-23T10:15:30Z");
+        assertThat(roundTrip.getOperator().getName()).isEqualTo("Acme Charging");
     }
 
     @Test
