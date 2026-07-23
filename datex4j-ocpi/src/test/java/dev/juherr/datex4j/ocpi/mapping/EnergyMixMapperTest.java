@@ -19,9 +19,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricEnergyMix;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricEnergySourceTypeEnum;
+import dev.juherr.datex4j.model.v3_7.facilities.OrganisationSpecification;
 import dev.juherr.datex4j.ocpi.model.v2_3.EnergyMix;
 import dev.juherr.datex4j.ocpi.model.v2_3.EnergySource;
 import dev.juherr.datex4j.ocpi.model.v2_3.EnergySourceCategory;
+import dev.juherr.datex4j.ocpi.model.v2_3.EnvironmentalImpact;
+import dev.juherr.datex4j.ocpi.model.v2_3.EnvironmentalImpactCategory;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -129,5 +132,102 @@ class EnergyMixMapperTest {
 
         assertThat(roundTrip.getEnergySources().get(0).getPercentage()).isEqualByComparingTo("33.3");
         assertThat(roundTrip.getEnergySources().get(1).getPercentage()).isEqualByComparingTo("66.7");
+    }
+
+    @Test
+    void toDatexMapsSupplierNameToEnergyProvider() {
+        EnergyMix ocpi = new EnergyMix();
+        ocpi.setSupplierName("Acme");
+
+        ElectricEnergyMix datex = mapper.toDatex(ocpi);
+
+        assertThat(datex.getEnergyProvider()).isInstanceOf(OrganisationSpecification.class);
+        OrganisationSpecification provider = (OrganisationSpecification) datex.getEnergyProvider();
+        assertThat(provider.getName().getValues().getValue().get(0).getValue()).isEqualTo("Acme");
+    }
+
+    @Test
+    void roundTripsSupplierName() {
+        EnergyMix ocpi = new EnergyMix();
+        ocpi.setSupplierName("Acme");
+
+        EnergyMix roundTrip = mapper.toOcpi(mapper.toDatex(ocpi));
+
+        assertThat(roundTrip.getSupplierName()).isEqualTo("Acme");
+    }
+
+    @Test
+    void nullSupplierNameYieldsNullEnergyProvider() {
+        EnergyMix ocpi = new EnergyMix();
+
+        ElectricEnergyMix datex = mapper.toDatex(ocpi);
+
+        assertThat(datex.getEnergyProvider()).isNull();
+    }
+
+    @Test
+    void toDatexMapsEnvironImpact() {
+        EnergyMix ocpi = new EnergyMix();
+        EnvironmentalImpact co2 = new EnvironmentalImpact();
+        co2.setCategory(new EnvironmentalImpactCategory("CARBON_DIOXIDE"));
+        co2.setAmount(new BigDecimal("12.5"));
+        EnvironmentalImpact nuclearWaste = new EnvironmentalImpact();
+        nuclearWaste.setCategory(new EnvironmentalImpactCategory("NUCLEAR_WASTE"));
+        nuclearWaste.setAmount(new BigDecimal("3.2"));
+        ocpi.setEnvironImpact(List.of(co2, nuclearWaste));
+
+        ElectricEnergyMix datex = mapper.toDatex(ocpi);
+
+        assertThat(datex.getCarbonDioxideImpact()).isEqualTo(12.5f);
+        assertThat(datex.getNuclearWasteImpact()).isEqualTo(3.2f);
+    }
+
+    @Test
+    void toDatexIgnoresUnknownEnvironImpactCategories() {
+        EnergyMix ocpi = new EnergyMix();
+        EnvironmentalImpact other = new EnvironmentalImpact();
+        other.setCategory(new EnvironmentalImpactCategory("SOME_OTHER_CATEGORY"));
+        other.setAmount(new BigDecimal("1"));
+        ocpi.setEnvironImpact(List.of(other));
+
+        ElectricEnergyMix datex = mapper.toDatex(ocpi);
+
+        assertThat(datex.getCarbonDioxideImpact()).isNull();
+        assertThat(datex.getNuclearWasteImpact()).isNull();
+    }
+
+    @Test
+    void roundTripsEnvironImpactWithoutFloatNoise() {
+        EnergyMix ocpi = new EnergyMix();
+        EnvironmentalImpact co2 = new EnvironmentalImpact();
+        co2.setCategory(new EnvironmentalImpactCategory("CARBON_DIOXIDE"));
+        co2.setAmount(new BigDecimal("12.5"));
+        EnvironmentalImpact nuclearWaste = new EnvironmentalImpact();
+        nuclearWaste.setCategory(new EnvironmentalImpactCategory("NUCLEAR_WASTE"));
+        nuclearWaste.setAmount(new BigDecimal("3.2"));
+        ocpi.setEnvironImpact(List.of(co2, nuclearWaste));
+
+        EnergyMix roundTrip = mapper.toOcpi(mapper.toDatex(ocpi));
+
+        assertThat(roundTrip.getEnvironImpact()).hasSize(2);
+        EnvironmentalImpact roundTripCo2 = roundTrip.getEnvironImpact().stream()
+                .filter(i -> "CARBON_DIOXIDE".equals(i.getCategory().getActualInstance()))
+                .findFirst()
+                .orElseThrow();
+        assertThat(roundTripCo2.getAmount()).isEqualByComparingTo("12.5");
+        EnvironmentalImpact roundTripNuclear = roundTrip.getEnvironImpact().stream()
+                .filter(i -> "NUCLEAR_WASTE".equals(i.getCategory().getActualInstance()))
+                .findFirst()
+                .orElseThrow();
+        assertThat(roundTripNuclear.getAmount()).isEqualByComparingTo("3.2");
+    }
+
+    @Test
+    void toOcpiOmitsEnvironImpactWhenNoImpactsSet() {
+        EnergyMix ocpi = new EnergyMix();
+
+        EnergyMix roundTrip = mapper.toOcpi(mapper.toDatex(ocpi));
+
+        assertThat(roundTrip.getEnvironImpact()).isEmpty();
     }
 }
