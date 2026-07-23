@@ -16,6 +16,8 @@
 package dev.juherr.datex4j.ocpi.mapping.internal;
 
 import dev.juherr.datex4j.model.v3_7.common.UrlLink;
+import dev.juherr.datex4j.model.v3_7.common.UrlLinkTypeEnum;
+import dev.juherr.datex4j.model.v3_7.common._UrlLinkTypeEnum;
 import dev.juherr.datex4j.ocpi.model.v2_3.Image;
 import java.net.URI;
 import java.util.ArrayList;
@@ -32,7 +34,8 @@ public final class Images {
 
     /**
      * Builds DATEX II photo {@link UrlLink}s from {@code images}, or an empty list if {@code
-     * images} is {@code null}. Null elements and images with a null URL are skipped.
+     * images} is {@code null}. Null elements and images with a null URL are skipped. Each produced
+     * {@link UrlLink} has its {@code urlLinkType} set to {@link UrlLinkTypeEnum#IMAGE}.
      */
     public static List<UrlLink> toDatex(List<Image> images) {
         List<UrlLink> urlLinks = new ArrayList<>();
@@ -45,6 +48,9 @@ public final class Images {
             }
             UrlLink urlLink = new UrlLink();
             urlLink.setUrlLinkAddress(image.getUrl().toString());
+            _UrlLinkTypeEnum urlLinkType = new _UrlLinkTypeEnum();
+            urlLinkType.setValue(UrlLinkTypeEnum.IMAGE);
+            urlLink.setUrlLinkType(urlLinkType);
             urlLinks.add(urlLink);
         }
         return urlLinks;

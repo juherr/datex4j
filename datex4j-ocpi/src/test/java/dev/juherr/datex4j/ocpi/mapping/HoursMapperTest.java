@@ -128,4 +128,20 @@ class HoursMapperTest {
 
         assertThat(mapper.toOcpi(specification)).isNull();
     }
+
+    @Test
+    void toDatexSkipsTimePeriodWhenPeriodBeginIsUnparsable() {
+        Hours hours = new Hours();
+        hours.setTwentyfourseven(false);
+        hours.setRegularHours(List.of(regularHours(1, "whoops", "20:00")));
+
+        OperatingHours operatingHours = mapper.toDatex(hours);
+
+        assertThat(operatingHours).isInstanceOf(OperatingHoursSpecification.class);
+        OperatingHoursSpecification specification = (OperatingHoursSpecification) operatingHours;
+        assertThat(specification.getOverallPeriod().getValidPeriod()).hasSize(1);
+        Period period = specification.getOverallPeriod().getValidPeriod().get(0);
+        assertThat(period.getRecurringDayWeekMonthPeriod()).hasSize(1);
+        assertThat(period.getRecurringTimePeriodOfDay()).isEmpty();
+    }
 }
