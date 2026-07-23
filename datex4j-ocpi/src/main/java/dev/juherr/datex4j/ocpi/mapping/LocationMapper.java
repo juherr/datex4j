@@ -48,8 +48,12 @@ public final class LocationMapper {
         site.setName(MultilingualStrings.of(DEFAULT_LANG, location.getName()));
         site.setLocationReference(geoLocationMapper.toDatex(location.getCoordinates()));
         if (location.getEvses() != null) {
-            location.getEvses()
-                    .forEach(evse -> site.getEnergyInfrastructureStation().add(evseMapper.toDatex(evse)));
+            for (var evse : location.getEvses()) {
+                var station = evseMapper.toDatex(evse);
+                if (station != null) {
+                    site.getEnergyInfrastructureStation().add(station);
+                }
+            }
         }
         return site;
     }
@@ -65,7 +69,10 @@ public final class LocationMapper {
         location.setCoordinates(geoLocationMapper.toOcpi(site.getLocationReference()));
         List<EVSE> evses = new ArrayList<>();
         for (EnergyInfrastructureStation station : site.getEnergyInfrastructureStation()) {
-            evses.add(evseMapper.toOcpi(station));
+            EVSE mapped = evseMapper.toOcpi(station);
+            if (mapped != null) {
+                evses.add(mapped);
+            }
         }
         location.setEvses(evses);
         return location;

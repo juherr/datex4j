@@ -42,7 +42,12 @@ public final class EvseMapper {
         }
         ElectricChargingPoint point = new ElectricChargingPoint();
         if (evse.getConnectors() != null) {
-            evse.getConnectors().forEach(c -> point.getConnector().add(connectorMapper.toDatex(c)));
+            for (var connector : evse.getConnectors()) {
+                var mapped = connectorMapper.toDatex(connector);
+                if (mapped != null) {
+                    point.getConnector().add(mapped);
+                }
+            }
         }
 
         EnergyInfrastructureStation station = new EnergyInfrastructureStation();
@@ -68,7 +73,12 @@ public final class EvseMapper {
                 : station.getRefillPoint().get(0);
         if (first instanceof ElectricChargingPoint point) {
             List<dev.juherr.datex4j.ocpi.model.v2_3.Connector> connectors = new ArrayList<>();
-            point.getConnector().forEach(c -> connectors.add(connectorMapper.toOcpi(c)));
+            for (var connector : point.getConnector()) {
+                var mapped = connectorMapper.toOcpi(connector);
+                if (mapped != null) {
+                    connectors.add(mapped);
+                }
+            }
             evse.setConnectors(connectors);
         }
         return evse;
