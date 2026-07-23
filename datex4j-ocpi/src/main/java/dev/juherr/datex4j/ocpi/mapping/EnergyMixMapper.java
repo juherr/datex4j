@@ -19,23 +19,36 @@ import dev.juherr.datex4j.model.v3_7.common.PercentageValue;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricEnergyMix;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricEnergySourceRatio;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure._ElectricEnergySourceTypeEnum;
+import dev.juherr.datex4j.model.v3_7.facilities.Organisation;
+import dev.juherr.datex4j.model.v3_7.facilities.OrganisationSpecification;
 import dev.juherr.datex4j.ocpi.mapping.internal.EnergySources;
 import dev.juherr.datex4j.ocpi.mapping.internal.MultilingualStrings;
 import dev.juherr.datex4j.ocpi.model.v2_3.EnergyMix;
 import dev.juherr.datex4j.ocpi.model.v2_3.EnergySource;
 import dev.juherr.datex4j.ocpi.model.v2_3.EnergySourceCategory;
+import dev.juherr.datex4j.ocpi.model.v2_3.EnvironmentalImpact;
+import dev.juherr.datex4j.ocpi.model.v2_3.EnvironmentalImpactCategory;
 import java.math.BigDecimal;
 
 /**
  * Maps OCPI {@link EnergyMix} to a DATEX II {@link ElectricEnergyMix} and back, including the
- * energy-source ratio breakdown.
+ * energy-source ratio breakdown, the supplier (energy provider) and environmental impacts.
  *
- * <p><b>Unmapped fields.</b> OCPI {@code environImpact}, {@code supplierName} and DATEX II
- * provider / rates are not mapped in this iteration.
+ * <p><b>Deviation note.</b> The OCPI spec models {@code EnvironmentalImpactCategory} as an
+ * extensible {@code anyOf} (a known string enum plus an open-ended string), so the generated
+ * {@link EnvironmentalImpactCategory} is a wrapper class, not a Java {@code enum}. This mapper
+ * compares its {@link EnvironmentalImpactCategory#getActualInstance()} against the raw
+ * {@code "CARBON_DIOXIDE"} / {@code "NUCLEAR_WASTE"} strings instead of enum constants.
+ *
+ * <p><b>Unmapped fields.</b> DATEX II energy provider fields other than the name (website, logo,
+ * etc.) and environmental impact categories other than carbon dioxide / nuclear waste are not
+ * mapped in this iteration.
  */
 public final class EnergyMixMapper {
 
     private static final String DEFAULT_LANG = "en";
+    private static final String CARBON_DIOXIDE = "CARBON_DIOXIDE";
+    private static final String NUCLEAR_WASTE = "NUCLEAR_WASTE";
 
     public ElectricEnergyMix toDatex(EnergyMix ocpi) {
         if (ocpi == null) {
@@ -44,6 +57,7 @@ public final class EnergyMixMapper {
         ElectricEnergyMix datex = new ElectricEnergyMix();
         datex.setIsGreenEnergy(ocpi.getIsGreenEnergy());
         datex.setEnergyProductName(MultilingualStrings.of(DEFAULT_LANG, ocpi.getEnergyProductName()));
+        datex.setEnergyProvider(toProvider(ocpi.getSupplierName()));
         if (ocpi.getEnergySources() != null) {
             for (EnergySource source : ocpi.getEnergySources()) {
                 if (source == null) {
@@ -59,6 +73,11 @@ public final class EnergyMixMapper {
                 datex.getElectricEnergySourceRatio().add(ratio);
             }
         }
+        if (ocpi.getEnvironImpact() != null) {
+            for (EnvironmentalImpact impact : ocpi.getEnvironImpact()) {
+                applyEnvironmentalImpact(datex, impact);
+            }
+        }
         return datex;
     }
 
@@ -69,6 +88,7 @@ public final class EnergyMixMapper {
         EnergyMix ocpi = new EnergyMix();
         ocpi.setIsGreenEnergy(datex.isIsGreenEnergy());
         ocpi.setEnergyProductName(MultilingualStrings.firstValue(datex.getEnergyProductName()));
+        ocpi.setSupplierName(toSupplierName(datex.getEnergyProvider()));
         for (ElectricEnergySourceRatio ratio : datex.getElectricEnergySourceRatio()) {
             if (ratio == null) {
                 continue;
@@ -82,7 +102,64 @@ public final class EnergyMixMapper {
             source.setPercentage(toBigDecimal(ratio.getSourceRatioValue()));
             ocpi.addEnergySourcesItem(source);
         }
+        if (datex.getCarbonDioxideImpact() != null) {
+            ocpi.addEnvironImpactItem(toEnvironmentalImpact(CARBON_DIOXIDE, datex.getCarbonDioxideImpact()));
+        }
+        if (datex.getNuclearWasteImpact() != null) {
+            ocpi.addEnvironImpactItem(toEnvironmentalImpact(NUCLEAR_WASTE, datex.getNuclearWasteImpact()));
+        }
         return ocpi;
+    }
+
+    private static Organisation toProvider(String supplierName) {
+        if (supplierName == null) {
+            return null;
+        }
+        OrganisationSpecification provider = new OrganisationSpecification();
+        provider.setName(MultilingualStrings.of(DEFAULT_LANG, supplierName));
+        return provider;
+    }
+
+    private static String toSupplierName(Organisation organisation) {
+        if (!(organisation instanceof OrganisationSpecification spec)) {
+            return null;
+        }
+        return MultilingualStrings.firstValue(spec.getName());
+    }
+
+    private static void applyEnvironmentalImpact(ElectricEnergyMix datex, EnvironmentalImpact impact) {
+        if (impact == null) {
+            return;
+        }
+        String category = toCategoryString(impact.getCategory());
+        if (category == null) {
+            return;
+        }
+        Float amount = toFloat(impact.getAmount());
+        if (CARBON_DIOXIDE.equals(category)) {
+            datex.setCarbonDioxideImpact(amount);
+        } else if (NUCLEAR_WASTE.equals(category)) {
+            datex.setNuclearWasteImpact(amount);
+        }
+    }
+
+    private static String toCategoryString(EnvironmentalImpactCategory category) {
+        if (category == null) {
+            return null;
+        }
+        Object actual = category.getActualInstance();
+        return actual instanceof String value ? value : null;
+    }
+
+    private static EnvironmentalImpact toEnvironmentalImpact(String category, Float amount) {
+        EnvironmentalImpact impact = new EnvironmentalImpact();
+        impact.setCategory(new EnvironmentalImpactCategory(category));
+        impact.setAmount(new BigDecimal(Float.toString(amount)));
+        return impact;
+    }
+
+    private static Float toFloat(BigDecimal amount) {
+        return amount == null ? null : amount.floatValue();
     }
 
     private static PercentageValue toPercentageValue(BigDecimal percentage) {
