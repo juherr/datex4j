@@ -18,6 +18,7 @@ package dev.juherr.datex4j.ocpi.mapping;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureSite;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureStation;
 import dev.juherr.datex4j.ocpi.mapping.internal.MultilingualStrings;
+import dev.juherr.datex4j.ocpi.mapping.internal.Temporals;
 import dev.juherr.datex4j.ocpi.model.v2_3.EVSE;
 import dev.juherr.datex4j.ocpi.model.v2_3.Location;
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ public final class LocationMapper {
         site.setId(location.getId());
         site.setName(MultilingualStrings.of(DEFAULT_LANG, location.getName()));
         site.setLocationReference(geoLocationMapper.toDatex(location.getCoordinates()));
+        site.setLastUpdated(Temporals.toXmlDateTime(location.getLastUpdated()));
         if (location.getEvses() != null) {
             for (var evse : location.getEvses()) {
                 var station = evseMapper.toDatex(evse);
@@ -67,6 +69,7 @@ public final class LocationMapper {
         location.setId(site.getId());
         location.setName(MultilingualStrings.firstValue(site.getName()));
         location.setCoordinates(geoLocationMapper.toOcpi(site.getLocationReference()));
+        location.setLastUpdated(Temporals.toIso(site.getLastUpdated()));
         List<EVSE> evses = new ArrayList<>();
         for (EnergyInfrastructureStation station : site.getEnergyInfrastructureStation()) {
             EVSE mapped = evseMapper.toOcpi(station);
