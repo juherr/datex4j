@@ -34,11 +34,11 @@ a fluent builder on top of the generic model:
 
 | Module               | User domain                          | Primary publication                    |
 |----------------------|--------------------------------------|----------------------------------------|
-| `datex4j-traffic`    | Traffic Management                   | `SituationPublication`                 |
-| `datex4j-srti`       | Safety Related Traffic Information    | `SituationPublication`                 |
-| `datex4j-parking`    | Parking                              | `ParkingTablePublication`              |
-| `datex4j-evcharging` | EV Charging (energy infra., AFIR)    | `EnergyInfrastructureTablePublication` |
-| `datex4j-uvar`       | Urban Vehicle Access Regulations     | `ControlledZoneTablePublication`       |
+| `datex4j-domain-traffic`    | Traffic Management                   | `SituationPublication`                 |
+| `datex4j-domain-srti`       | Safety Related Traffic Information    | `SituationPublication`                 |
+| `datex4j-domain-parking`    | Parking                              | `ParkingTablePublication`              |
+| `datex4j-domain-evcharging` | EV Charging (energy infra., AFIR)    | `EnergyInfrastructureTablePublication` |
+| `datex4j-domain-uvar`       | Urban Vehicle Access Regulations     | `ControlledZoneTablePublication`       |
 
 Domain builders currently target the default DATEX II version (3.7).
 
