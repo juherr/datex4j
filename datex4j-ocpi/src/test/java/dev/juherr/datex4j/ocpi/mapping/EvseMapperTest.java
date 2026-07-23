@@ -24,6 +24,7 @@ import dev.juherr.datex4j.ocpi.model.v2_3.ConnectorFormat;
 import dev.juherr.datex4j.ocpi.model.v2_3.ConnectorType;
 import dev.juherr.datex4j.ocpi.model.v2_3.EVSE;
 import dev.juherr.datex4j.ocpi.model.v2_3.GeoLocation;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -67,6 +68,19 @@ class EvseMapperTest {
         assertThat(roundTrip.getUid()).isEqualTo("EVSE-1");
         assertThat(roundTrip.getEvseId()).isEqualTo("NL*TNM*E0001");
         assertThat(roundTrip.getConnectors()).hasSize(1);
+    }
+
+    @Test
+    void toDatexSkipsNullConnectorElements() {
+        EVSE evse = sampleEvse();
+        Connector connector = evse.getConnectors().get(0);
+        evse.setConnectors(Arrays.asList(connector, null));
+
+        EnergyInfrastructureStation station = mapper.toDatex(evse);
+
+        ElectricChargingPoint point =
+                (ElectricChargingPoint) station.getRefillPoint().get(0);
+        assertThat(point.getConnector()).hasSize(1).doesNotContainNull();
     }
 
     @Test

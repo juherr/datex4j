@@ -21,6 +21,7 @@ import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureSi
 import dev.juherr.datex4j.ocpi.model.v2_3.EVSE;
 import dev.juherr.datex4j.ocpi.model.v2_3.GeoLocation;
 import dev.juherr.datex4j.ocpi.model.v2_3.Location;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -59,6 +60,27 @@ class LocationMapperTest {
         assertThat(roundTrip.getId()).isEqualTo("LOC-1");
         assertThat(roundTrip.getName()).isEqualTo("Main Street Hub");
         assertThat(roundTrip.getEvses()).hasSize(1);
+    }
+
+    @Test
+    void toDatexSkipsNullEvseElements() {
+        Location location = sampleLocation();
+        EVSE evse = location.getEvses().get(0);
+        location.setEvses(Arrays.asList(evse, null));
+
+        EnergyInfrastructureSite site = mapper.toDatex(location);
+
+        assertThat(site.getEnergyInfrastructureStation()).hasSize(1).doesNotContainNull();
+    }
+
+    @Test
+    void toOcpiSkipsNullStationElements() {
+        EnergyInfrastructureSite site = mapper.toDatex(sampleLocation());
+        site.getEnergyInfrastructureStation().add(null);
+
+        Location location = mapper.toOcpi(site);
+
+        assertThat(location.getEvses()).hasSize(1).doesNotContainNull();
     }
 
     @Test
