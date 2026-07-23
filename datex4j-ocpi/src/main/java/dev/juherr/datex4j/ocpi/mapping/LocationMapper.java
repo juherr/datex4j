@@ -34,8 +34,12 @@ import java.util.List;
  * Maps an OCPI {@link Location} to a DATEX II {@link EnergyInfrastructureSite} and back.
  *
  * <p><b>Unmapped fields.</b> OCPI {@code country_code}, {@code party_id}, {@code address},
- * {@code city}, {@code postal_code}, {@code time_zone}, {@code opening_times} are not mapped in
- * this iteration; DATEX II {@code typeOfSite}, {@code brand} have no OCPI equivalent.
+ * {@code city}, {@code postal_code}, {@code time_zone} are not mapped in this iteration; DATEX II
+ * {@code typeOfSite}, {@code brand} have no OCPI equivalent.
+ *
+ * <p><b>Opening hours.</b> OCPI {@code opening_times} maps to DATEX II {@code operatingHours} via
+ * {@link HoursMapper}, covering only the basic subset: 24/7 and regular weekly hours. Exceptional
+ * openings/closings have no DATEX II equivalent mapped here and are not round-tripped.
  *
  * <p><b>Directions.</b> OCPI {@code directions} (a list of localized texts) is an <b>approximate</b>
  * mapping to DATEX II {@code additionalInformation} (free-text multilingual strings) &mdash; the
@@ -63,6 +67,7 @@ public final class LocationMapper {
     private final GeoLocationMapper geoLocationMapper = new GeoLocationMapper();
     private final OrganisationMapper organisationMapper = new OrganisationMapper();
     private final EnergyMixMapper energyMixMapper = new EnergyMixMapper();
+    private final HoursMapper hoursMapper = new HoursMapper();
 
     /** Builds a DATEX II site from {@code location}, or {@code null} if {@code location} is null. */
     public EnergyInfrastructureSite toDatex(Location location) {
@@ -76,6 +81,7 @@ public final class LocationMapper {
         site.setLastUpdated(Temporals.toXmlDateTime(location.getLastUpdated()));
         site.setOperator(organisationMapper.toDatex(location.getOperator()));
         site.setOwner(organisationMapper.toDatex(location.getOwner()));
+        site.setOperatingHours(hoursMapper.toDatex(location.getOpeningTimes()));
         site.getPhotoUrl().addAll(Images.toDatex(location.getImages()));
         if (location.getEvses() != null) {
             for (var evse : location.getEvses()) {
@@ -132,6 +138,7 @@ public final class LocationMapper {
         location.setLastUpdated(Temporals.toIso(site.getLastUpdated()));
         location.setOperator(organisationMapper.toOcpi(site.getOperator()));
         location.setOwner(organisationMapper.toOcpi(site.getOwner()));
+        location.setOpeningTimes(hoursMapper.toOcpi(site.getOperatingHours()));
         location.setImages(Images.toOcpi(site.getPhotoUrl()));
         List<EVSE> evses = new ArrayList<>();
         for (EnergyInfrastructureStation station : site.getEnergyInfrastructureStation()) {
