@@ -43,8 +43,13 @@ public final class OcpiDatexMapping {
     /** Wraps one or more OCPI locations in a marshallable DATEX II publication. */
     public EnergyInfrastructureTablePublication toDatexPublication(Location... locations) {
         EnergyInfrastructureTable table = new EnergyInfrastructureTable();
-        for (Location location : locations) {
-            table.getEnergyInfrastructureSite().add(toDatex(location));
+        if (locations != null) {
+            for (Location location : locations) {
+                EnergyInfrastructureSite site = toDatex(location);
+                if (site != null) {
+                    table.getEnergyInfrastructureSite().add(site);
+                }
+            }
         }
         return EnergyInfrastructureTablePublicationBuilder.energyInfrastructureTablePublication()
                 .addEnergyInfrastructureTable(table)
