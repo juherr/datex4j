@@ -15,6 +15,7 @@
  */
 package dev.juherr.datex4j.ocpi.mapping;
 
+import dev.juherr.datex4j.model.v3_7.common.MultilingualString;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyPricingPolicy;
 import dev.juherr.datex4j.ocpi.mapping.internal.MultilingualStrings;
 import dev.juherr.datex4j.ocpi.model.v2_3.DisplayText;
@@ -39,9 +40,10 @@ public final class TariffMapper {
             return null;
         }
         EnergyPricingPolicy policy = new EnergyPricingPolicy();
-        String altText = firstAltText(tariff.getTariffAltText());
+        DisplayText altText = firstAltText(tariff.getTariffAltText());
         if (altText != null) {
-            policy.setAdditionalInformation(MultilingualStrings.of(DEFAULT_LANG, altText));
+            String lang = altText.getLanguage() != null ? altText.getLanguage() : DEFAULT_LANG;
+            policy.setAdditionalInformation(MultilingualStrings.of(lang, altText.getText()));
         }
         return policy;
     }
@@ -54,17 +56,27 @@ public final class TariffMapper {
         String info = MultilingualStrings.firstValue(policy.getAdditionalInformation());
         if (info != null) {
             DisplayText text = new DisplayText();
-            text.setLanguage(DEFAULT_LANG);
+            text.setLanguage(firstLang(policy.getAdditionalInformation()));
             text.setText(info);
             tariff.setTariffAltText(List.of(text));
         }
         return tariff;
     }
 
-    private static String firstAltText(List<DisplayText> texts) {
+    private static DisplayText firstAltText(List<DisplayText> texts) {
         if (texts == null || texts.isEmpty()) {
             return null;
         }
-        return texts.get(0).getText();
+        return texts.get(0);
+    }
+
+    private static String firstLang(MultilingualString string) {
+        if (string == null
+                || string.getValues() == null
+                || string.getValues().getValue().isEmpty()) {
+            return DEFAULT_LANG;
+        }
+        String lang = string.getValues().getValue().get(0).getLang();
+        return lang != null ? lang : DEFAULT_LANG;
     }
 }

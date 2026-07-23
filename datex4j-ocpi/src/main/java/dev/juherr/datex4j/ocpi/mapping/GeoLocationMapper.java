@@ -25,7 +25,7 @@ import dev.juherr.datex4j.ocpi.model.v2_3.GeoLocation;
 /**
  * Maps OCPI {@link GeoLocation} (decimal-degree strings) to a DATEX II {@link PointLocation} and
  * back. OCPI stores coordinates as strings; DATEX II uses {@code float}, so a round-trip is precise
- * to roughly 5-6 significant digits (see {@link Locations}).
+ * to roughly 6-7 significant digits (see {@link Locations}).
  *
  * <p><b>Unmapped fields.</b> OCPI has no bearing; DATEX II bearing and any non-point location
  * reference are dropped when converting to OCPI.

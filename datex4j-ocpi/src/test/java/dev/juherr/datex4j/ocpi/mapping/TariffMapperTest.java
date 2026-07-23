@@ -31,8 +31,8 @@ class TariffMapperTest {
     void toDatexMapsAltTextToAdditionalInformation() {
         Tariff tariff = new Tariff();
         DisplayText text = new DisplayText();
-        text.setLanguage("en");
-        text.setText("Standard tariff");
+        text.setLanguage("fr");
+        text.setText("Tarif standard");
         tariff.setTariffAltText(List.of(text));
 
         EnergyPricingPolicy policy = mapper.toDatex(tariff);
@@ -42,20 +42,51 @@ class TariffMapperTest {
                         .getValue()
                         .get(0)
                         .getValue())
-                .isEqualTo("Standard tariff");
+                .isEqualTo("Tarif standard");
+    }
+
+    @Test
+    void toDatexMapsAltTextLanguage() {
+        Tariff tariff = new Tariff();
+        DisplayText text = new DisplayText();
+        text.setLanguage("fr");
+        text.setText("Tarif standard");
+        tariff.setTariffAltText(List.of(text));
+
+        EnergyPricingPolicy policy = mapper.toDatex(tariff);
+
+        assertThat(policy.getAdditionalInformation()
+                        .getValues()
+                        .getValue()
+                        .get(0)
+                        .getLang())
+                .isEqualTo("fr");
     }
 
     @Test
     void roundTripsAltText() {
         Tariff tariff = new Tariff();
         DisplayText text = new DisplayText();
-        text.setLanguage("en");
-        text.setText("Standard tariff");
+        text.setLanguage("fr");
+        text.setText("Tarif standard");
         tariff.setTariffAltText(List.of(text));
 
         Tariff roundTrip = mapper.toOcpi(mapper.toDatex(tariff));
 
-        assertThat(roundTrip.getTariffAltText().get(0).getText()).isEqualTo("Standard tariff");
+        assertThat(roundTrip.getTariffAltText().get(0).getText()).isEqualTo("Tarif standard");
+    }
+
+    @Test
+    void roundTripsAltTextLanguage() {
+        Tariff tariff = new Tariff();
+        DisplayText text = new DisplayText();
+        text.setLanguage("fr");
+        text.setText("Tarif standard");
+        tariff.setTariffAltText(List.of(text));
+
+        Tariff roundTrip = mapper.toOcpi(mapper.toDatex(tariff));
+
+        assertThat(roundTrip.getTariffAltText().get(0).getLanguage()).isEqualTo("fr");
     }
 
     @Test

@@ -61,4 +61,21 @@ class OcpiDatexMappingTest {
         assertThat(mapping.toDatex(null)).isNull();
         assertThat(mapping.toOcpi(null)).isNull();
     }
+
+    @Test
+    void toDatexPublicationHandlesNullArray() {
+        EnergyInfrastructureTablePublication publication = mapping.toDatexPublication((Location[]) null);
+
+        assertThat(publication.getEnergyInfrastructureTable()).hasSize(1);
+        assertThat(publication.getEnergyInfrastructureTable().get(0).getEnergyInfrastructureSite())
+                .isEmpty();
+    }
+
+    @Test
+    void toDatexPublicationSkipsNullElements() {
+        EnergyInfrastructureTablePublication publication = mapping.toDatexPublication(sampleLocation(), null);
+
+        assertThat(publication.getEnergyInfrastructureTable().get(0).getEnergyInfrastructureSite())
+                .hasSize(1);
+    }
 }

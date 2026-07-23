@@ -18,6 +18,7 @@ package dev.juherr.datex4j.ocpi.mapping.internal;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ConnectorTypeEnum;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure._ConnectorTypeEnum;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -62,7 +63,7 @@ public final class ConnectorTypes {
             return null;
         }
         _ConnectorTypeEnum wrapper = new _ConnectorTypeEnum();
-        ConnectorTypeEnum mapped = TO_DATEX.get(ocpiStandard.toUpperCase());
+        ConnectorTypeEnum mapped = TO_DATEX.get(ocpiStandard.toUpperCase(Locale.ROOT));
         if (mapped != null) {
             wrapper.setValue(mapped);
         } else {
