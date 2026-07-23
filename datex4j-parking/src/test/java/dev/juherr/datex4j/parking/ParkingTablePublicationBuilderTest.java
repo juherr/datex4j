@@ -15,7 +15,7 @@
  */
 package dev.juherr.datex4j.parking;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.juherr.datex4j.model.v3_7.parking.ParkingTablePublication;
 import dev.juherr.datex4j.xml.DatexMarshaller;
@@ -34,6 +34,6 @@ class ParkingTablePublicationBuilderTest {
         byte[] xml = marshaller.write(publication);
         ParkingTablePublication restored = marshaller.read(xml, ParkingTablePublication.class);
 
-        assertEquals("datex4j-parking", restored.getPublicationCreator().getNationalIdentifier());
+        assertThat(restored.getPublicationCreator().getNationalIdentifier()).isEqualTo("datex4j-parking");
     }
 }

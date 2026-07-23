@@ -15,9 +15,9 @@
  */
 package dev.juherr.datex4j.xml;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import dev.juherr.datex4j.core.DatexVersion;
 import org.junit.jupiter.api.Test;
@@ -34,9 +34,8 @@ class DatexMultiVersionTest {
         byte[] xml = marshaller.write(original);
         var restored = marshaller.read(xml, dev.juherr.datex4j.model.v3_6.situation.SituationPublication.class);
 
-        assertEquals(
-                original.getPublicationCreator().getNationalIdentifier(),
-                restored.getPublicationCreator().getNationalIdentifier());
+        assertThat(restored.getPublicationCreator().getNationalIdentifier())
+                .isEqualTo(original.getPublicationCreator().getNationalIdentifier());
     }
 
     @Test
@@ -47,8 +46,8 @@ class DatexMultiVersionTest {
         var original = Fixtures.situationPublication();
         byte[] xml = marshaller.write(original);
 
-        assertDoesNotThrow(
-                () -> marshaller.read(xml, dev.juherr.datex4j.model.v3_7.situation.SituationPublication.class));
+        assertThatCode(() -> marshaller.read(xml, dev.juherr.datex4j.model.v3_7.situation.SituationPublication.class))
+                .doesNotThrowAnyException();
     }
 
     @Test
@@ -56,6 +55,6 @@ class DatexMultiVersionTest {
         DatexMarshaller v36 = DatexXml.builder().version(DatexVersion.V3_6).build();
 
         // A v3.7 publication is not a v3.6 PayloadPublication, so it cannot be wrapped.
-        assertThrows(IllegalArgumentException.class, () -> v36.write(Fixtures.situationPublication()));
+        assertThatIllegalArgumentException().isThrownBy(() -> v36.write(Fixtures.situationPublication()));
     }
 }

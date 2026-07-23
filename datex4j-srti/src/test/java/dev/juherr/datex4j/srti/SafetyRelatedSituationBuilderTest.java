@@ -15,7 +15,7 @@
  */
 package dev.juherr.datex4j.srti;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.juherr.datex4j.model.v3_7.situation.SituationPublication;
 import dev.juherr.datex4j.xml.DatexMarshaller;
@@ -34,6 +34,6 @@ class SafetyRelatedSituationBuilderTest {
         byte[] xml = marshaller.write(publication);
         SituationPublication restored = marshaller.read(xml, SituationPublication.class);
 
-        assertEquals("datex4j-srti", restored.getPublicationCreator().getNationalIdentifier());
+        assertThat(restored.getPublicationCreator().getNationalIdentifier()).isEqualTo("datex4j-srti");
     }
 }

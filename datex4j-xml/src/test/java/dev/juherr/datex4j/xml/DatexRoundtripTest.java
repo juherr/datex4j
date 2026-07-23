@@ -15,8 +15,8 @@
  */
 package dev.juherr.datex4j.xml;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import dev.juherr.datex4j.model.v3_7.situation.SituationPublication;
 import org.junit.jupiter.api.Test;
@@ -32,31 +32,27 @@ class DatexRoundtripTest {
         byte[] xml = marshaller.write(original);
         SituationPublication restored = marshaller.read(xml, SituationPublication.class);
 
-        assertEquals(original.getLang(), restored.getLang());
-        assertEquals(original.getModelBaseVersion(), restored.getModelBaseVersion());
-        assertEquals(original.getPublicationTime(), restored.getPublicationTime());
-        assertEquals(
-                original.getPublicationCreator().getCountry(),
-                restored.getPublicationCreator().getCountry());
-        assertEquals(
-                original.getPublicationCreator().getNationalIdentifier(),
-                restored.getPublicationCreator().getNationalIdentifier());
+        assertThat(restored.getLang()).isEqualTo(original.getLang());
+        assertThat(restored.getModelBaseVersion()).isEqualTo(original.getModelBaseVersion());
+        assertThat(restored.getPublicationTime()).isEqualTo(original.getPublicationTime());
+        assertThat(restored.getPublicationCreator().getCountry())
+                .isEqualTo(original.getPublicationCreator().getCountry());
+        assertThat(restored.getPublicationCreator().getNationalIdentifier())
+                .isEqualTo(original.getPublicationCreator().getNationalIdentifier());
     }
 
     @Test
     void writeToStringProducesReadableXml() {
-        String xml = marshaller.writeToString(Fixtures.situationPublication());
-
-        assertEquals(true, xml.startsWith("<?xml"));
+        assertThat(marshaller.writeToString(Fixtures.situationPublication())).startsWith("<?xml");
     }
 
     @Test
     void rejectsValuesThatAreNotDatexPublications() {
-        assertThrows(IllegalArgumentException.class, () -> marshaller.write("not a publication"));
+        assertThatIllegalArgumentException().isThrownBy(() -> marshaller.write("not a publication"));
     }
 
     @Test
     void rejectsNullValue() {
-        assertThrows(IllegalArgumentException.class, () -> marshaller.write(null));
+        assertThatIllegalArgumentException().isThrownBy(() -> marshaller.write(null));
     }
 }

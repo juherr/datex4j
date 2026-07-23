@@ -15,8 +15,8 @@
  */
 package dev.juherr.datex4j.xml;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import dev.juherr.datex4j.model.v3_7.situation.SituationPublication;
 import java.nio.charset.StandardCharsets;
@@ -31,7 +31,7 @@ class DatexValidationTest {
     void writesAndReadsAValidDocumentWhenValidationIsEnabled() {
         byte[] xml = validating.write(Fixtures.situationPublication());
 
-        assertDoesNotThrow(() -> validating.read(xml, SituationPublication.class));
+        assertThatCode(() -> validating.read(xml, SituationPublication.class)).doesNotThrowAnyException();
     }
 
     @Test
@@ -41,6 +41,7 @@ class DatexValidationTest {
         String invalid = valid.replace(">gb<", ">invalid<");
         byte[] bytes = invalid.getBytes(StandardCharsets.UTF_8);
 
-        assertThrows(DatexXmlException.class, () -> validating.read(bytes, SituationPublication.class));
+        assertThatExceptionOfType(DatexXmlException.class)
+                .isThrownBy(() -> validating.read(bytes, SituationPublication.class));
     }
 }

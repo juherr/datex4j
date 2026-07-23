@@ -15,8 +15,7 @@
  */
 package dev.juherr.datex4j.json;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.juherr.datex4j.model.v3_7.common.InternationalIdentifier;
 import dev.juherr.datex4j.model.v3_7.situation.SituationPublication;
@@ -42,10 +41,10 @@ class DatexJsonMapperTest {
         byte[] json = mapper.write(original);
         SituationPublication restored = mapper.read(json, SituationPublication.class);
 
-        assertEquals("en", restored.getLang());
-        assertEquals("gb", restored.getPublicationCreator().getCountry());
-        assertEquals("datex4j", restored.getPublicationCreator().getNationalIdentifier());
-        assertEquals(original.getPublicationTime(), restored.getPublicationTime());
+        assertThat(restored.getLang()).isEqualTo("en");
+        assertThat(restored.getPublicationCreator().getCountry()).isEqualTo("gb");
+        assertThat(restored.getPublicationCreator().getNationalIdentifier()).isEqualTo("datex4j");
+        assertThat(restored.getPublicationTime()).isEqualTo(original.getPublicationTime());
     }
 
     @Test
@@ -55,6 +54,6 @@ class DatexJsonMapperTest {
 
         String json = mapper.writeToString(publication);
 
-        assertTrue(json.contains("\"lang\""), () -> "expected a lang property in:\n" + json);
+        assertThat(json).contains("\"lang\"");
     }
 }

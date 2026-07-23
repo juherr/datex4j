@@ -15,8 +15,8 @@
  */
 package dev.juherr.datex4j.location;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import dev.juherr.datex4j.model.v3_7.locationreferencing.PointCoordinates;
 import org.junit.jupiter.api.Test;
@@ -28,22 +28,22 @@ class LocationsTest {
         PointCoordinates coordinates = Locations.pointCoordinates(51.5074, -0.1278);
 
         // Values are narrowed to the DATEX II float representation.
-        assertEquals((float) 51.5074, coordinates.getLatitude());
-        assertEquals((float) -0.1278, coordinates.getLongitude());
+        assertThat(coordinates.getLatitude()).isEqualTo((float) 51.5074);
+        assertThat(coordinates.getLongitude()).isEqualTo((float) -0.1278);
     }
 
     @Test
     void rejectsOutOfRangeLatitude() {
-        assertThrows(IllegalArgumentException.class, () -> Locations.pointCoordinates(90.5, 0.0));
+        assertThatIllegalArgumentException().isThrownBy(() -> Locations.pointCoordinates(90.5, 0.0));
     }
 
     @Test
     void rejectsOutOfRangeLongitude() {
-        assertThrows(IllegalArgumentException.class, () -> Locations.pointCoordinates(0.0, 200.0));
+        assertThatIllegalArgumentException().isThrownBy(() -> Locations.pointCoordinates(0.0, 200.0));
     }
 
     @Test
     void rejectsNonFiniteValues() {
-        assertThrows(IllegalArgumentException.class, () -> Locations.pointCoordinates(Double.NaN, 0.0));
+        assertThatIllegalArgumentException().isThrownBy(() -> Locations.pointCoordinates(Double.NaN, 0.0));
     }
 }

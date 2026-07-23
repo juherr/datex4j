@@ -15,8 +15,7 @@
  */
 package dev.juherr.datex4j.core;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
@@ -24,17 +23,23 @@ class DatexVersionTest {
 
     @Test
     void currentIsV37() {
-        assertSame(DatexVersion.V3_7, DatexVersion.current());
+        assertThat(DatexVersion.current()).isSameAs(DatexVersion.V3_7);
     }
 
     @Test
     void exposesCanonicalId() {
-        assertEquals("3.7", DatexVersion.V3_7.id());
-        assertEquals("3.7", DatexVersion.V3_7.toString());
+        assertThat(DatexVersion.V3_7.id()).isEqualTo("3.7");
+        assertThat(DatexVersion.V3_7).hasToString("3.7");
     }
 
     @Test
     void resourceSegmentIsPrefixedWithV() {
-        assertEquals("v3.7", DatexVersion.V3_7.resourceSegment());
+        assertThat(DatexVersion.V3_7.resourceSegment()).isEqualTo("v3.7");
+    }
+
+    @Test
+    void packageSegmentReplacesDotWithUnderscore() {
+        assertThat(DatexVersion.V3_7.packageSegment()).isEqualTo("v3_7");
+        assertThat(DatexVersion.V3_6.packageSegment()).isEqualTo("v3_6");
     }
 }

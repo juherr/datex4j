@@ -15,8 +15,8 @@
  */
 package dev.juherr.datex4j.core;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 import org.junit.jupiter.api.Test;
 
@@ -24,25 +24,24 @@ class DatexSchemasTest {
 
     @Test
     void resourceDirectoryIsVersionScoped() {
-        assertEquals("META-INF/datex4j/schema/v3.7", DatexSchemas.resourceDirectory(DatexVersion.V3_7));
+        assertThat(DatexSchemas.resourceDirectory(DatexVersion.V3_7)).isEqualTo("META-INF/datex4j/schema/v3.7");
     }
 
     @Test
     void resourceResolvesSchemaFile() {
-        assertEquals(
-                "META-INF/datex4j/schema/v3.7/DATEXII_3_Common.xsd",
-                DatexSchemas.resource(DatexVersion.V3_7, "DATEXII_3_Common.xsd"));
+        assertThat(DatexSchemas.resource(DatexVersion.V3_7, "DATEXII_3_Common.xsd"))
+                .isEqualTo("META-INF/datex4j/schema/v3.7/DATEXII_3_Common.xsd");
     }
 
     @Test
     void rootSchemaPointsAtD2Payload() {
-        assertEquals(
-                "META-INF/datex4j/schema/v3.7/DATEXII_3_D2Payload.xsd", DatexSchemas.rootSchema(DatexVersion.V3_7));
+        assertThat(DatexSchemas.rootSchema(DatexVersion.V3_7))
+                .isEqualTo("META-INF/datex4j/schema/v3.7/DATEXII_3_D2Payload.xsd");
     }
 
     @Test
     void rejectsNullArguments() {
-        assertThrows(NullPointerException.class, () -> DatexSchemas.resourceDirectory(null));
-        assertThrows(NullPointerException.class, () -> DatexSchemas.resource(DatexVersion.V3_7, null));
+        assertThatNullPointerException().isThrownBy(() -> DatexSchemas.resourceDirectory(null));
+        assertThatNullPointerException().isThrownBy(() -> DatexSchemas.resource(DatexVersion.V3_7, null));
     }
 }

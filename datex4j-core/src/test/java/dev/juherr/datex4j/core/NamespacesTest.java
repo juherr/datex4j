@@ -15,8 +15,8 @@
  */
 package dev.juherr.datex4j.core;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 import org.junit.jupiter.api.Test;
 
@@ -24,23 +24,24 @@ class NamespacesTest {
 
     @Test
     void baseHasNoTrailingSlash() {
-        assertEquals("http://datex2.eu/schema/3", Namespaces.BASE);
+        assertThat(Namespaces.BASE).isEqualTo("http://datex2.eu/schema/3");
     }
 
     @Test
     void moduleBuildsNamespaceUnderBase() {
-        assertEquals("http://datex2.eu/schema/3/situation", Namespaces.module("situation"));
+        assertThat(Namespaces.module("situation")).isEqualTo("http://datex2.eu/schema/3/situation");
     }
 
     @Test
     void wellKnownConstantsMatchOfficialNamespaces() {
-        assertEquals("http://datex2.eu/schema/3/common", Namespaces.COMMON);
-        assertEquals("http://datex2.eu/schema/3/d2Payload", Namespaces.D2_PAYLOAD);
-        assertEquals("http://datex2.eu/schema/3/afirEnergyInfrastructure", Namespaces.AFIR_ENERGY_INFRASTRUCTURE);
+        assertThat(Namespaces.COMMON).isEqualTo("http://datex2.eu/schema/3/common");
+        assertThat(Namespaces.D2_PAYLOAD).isEqualTo("http://datex2.eu/schema/3/d2Payload");
+        assertThat(Namespaces.AFIR_ENERGY_INFRASTRUCTURE)
+                .isEqualTo("http://datex2.eu/schema/3/afirEnergyInfrastructure");
     }
 
     @Test
     void moduleRejectsNull() {
-        assertThrows(NullPointerException.class, () -> Namespaces.module(null));
+        assertThatNullPointerException().isThrownBy(() -> Namespaces.module(null));
     }
 }

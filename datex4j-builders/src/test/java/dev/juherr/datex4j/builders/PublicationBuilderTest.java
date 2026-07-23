@@ -15,8 +15,7 @@
  */
 package dev.juherr.datex4j.builders;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.juherr.datex4j.model.v3_7.situation.SituationPublication;
 import java.time.OffsetDateTime;
@@ -43,9 +42,9 @@ class PublicationBuilderTest {
     void appliesSensibleHeaderDefaults() {
         SituationPublication publication = new TestBuilder().build();
 
-        assertEquals("en", publication.getLang());
-        assertEquals("3", publication.getModelBaseVersion());
-        assertNotNull(publication.getPublicationTime());
+        assertThat(publication.getLang()).isEqualTo("en");
+        assertThat(publication.getModelBaseVersion()).isEqualTo("3");
+        assertThat(publication.getPublicationTime()).isNotNull();
     }
 
     @Test
@@ -59,9 +58,9 @@ class PublicationBuilderTest {
                 .publishedBy("fr", "datex4j")
                 .build();
 
-        assertEquals("fr", publication.getLang());
-        assertEquals("fr", publication.getPublicationCreator().getCountry());
-        assertEquals("datex4j", publication.getPublicationCreator().getNationalIdentifier());
-        assertEquals(2026, publication.getPublicationTime().getYear());
+        assertThat(publication.getLang()).isEqualTo("fr");
+        assertThat(publication.getPublicationCreator().getCountry()).isEqualTo("fr");
+        assertThat(publication.getPublicationCreator().getNationalIdentifier()).isEqualTo("datex4j");
+        assertThat(publication.getPublicationTime().getYear()).isEqualTo(2026);
     }
 }
