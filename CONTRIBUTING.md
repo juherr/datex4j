@@ -30,9 +30,12 @@ the official DATEX II XML Schemas that are vendored under
 - Generated sources are excluded from Spotless and Checkstyle on purpose.
 - Put hand-written logic in `datex4j-core`, `datex4j-xml` or a future dedicated module — never in
   `datex4j-model`.
-- `datex4j-ocpi` is generated too: its OCPI model is produced by `openapi-generator-maven-plugin`
-  from the vendored OpenAPI spec (`src/main/resources/META-INF/datex4j/ocpi/vX.Y.Z/openapi.yaml`).
-  Same rule — never edit the generated OCPI classes.
+- `datex4j-ocpi` mixes both worlds: its OCPI model is produced by `openapi-generator-maven-plugin`
+  from the vendored OpenAPI spec (`src/main/resources/META-INF/datex4j/ocpi/vX.Y.Z/openapi.yaml`) and
+  lives under `target/`, never committed — same rule, never edit the generated OCPI classes. Its
+  OCPI ↔ DATEX II mapping under `src/main/java/dev/juherr/datex4j/ocpi/mapping/` is normal
+  hand-written code: reviewed, formatted by Spotless, checked by Checkstyle and covered by tests like
+  any other module.
 
 ### Regenerating the model
 

@@ -46,7 +46,7 @@ Domain builders currently target the default DATEX II version (3.7).
 
 | Module         | Description                                                                        |
 |----------------|------------------------------------------------------------------------------------|
-| `datex4j-ocpi` | Generated OCPI 2.3.0 model, from the official OpenAPI spec (Jackson). An OCPI → DATEX II mapping is planned. |
+| `datex4j-ocpi` | Generated OCPI 2.3.0 model plus a bidirectional OCPI ↔ DATEX II mapping (Energy Infrastructure). |
 
 Bundled DATEX II versions: **3.6 and 3.7** (default 3.7). Both are generated side by side into
 version-scoped packages (`dev.juherr.datex4j.model.v3_6.*` and `...v3_7.*`); pick one per marshaller
@@ -105,13 +105,13 @@ and the [version-upgrade runbook](docs/version-upgrade.md).
 Already delivered: multi-version support (3.6 + 3.7), fluent builders (`datex4j-builders`), one
 module per official DATEX II user domain (traffic, SRTI, parking, EV charging, UVAR), a cross-cutting
 location module, JSON serialization (`datex4j-json`), a structured validation API
-(`datex4j-validation`) and the generated OCPI 2.3.0 model (`datex4j-ocpi`).
+(`datex4j-validation`), the generated OCPI 2.3.0 model (`datex4j-ocpi`) and a bidirectional OCPI ↔
+DATEX II charging-infrastructure mapping.
 
 Still planned but **not yet implemented**:
 
 - Richer per-domain builders and helpers (deeper coverage of each user domain, DATEX II profiles).
 - Multi-version domain builders (domain modules currently target the default version).
-- An OCPI → DATEX II mapping on top of the generated OCPI model.
 - A profile/extension mechanism.
 
 ## Contributing
