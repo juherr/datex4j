@@ -16,8 +16,8 @@
   <name>datex4j-ocpi</name>
   <description>
     Generated OCPI (Open Charge Point Interface) 2.3.0 model, produced from the official OpenAPI
-    specification. Complements the DATEX II EV Charging domain; contains no hand-written logic.
-    An OCPI to DATEX II mapping is planned as a later increment.
+    specification, plus a hand-written bidirectional OCPI ↔ DATEX II mapping for the EV Charging
+    (Energy Infrastructure) domain.
   </description>
 
   <dependencies>
