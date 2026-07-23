@@ -29,8 +29,8 @@ import java.util.List;
  *
  * <p><b>Unmapped fields.</b> OCPI {@code country_code}, {@code party_id}, {@code address},
  * {@code city}, {@code postal_code}, {@code time_zone}, {@code opening_times}, {@code images},
- * {@code directions}, {@code operator} are not mapped in this iteration; DATEX II {@code typeOfSite},
- * {@code brand} have no OCPI equivalent.
+ * {@code directions} are not mapped in this iteration; DATEX II {@code typeOfSite}, {@code brand}
+ * have no OCPI equivalent.
  */
 public final class LocationMapper {
 
@@ -38,6 +38,7 @@ public final class LocationMapper {
 
     private final EvseMapper evseMapper = new EvseMapper();
     private final GeoLocationMapper geoLocationMapper = new GeoLocationMapper();
+    private final OrganisationMapper organisationMapper = new OrganisationMapper();
 
     /** Builds a DATEX II site from {@code location}, or {@code null} if {@code location} is null. */
     public EnergyInfrastructureSite toDatex(Location location) {
@@ -49,6 +50,8 @@ public final class LocationMapper {
         site.setName(MultilingualStrings.of(DEFAULT_LANG, location.getName()));
         site.setLocationReference(geoLocationMapper.toDatex(location.getCoordinates()));
         site.setLastUpdated(Temporals.toXmlDateTime(location.getLastUpdated()));
+        site.setOperator(organisationMapper.toDatex(location.getOperator()));
+        site.setOwner(organisationMapper.toDatex(location.getOwner()));
         if (location.getEvses() != null) {
             for (var evse : location.getEvses()) {
                 var station = evseMapper.toDatex(evse);
@@ -70,6 +73,8 @@ public final class LocationMapper {
         location.setName(MultilingualStrings.firstValue(site.getName()));
         location.setCoordinates(geoLocationMapper.toOcpi(site.getLocationReference()));
         location.setLastUpdated(Temporals.toIso(site.getLastUpdated()));
+        location.setOperator(organisationMapper.toOcpi(site.getOperator()));
+        location.setOwner(organisationMapper.toOcpi(site.getOwner()));
         List<EVSE> evses = new ArrayList<>();
         for (EnergyInfrastructureStation station : site.getEnergyInfrastructureStation()) {
             EVSE mapped = evseMapper.toOcpi(station);
