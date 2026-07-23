@@ -155,7 +155,8 @@ public final class LocationMapper {
         if (text == null) {
             return null;
         }
-        String lang = info.getValues().getValue().get(0).getLang();
+        String rawLang = info.getValues().getValue().get(0).getLang();
+        String lang = rawLang != null ? rawLang : DEFAULT_LANG;
         DisplayText direction = new DisplayText();
         direction.setLanguage(lang);
         direction.setText(text);
