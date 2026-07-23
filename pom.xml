@@ -41,6 +41,13 @@
     <module>datex4j-model</module>
     <module>datex4j-core</module>
     <module>datex4j-xml</module>
+    <module>datex4j-builders</module>
+    <module>datex4j-location</module>
+    <module>datex4j-traffic</module>
+    <module>datex4j-srti</module>
+    <module>datex4j-parking</module>
+    <module>datex4j-evcharging</module>
+    <module>datex4j-uvar</module>
     <module>examples</module>
   </modules>
 
@@ -91,6 +98,11 @@
       <dependency>
         <groupId>dev.juherr.datex4j</groupId>
         <artifactId>datex4j-xml</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-builders</artifactId>
         <version>${project.version}</version>
       </dependency>
 

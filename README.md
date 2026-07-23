@@ -16,12 +16,29 @@ carries no framework dependencies.
 
 ## Modules
 
-| Module           | Description                                                                      |
-|------------------|----------------------------------------------------------------------------------|
-| `datex4j-model`  | Generated DATEX II model classes (JAXB). No hand-written logic.                   |
-| `datex4j-core`   | Framework-free utilities: version, namespace and schema-resource constants.       |
-| `datex4j-xml`    | Marshalling, unmarshalling, schema validation and formatting — hides JAXB.         |
-| `examples`       | Runnable end-to-end examples (not published).                                     |
+**Core**
+
+| Module            | Description                                                                      |
+|-------------------|----------------------------------------------------------------------------------|
+| `datex4j-model`   | Generated DATEX II model classes (JAXB). No hand-written logic.                   |
+| `datex4j-core`    | Framework-free utilities: version, namespace and schema-resource constants.       |
+| `datex4j-xml`     | Marshalling, unmarshalling, schema validation and formatting — hides JAXB.         |
+| `datex4j-builders`| Fluent `PublicationBuilder` foundation shared by the domain modules.               |
+| `datex4j-location`| Cross-cutting helpers for DATEX II location referencing.                          |
+| `examples`        | Runnable end-to-end examples (not published).                                     |
+
+**Domain modules** — one per official [DATEX II user domain](https://datex2.eu/user-domains/), each
+a fluent builder on top of the generic model:
+
+| Module               | User domain                          | Primary publication                    |
+|----------------------|--------------------------------------|----------------------------------------|
+| `datex4j-traffic`    | Traffic Management                   | `SituationPublication`                 |
+| `datex4j-srti`       | Safety Related Traffic Information    | `SituationPublication`                 |
+| `datex4j-parking`    | Parking                              | `ParkingTablePublication`              |
+| `datex4j-evcharging` | EV Charging (energy infra., AFIR)    | `EnergyInfrastructureTablePublication` |
+| `datex4j-uvar`       | Urban Vehicle Access Regulations     | `ControlledZoneTablePublication`       |
+
+Domain builders currently target the default DATEX II version (3.7).
 
 Bundled DATEX II versions: **3.6 and 3.7** (default 3.7). Both are generated side by side into
 version-scoped packages (`dev.juherr.datex4j.model.v3_6.*` and `...v3_7.*`); pick one per marshaller
@@ -77,15 +94,18 @@ and the [version-upgrade runbook](docs/version-upgrade.md).
 
 ## Roadmap
 
-Future modules are planned but **not yet implemented**. The architecture anticipates them:
+Already delivered: multi-version support (3.6 + 3.7), fluent builders (`datex4j-builders`) and one
+module per official DATEX II user domain (traffic, SRTI, parking, EV charging, UVAR) plus a
+cross-cutting location module.
 
-- `datex4j-afir` — AFIR-specific helpers on top of the generated AFIR model.
-- `datex4j-location`, `datex4j-traffic`, `datex4j-parking` — domain profiles.
+Still planned but **not yet implemented**:
+
+- Richer per-domain builders and helpers (deeper coverage of each user domain, DATEX II profiles).
+- Multi-version domain builders (domain modules currently target the default version).
 - `datex4j-json` — JSON serialization.
-- `datex4j-builders` — fluent builders.
 - `datex4j-validation` — a richer validation API.
 - `datex4j-ocpi` — OCPI → DATEX II mapping.
-- Multi-version support and a profile/extension mechanism.
+- A profile/extension mechanism.
 
 ## Contributing
 
