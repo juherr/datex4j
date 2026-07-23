@@ -24,6 +24,8 @@ import dev.juherr.datex4j.ocpi.model.v2_3.ConnectorFormat;
 import dev.juherr.datex4j.ocpi.model.v2_3.ConnectorType;
 import dev.juherr.datex4j.ocpi.model.v2_3.EVSE;
 import dev.juherr.datex4j.ocpi.model.v2_3.GeoLocation;
+import dev.juherr.datex4j.ocpi.model.v2_3.Image;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -90,5 +92,42 @@ class EvseMapperTest {
     void nullInputsYieldNull() {
         assertThat(mapper.toDatex(null)).isNull();
         assertThat(mapper.toOcpi(null)).isNull();
+    }
+
+    @Test
+    void toDatexMapsImagesToPhotoUrl() {
+        EVSE evse = sampleEvse();
+        Image image = new Image();
+        image.setUrl(URI.create("https://x/p.png"));
+        evse.setImages(List.of(image));
+
+        EnergyInfrastructureStation station = mapper.toDatex(evse);
+
+        assertThat(station.getPhotoUrl()).hasSize(1);
+        assertThat(station.getPhotoUrl().get(0).getUrlLinkAddress()).isEqualTo("https://x/p.png");
+    }
+
+    @Test
+    void roundTripsImageUrl() {
+        EVSE evse = sampleEvse();
+        Image image = new Image();
+        image.setUrl(URI.create("https://x/p.png"));
+        evse.setImages(List.of(image));
+
+        EVSE roundTrip = mapper.toOcpi(mapper.toDatex(evse));
+
+        assertThat(roundTrip.getImages()).hasSize(1);
+        assertThat(roundTrip.getImages().get(0).getUrl()).isEqualTo(URI.create("https://x/p.png"));
+    }
+
+    @Test
+    void toDatexSkipsImagesWithNullUrl() {
+        EVSE evse = sampleEvse();
+        Image withNullUrl = new Image();
+        evse.setImages(Arrays.asList(withNullUrl, null));
+
+        EnergyInfrastructureStation station = mapper.toDatex(evse);
+
+        assertThat(station.getPhotoUrl()).isEmpty();
     }
 }
