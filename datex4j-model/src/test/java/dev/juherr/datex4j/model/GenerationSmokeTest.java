@@ -15,9 +15,7 @@
  */
 package dev.juherr.datex4j.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import jakarta.xml.bind.JAXBElement;
 import org.junit.jupiter.api.Test;
@@ -31,13 +29,13 @@ class GenerationSmokeTest {
     @Test
     void v37ConcretePublicationExtendsPayloadPublication() {
         var publication = new dev.juherr.datex4j.model.v3_7.situation.SituationPublication();
-        assertInstanceOf(dev.juherr.datex4j.model.v3_7.common.PayloadPublication.class, publication);
+        assertThat(publication).isInstanceOf(dev.juherr.datex4j.model.v3_7.common.PayloadPublication.class);
     }
 
     @Test
     void v36ConcretePublicationExtendsPayloadPublication() {
         var publication = new dev.juherr.datex4j.model.v3_6.situation.SituationPublication();
-        assertInstanceOf(dev.juherr.datex4j.model.v3_6.common.PayloadPublication.class, publication);
+        assertThat(publication).isInstanceOf(dev.juherr.datex4j.model.v3_6.common.PayloadPublication.class);
     }
 
     @Test
@@ -45,9 +43,9 @@ class GenerationSmokeTest {
         var publication = new dev.juherr.datex4j.model.v3_7.situation.SituationPublication();
         JAXBElement<?> payload = new dev.juherr.datex4j.model.v3_7.d2payload.ObjectFactory().createPayload(publication);
 
-        assertNotNull(payload);
-        assertEquals("http://datex2.eu/schema/3/d2Payload", payload.getName().getNamespaceURI());
-        assertEquals("payload", payload.getName().getLocalPart());
+        assertThat(payload).isNotNull();
+        assertThat(payload.getName().getNamespaceURI()).isEqualTo("http://datex2.eu/schema/3/d2Payload");
+        assertThat(payload.getName().getLocalPart()).isEqualTo("payload");
     }
 
     @Test
@@ -55,8 +53,8 @@ class GenerationSmokeTest {
         var publication = new dev.juherr.datex4j.model.v3_6.situation.SituationPublication();
         JAXBElement<?> payload = new dev.juherr.datex4j.model.v3_6.d2payload.ObjectFactory().createPayload(publication);
 
-        assertNotNull(payload);
-        assertEquals("http://datex2.eu/schema/3/d2Payload", payload.getName().getNamespaceURI());
-        assertEquals("payload", payload.getName().getLocalPart());
+        assertThat(payload).isNotNull();
+        assertThat(payload.getName().getNamespaceURI()).isEqualTo("http://datex2.eu/schema/3/d2Payload");
+        assertThat(payload.getName().getLocalPart()).isEqualTo("payload");
     }
 }

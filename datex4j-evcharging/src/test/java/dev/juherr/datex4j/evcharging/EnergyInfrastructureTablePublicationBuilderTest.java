@@ -15,7 +15,7 @@
  */
 package dev.juherr.datex4j.evcharging;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureTablePublication;
 import dev.juherr.datex4j.xml.DatexMarshaller;
@@ -36,6 +36,6 @@ class EnergyInfrastructureTablePublicationBuilderTest {
         EnergyInfrastructureTablePublication restored =
                 marshaller.read(xml, EnergyInfrastructureTablePublication.class);
 
-        assertEquals("datex4j-evcharging", restored.getPublicationCreator().getNationalIdentifier());
+        assertThat(restored.getPublicationCreator().getNationalIdentifier()).isEqualTo("datex4j-evcharging");
     }
 }

@@ -15,7 +15,7 @@
  */
 package dev.juherr.datex4j.uvar;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.juherr.datex4j.model.v3_7.controlledzone.ControlledZoneTablePublication;
 import dev.juherr.datex4j.xml.DatexMarshaller;
@@ -35,6 +35,6 @@ class ControlledZoneTablePublicationBuilderTest {
         byte[] xml = marshaller.write(publication);
         ControlledZoneTablePublication restored = marshaller.read(xml, ControlledZoneTablePublication.class);
 
-        assertEquals("datex4j-uvar", restored.getPublicationCreator().getNationalIdentifier());
+        assertThat(restored.getPublicationCreator().getNationalIdentifier()).isEqualTo("datex4j-uvar");
     }
 }

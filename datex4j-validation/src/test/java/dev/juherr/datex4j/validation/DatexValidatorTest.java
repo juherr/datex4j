@@ -15,8 +15,7 @@
  */
 package dev.juherr.datex4j.validation;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.juherr.datex4j.model.v3_7.common.InternationalIdentifier;
 import dev.juherr.datex4j.model.v3_7.situation.SituationPublication;
@@ -34,8 +33,8 @@ class DatexValidatorTest {
     void acceptsAValidPublication() {
         ValidationResult result = validator.validate(validPublication());
 
-        assertTrue(result.isValid(), () -> "expected a valid document but got: " + result.errors());
-        assertTrue(result.errors().isEmpty());
+        assertThat(result.isValid()).isTrue();
+        assertThat(result.errors()).isEmpty();
     }
 
     @Test
@@ -46,9 +45,9 @@ class DatexValidatorTest {
 
         ValidationResult result = validator.validate(invalid.getBytes(StandardCharsets.UTF_8));
 
-        assertFalse(result.isValid());
-        assertFalse(result.errors().isEmpty());
-        assertTrue(result.errors().get(0).lineNumber() > 0, "expected a located error message");
+        assertThat(result.isValid()).isFalse();
+        assertThat(result.errors()).isNotEmpty();
+        assertThat(result.errors().get(0).lineNumber()).isPositive();
     }
 
     private static SituationPublication validPublication() {

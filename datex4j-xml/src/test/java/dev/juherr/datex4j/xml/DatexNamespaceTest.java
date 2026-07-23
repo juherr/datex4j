@@ -15,8 +15,7 @@
  */
 package dev.juherr.datex4j.xml;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,9 +25,7 @@ class DatexNamespaceTest {
     void outputDeclaresTheDatexPayloadNamespace() {
         String xml = DatexXml.createMarshaller().writeToString(Fixtures.situationPublication());
 
-        assertTrue(
-                xml.contains("http://datex2.eu/schema/3/d2Payload"),
-                () -> "expected the DATEX II payload namespace in:\n" + xml);
+        assertThat(xml).contains("http://datex2.eu/schema/3/d2Payload");
     }
 
     @Test
@@ -36,9 +33,9 @@ class DatexNamespaceTest {
         String pretty = DatexXml.createMarshaller().writeToString(Fixtures.situationPublication());
         String compact = DatexXml.builder().prettyPrint(false).build().writeToString(Fixtures.situationPublication());
 
-        assertTrue(pretty.contains("\n"), "pretty output should span multiple lines");
-        assertFalse(
-                compact.substring(compact.indexOf("?>") + 2).contains("\n"),
-                "compact output should not contain newlines after the XML declaration");
+        assertThat(pretty).as("pretty output should span multiple lines").contains("\n");
+        assertThat(compact.substring(compact.indexOf("?>") + 2))
+                .as("compact output should not contain newlines after the XML declaration")
+                .doesNotContain("\n");
     }
 }

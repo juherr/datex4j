@@ -15,9 +15,8 @@
  */
 package dev.juherr.datex4j.examples;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 import dev.juherr.datex4j.model.v3_7.situation.SituationPublication;
 import dev.juherr.datex4j.xml.DatexMarshaller;
@@ -34,15 +33,15 @@ class DatexExampleTest {
         SituationPublication publication = DatexExample.sampleSituationPublication();
 
         String xml = marshaller.writeToString(publication);
-        assertTrue(xml.contains("http://datex2.eu/schema/3/d2Payload"));
+        assertThat(xml).contains("http://datex2.eu/schema/3/d2Payload");
 
         SituationPublication restored =
                 marshaller.read(xml.getBytes(StandardCharsets.UTF_8), SituationPublication.class);
-        assertEquals("datex4j-examples", restored.getPublicationCreator().getNationalIdentifier());
+        assertThat(restored.getPublicationCreator().getNationalIdentifier()).isEqualTo("datex4j-examples");
     }
 
     @Test
     void mainRunsWithoutError() {
-        assertDoesNotThrow(() -> DatexExample.main(new String[0]));
+        assertThatCode(() -> DatexExample.main(new String[0])).doesNotThrowAnyException();
     }
 }

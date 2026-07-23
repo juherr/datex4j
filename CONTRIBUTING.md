@@ -67,7 +67,8 @@ changed, and regenerate. No hand-written code should need to change.
 - **Checkstyle** enforces import hygiene, naming and a few structural rules on hand-written sources.
 - Public API must carry **Javadoc**. Prefer immutability where it fits, and keep business logic free
   of framework, transport and persistence concerns.
-- Write tests. New behaviour is not complete without tests; we use **JUnit** (Jupiter).
+- Write tests. New behaviour is not complete without tests; we use **JUnit** (Jupiter) as the test
+  runner and **AssertJ** (`assertThat(...)`) for assertions.
 
 ## Public API stability
 
