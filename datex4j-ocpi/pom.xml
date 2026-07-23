@@ -36,6 +36,28 @@
     </dependency>
 
     <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-model</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-location</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-domain-evcharging</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-xml</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
@@ -105,12 +127,15 @@
         </configuration>
       </plugin>
 
-      <!-- No hand-written code to cover; generated model is excluded from coverage. -->
+      <!-- Cover the hand-written mapping; exclude the generated OCPI model/support. -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <configuration>
-          <skip>true</skip>
+          <excludes>
+            <exclude>dev/juherr/datex4j/ocpi/model/**</exclude>
+            <exclude>dev/juherr/datex4j/ocpi/support/**</exclude>
+          </excludes>
         </configuration>
       </plugin>
     </plugins>
