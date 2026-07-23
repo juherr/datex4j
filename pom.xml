@@ -48,6 +48,8 @@
     <module>datex4j-parking</module>
     <module>datex4j-evcharging</module>
     <module>datex4j-uvar</module>
+    <module>datex4j-json</module>
+    <module>datex4j-validation</module>
     <module>examples</module>
   </modules>
 
@@ -62,6 +64,7 @@
     <!-- Dependency versions -->
     <jakarta.xml.bind-api.version>4.0.5</jakarta.xml.bind-api.version>
     <jaxb-runtime.version>4.0.9</jaxb-runtime.version>
+    <jackson-bom.version>2.22.1</jackson-bom.version>
     <junit-bom.version>6.1.2</junit-bom.version>
 
     <!-- Plugin versions -->
@@ -116,6 +119,15 @@
         <groupId>org.glassfish.jaxb</groupId>
         <artifactId>jaxb-runtime</artifactId>
         <version>${jaxb-runtime.version}</version>
+      </dependency>
+
+      <!-- JSON -->
+      <dependency>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>${jackson-bom.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
 
       <!-- Testing -->

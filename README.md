@@ -23,6 +23,8 @@ carries no framework dependencies.
 | `datex4j-model`   | Generated DATEX II model classes (JAXB). No hand-written logic.                   |
 | `datex4j-core`    | Framework-free utilities: version, namespace and schema-resource constants.       |
 | `datex4j-xml`     | Marshalling, unmarshalling, schema validation and formatting — hides JAXB.         |
+| `datex4j-json`    | JSON (de)serialization of the model (Jackson, honours the JAXB annotations).       |
+| `datex4j-validation`| Structured, error-collecting validation against the official XSDs.               |
 | `datex4j-builders`| Fluent `PublicationBuilder` foundation shared by the domain modules.               |
 | `datex4j-location`| Cross-cutting helpers for DATEX II location referencing.                          |
 | `examples`        | Runnable end-to-end examples (not published).                                     |
@@ -94,16 +96,15 @@ and the [version-upgrade runbook](docs/version-upgrade.md).
 
 ## Roadmap
 
-Already delivered: multi-version support (3.6 + 3.7), fluent builders (`datex4j-builders`) and one
-module per official DATEX II user domain (traffic, SRTI, parking, EV charging, UVAR) plus a
-cross-cutting location module.
+Already delivered: multi-version support (3.6 + 3.7), fluent builders (`datex4j-builders`), one
+module per official DATEX II user domain (traffic, SRTI, parking, EV charging, UVAR), a cross-cutting
+location module, JSON serialization (`datex4j-json`) and a structured validation API
+(`datex4j-validation`).
 
 Still planned but **not yet implemented**:
 
 - Richer per-domain builders and helpers (deeper coverage of each user domain, DATEX II profiles).
 - Multi-version domain builders (domain modules currently target the default version).
-- `datex4j-json` — JSON serialization.
-- `datex4j-validation` — a richer validation API.
 - `datex4j-ocpi` — OCPI → DATEX II mapping.
 - A profile/extension mechanism.
 
