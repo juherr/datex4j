@@ -17,9 +17,11 @@ package dev.juherr.datex4j.ocpi.mapping;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricChargingPoint;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureSite;
 import dev.juherr.datex4j.ocpi.model.v2_3.BusinessDetails;
 import dev.juherr.datex4j.ocpi.model.v2_3.EVSE;
+import dev.juherr.datex4j.ocpi.model.v2_3.EnergyMix;
 import dev.juherr.datex4j.ocpi.model.v2_3.GeoLocation;
 import dev.juherr.datex4j.ocpi.model.v2_3.Location;
 import java.util.Arrays;
@@ -95,5 +97,46 @@ class LocationMapperTest {
     void nullInputsYieldNull() {
         assertThat(mapper.toDatex(null)).isNull();
         assertThat(mapper.toOcpi(null)).isNull();
+    }
+
+    @Test
+    void toDatexAddsEnergyMixToEveryChargingPoint() {
+        Location location = sampleLocation();
+        EnergyMix energyMix = new EnergyMix();
+        energyMix.setIsGreenEnergy(true);
+        location.setEnergyMix(energyMix);
+
+        EnergyInfrastructureSite site = mapper.toDatex(location);
+
+        assertThat(site.getEnergyInfrastructureStation()).isNotEmpty();
+        for (var station : site.getEnergyInfrastructureStation()) {
+            for (var refillPoint : station.getRefillPoint()) {
+                assertThat(refillPoint).isInstanceOf(ElectricChargingPoint.class);
+                ElectricChargingPoint point = (ElectricChargingPoint) refillPoint;
+                assertThat(point.getElectricEnergyMix()).hasSize(1);
+                assertThat(point.getElectricEnergyMix().get(0).isIsGreenEnergy())
+                        .isTrue();
+            }
+        }
+    }
+
+    @Test
+    void roundTripsEnergyMixGreenFlag() {
+        Location location = sampleLocation();
+        EnergyMix energyMix = new EnergyMix();
+        energyMix.setIsGreenEnergy(true);
+        location.setEnergyMix(energyMix);
+
+        Location roundTrip = mapper.toOcpi(mapper.toDatex(location));
+
+        assertThat(roundTrip.getEnergyMix()).isNotNull();
+        assertThat(roundTrip.getEnergyMix().getIsGreenEnergy()).isTrue();
+    }
+
+    @Test
+    void toOcpiLeavesEnergyMixNullWhenSiteHasNone() {
+        Location roundTrip = mapper.toOcpi(mapper.toDatex(sampleLocation()));
+
+        assertThat(roundTrip.getEnergyMix()).isNull();
     }
 }

@@ -15,11 +15,14 @@
  */
 package dev.juherr.datex4j.ocpi.mapping;
 
+import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricChargingPoint;
+import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricEnergyMix;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureSite;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureStation;
 import dev.juherr.datex4j.ocpi.mapping.internal.MultilingualStrings;
 import dev.juherr.datex4j.ocpi.mapping.internal.Temporals;
 import dev.juherr.datex4j.ocpi.model.v2_3.EVSE;
+import dev.juherr.datex4j.ocpi.model.v2_3.EnergyMix;
 import dev.juherr.datex4j.ocpi.model.v2_3.Location;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,12 @@ import java.util.List;
  * {@code city}, {@code postal_code}, {@code time_zone}, {@code opening_times}, {@code images},
  * {@code directions} are not mapped in this iteration; DATEX II {@code typeOfSite}, {@code brand}
  * have no OCPI equivalent.
+ *
+ * <p><b>Energy mix.</b> OCPI models {@code energy_mix} once per {@code Location}, while DATEX II
+ * models {@link dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricEnergyMix} once per
+ * {@link dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricChargingPoint}. On {@code
+ * toDatex}, the mapped mix is added to every charging point under the site; on {@code toOcpi},
+ * only the first charging point with a mix is read back.
  */
 public final class LocationMapper {
 
@@ -39,6 +48,7 @@ public final class LocationMapper {
     private final EvseMapper evseMapper = new EvseMapper();
     private final GeoLocationMapper geoLocationMapper = new GeoLocationMapper();
     private final OrganisationMapper organisationMapper = new OrganisationMapper();
+    private final EnergyMixMapper energyMixMapper = new EnergyMixMapper();
 
     /** Builds a DATEX II site from {@code location}, or {@code null} if {@code location} is null. */
     public EnergyInfrastructureSite toDatex(Location location) {
@@ -60,7 +70,23 @@ public final class LocationMapper {
                 }
             }
         }
+        if (location.getEnergyMix() != null) {
+            applyEnergyMix(site, location.getEnergyMix());
+        }
         return site;
+    }
+
+    private void applyEnergyMix(EnergyInfrastructureSite site, EnergyMix energyMix) {
+        for (EnergyInfrastructureStation station : site.getEnergyInfrastructureStation()) {
+            if (station == null) {
+                continue;
+            }
+            for (var refillPoint : station.getRefillPoint()) {
+                if (refillPoint instanceof ElectricChargingPoint point) {
+                    point.getElectricEnergyMix().add(energyMixMapper.toDatex(energyMix));
+                }
+            }
+        }
     }
 
     /** Builds an OCPI location from {@code site}, or {@code null} if {@code site} is null. */
@@ -83,6 +109,22 @@ public final class LocationMapper {
             }
         }
         location.setEvses(evses);
+        location.setEnergyMix(energyMixMapper.toOcpi(findFirstEnergyMix(site)));
         return location;
+    }
+
+    private static ElectricEnergyMix findFirstEnergyMix(EnergyInfrastructureSite site) {
+        for (EnergyInfrastructureStation station : site.getEnergyInfrastructureStation()) {
+            if (station == null) {
+                continue;
+            }
+            for (var refillPoint : station.getRefillPoint()) {
+                if (refillPoint instanceof ElectricChargingPoint point
+                        && !point.getElectricEnergyMix().isEmpty()) {
+                    return point.getElectricEnergyMix().get(0);
+                }
+            }
+        }
+        return null;
     }
 }
