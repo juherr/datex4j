@@ -37,6 +37,10 @@ import java.util.List;
  * {@code twentyfourseven} and {@code regularHours}. OCPI {@code exceptionalOpenings} and {@code
  * exceptionalClosings} (one-off exceptional openings/closings) have no DATEX II equivalent mapped
  * here and are silently dropped.
+ *
+ * <p><b>Unset required field.</b> {@link OverallPeriod#getOverallStartTime()} is XSD-required but
+ * left unset on {@code toDatex}, since no OCPI field maps to it (consistent with this codebase's
+ * existing convention of leaving unmappable required fields unset).
  */
 public final class HoursMapper {
 
