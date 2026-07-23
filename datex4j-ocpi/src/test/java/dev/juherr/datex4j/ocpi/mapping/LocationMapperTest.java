@@ -40,6 +40,7 @@ class LocationMapperTest {
         EVSE evse = new EVSE();
         evse.setUid("EVSE-1");
         location.setEvses(List.of(evse));
+        location.setLastUpdated("2026-07-23T10:15:30Z");
         return location;
     }
 
@@ -51,6 +52,7 @@ class LocationMapperTest {
         assertThat(site.getName().getValues().getValue().get(0).getValue()).isEqualTo("Main Street Hub");
         assertThat(site.getEnergyInfrastructureStation()).hasSize(1);
         assertThat(site.getEnergyInfrastructureStation().get(0).getId()).isEqualTo("EVSE-1");
+        assertThat(site.getLastUpdated().toXMLFormat()).isEqualTo("2026-07-23T10:15:30Z");
     }
 
     @Test
@@ -60,6 +62,7 @@ class LocationMapperTest {
         assertThat(roundTrip.getId()).isEqualTo("LOC-1");
         assertThat(roundTrip.getName()).isEqualTo("Main Street Hub");
         assertThat(roundTrip.getEvses()).hasSize(1);
+        assertThat(roundTrip.getLastUpdated()).isEqualTo("2026-07-23T10:15:30Z");
     }
 
     @Test

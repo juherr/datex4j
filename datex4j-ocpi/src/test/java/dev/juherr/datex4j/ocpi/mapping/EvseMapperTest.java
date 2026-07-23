@@ -46,6 +46,7 @@ class EvseMapperTest {
         connector.setStandard(standard);
         connector.setFormat(ConnectorFormat.SOCKET);
         evse.setConnectors(List.of(connector));
+        evse.setLastUpdated("2026-07-23T10:15:30Z");
         return evse;
     }
 
@@ -59,6 +60,7 @@ class EvseMapperTest {
         ElectricChargingPoint point =
                 (ElectricChargingPoint) station.getRefillPoint().get(0);
         assertThat(point.getConnector()).hasSize(1);
+        assertThat(station.getLastUpdated().toXMLFormat()).isEqualTo("2026-07-23T10:15:30Z");
     }
 
     @Test
@@ -68,6 +70,7 @@ class EvseMapperTest {
         assertThat(roundTrip.getUid()).isEqualTo("EVSE-1");
         assertThat(roundTrip.getEvseId()).isEqualTo("NL*TNM*E0001");
         assertThat(roundTrip.getConnectors()).hasSize(1);
+        assertThat(roundTrip.getLastUpdated()).isEqualTo("2026-07-23T10:15:30Z");
     }
 
     @Test
