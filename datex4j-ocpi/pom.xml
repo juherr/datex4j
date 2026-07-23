@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>dev.juherr.datex4j</groupId>
+    <artifactId>datex4j</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>datex4j-ocpi</artifactId>
+  <packaging>jar</packaging>
+
+  <name>datex4j-ocpi</name>
+  <description>
+    Generated OCPI (Open Charge Point Interface) 2.3.0 model, produced from the official OpenAPI
+    specification. Complements the DATEX II EV Charging domain; contains no hand-written logic.
+    An OCPI to DATEX II mapping is planned as a later increment.
+  </description>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.annotation</groupId>
+      <artifactId>jakarta.annotation-api</artifactId>
+      <version>${jakarta.annotation-api.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!--
+        Generate the OCPI 2.3.0 model from the vendored OpenAPI spec.
+        Models only (no API client), Jackson serialization. Output goes to
+        target/generated-sources and is never committed.
+      -->
+      <plugin>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <version>${openapi-generator-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>generate-ocpi-model</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>${project.basedir}/src/main/resources/META-INF/datex4j/ocpi/v2.3.0/openapi.yaml</inputSpec>
+              <generatorName>java</generatorName>
+              <library>native</library>
+              <modelPackage>dev.juherr.datex4j.ocpi.model.v2_3</modelPackage>
+              <invokerPackage>dev.juherr.datex4j.ocpi.support</invokerPackage>
+              <output>${project.build.directory}/generated-sources/openapi</output>
+              <generateApis>false</generateApis>
+              <generateApiTests>false</generateApiTests>
+              <generateApiDocumentation>false</generateApiDocumentation>
+              <generateModelTests>false</generateModelTests>
+              <generateModelDocumentation>false</generateModelDocumentation>
+              <!--
+                The native library's Jackson models reference a small generated ApiClient/JSON
+                support layer (JDK java.net.http only, no extra runtime dependency), so supporting
+                files are generated into a separate support package.
+              -->
+              <generateSupportingFiles>true</generateSupportingFiles>
+              <annotationLibrary>none</annotationLibrary>
+              <documentationProvider>none</documentationProvider>
+              <configOptions>
+                <serializationLibrary>jackson</serializationLibrary>
+                <dateLibrary>java8</dateLibrary>
+                <useJakartaEe>true</useJakartaEe>
+                <openApiNullable>false</openApiNullable>
+                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                <sourceFolder>src/gen/java</sourceFolder>
+              </configOptions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Generated model is JPMS-consumable as an automatic module. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Automatic-Module-Name>dev.juherr.datex4j.ocpi</Automatic-Module-Name>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <!-- No hand-written code to cover; generated model is excluded from coverage. -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
