@@ -43,3 +43,7 @@ mise.local.toml
 
 # Local tooling
 .serena/
+
+# Superpowers working docs (specs/plans) — not part of the published repo
+docs/superpowers/
+.superpowers/
