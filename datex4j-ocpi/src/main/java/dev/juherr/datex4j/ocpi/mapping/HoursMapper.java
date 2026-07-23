@@ -29,6 +29,7 @@ import dev.juherr.datex4j.ocpi.model.v2_3.Hours;
 import dev.juherr.datex4j.ocpi.model.v2_3.RegularHours;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  * Maps an OCPI {@link Hours} to a DATEX II {@link OperatingHours} and back.
@@ -41,6 +42,12 @@ import java.util.List;
  * <p><b>Unset required field.</b> {@link OverallPeriod#getOverallStartTime()} is XSD-required but
  * left unset on {@code toDatex}, since no OCPI field maps to it (consistent with this codebase's
  * existing convention of leaving unmappable required fields unset).
+ *
+ * <p><b>Reverse-mapping collapse.</b> {@code toOcpi} reads only the first applicable day and the
+ * first time slot of each {@link Period}, so an externally-authored {@link
+ * OperatingHoursSpecification} with multi-day or multi-slot periods is collapsed to one weekday and
+ * one time slot per period. OCPI-originated round-trips are unaffected, since {@code toDatex} only
+ * ever emits single-day, single-slot periods.
  */
 public final class HoursMapper {
 
@@ -87,13 +94,17 @@ public final class HoursMapper {
         DayWeekMonth dayWeekMonth = new DayWeekMonth();
         dayWeekMonth.getApplicableDay().add(day);
 
-        TimePeriodOfDay timePeriodOfDay = new TimePeriodOfDay();
-        timePeriodOfDay.setStartTimeOfPeriod(Temporals.toXmlTime(regular.getPeriodBegin()));
-        timePeriodOfDay.setEndTimeOfPeriod(Temporals.toXmlTime(regular.getPeriodEnd()));
-
         Period period = new Period();
         period.getRecurringDayWeekMonthPeriod().add(dayWeekMonth);
-        period.getRecurringTimePeriodOfDay().add(timePeriodOfDay);
+
+        XMLGregorianCalendar startTime = Temporals.toXmlTime(regular.getPeriodBegin());
+        XMLGregorianCalendar endTime = Temporals.toXmlTime(regular.getPeriodEnd());
+        if (startTime != null && endTime != null) {
+            TimePeriodOfDay timePeriodOfDay = new TimePeriodOfDay();
+            timePeriodOfDay.setStartTimeOfPeriod(startTime);
+            timePeriodOfDay.setEndTimeOfPeriod(endTime);
+            period.getRecurringTimePeriodOfDay().add(timePeriodOfDay);
+        }
         return period;
     }
 

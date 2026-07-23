@@ -23,9 +23,9 @@ import dev.juherr.datex4j.ocpi.mapping.internal.ConnectorTypes;
  * {@link dev.juherr.datex4j.model.v3_7.energyinfrastructure.Connector} and back.
  *
  * <p><b>Unmapped fields.</b> OCPI {@code id}, {@code powerType}, {@code tariffIds}, {@code
- * termsAndConditions}, {@code capabilities} have no direct DATEX II slot; DATEX II {@code
- * chargingMode}, {@code countryOfDomesticSocket} have no OCPI slot. OCPI power is in watts and is
- * carried on DATEX {@code maxPowerAtSocket} as-is.
+ * termsAndConditions}, {@code capabilities}, {@code lastUpdated} have no direct DATEX II slot;
+ * DATEX II {@code chargingMode}, {@code countryOfDomesticSocket} have no OCPI slot. OCPI power is
+ * in watts and is carried on DATEX {@code maxPowerAtSocket} as-is.
  */
 public final class ConnectorMapper {
 

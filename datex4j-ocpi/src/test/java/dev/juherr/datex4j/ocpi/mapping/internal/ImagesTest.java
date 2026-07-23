@@ -18,6 +18,7 @@ package dev.juherr.datex4j.ocpi.mapping.internal;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.juherr.datex4j.model.v3_7.common.UrlLink;
+import dev.juherr.datex4j.model.v3_7.common.UrlLinkTypeEnum;
 import dev.juherr.datex4j.ocpi.model.v2_3.Image;
 import java.net.URI;
 import java.util.Arrays;
@@ -35,6 +36,7 @@ class ImagesTest {
 
         assertThat(urlLinks).hasSize(1);
         assertThat(urlLinks.get(0).getUrlLinkAddress()).isEqualTo("https://x/p.png");
+        assertThat(urlLinks.get(0).getUrlLinkType().getValue()).isEqualTo(UrlLinkTypeEnum.IMAGE);
     }
 
     @Test

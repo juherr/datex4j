@@ -34,8 +34,9 @@ import java.util.List;
  * Maps an OCPI {@link Location} to a DATEX II {@link EnergyInfrastructureSite} and back.
  *
  * <p><b>Unmapped fields.</b> OCPI {@code country_code}, {@code party_id}, {@code city}, {@code
- * postal_code} are not mapped in this iteration; DATEX II {@code typeOfSite}, {@code brand} have
- * no OCPI equivalent.
+ * postal_code}, {@code suboperator} are not mapped in this iteration (DATEX II {@code
+ * EnergyInfrastructureSite} has only {@code operator} and {@code owner} organisation slots, no
+ * third one); DATEX II {@code typeOfSite}, {@code brand} have no OCPI equivalent.
  *
  * <p><b>Address and time zone.</b> OCPI {@code address} and {@code time_zone} are deliberately left
  * unmapped: DATEX II only models a street-address/time-zone concept via the
