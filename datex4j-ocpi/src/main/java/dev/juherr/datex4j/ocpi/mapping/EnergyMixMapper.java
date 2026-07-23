@@ -98,6 +98,6 @@ public final class EnergyMixMapper {
         if (percentage == null) {
             return null;
         }
-        return BigDecimal.valueOf(percentage.getPercentage());
+        return new BigDecimal(Float.toString(percentage.getPercentage()));
     }
 }
