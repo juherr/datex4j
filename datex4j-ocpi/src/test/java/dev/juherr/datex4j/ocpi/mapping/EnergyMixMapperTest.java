@@ -112,4 +112,22 @@ class EnergyMixMapperTest {
         assertThat(roundTrip.getEnergySources().get(1).getSource()).isEqualTo(EnergySourceCategory.WIND);
         assertThat(roundTrip.getEnergySources().get(1).getPercentage()).isEqualByComparingTo("40");
     }
+
+    @Test
+    void roundTripsNonIntegerPercentagesWithoutFloatNoise() {
+        EnergyMix ocpi = new EnergyMix();
+        ocpi.setIsGreenEnergy(true);
+        EnergySource solar = new EnergySource();
+        solar.setSource(EnergySourceCategory.SOLAR);
+        solar.setPercentage(new BigDecimal("33.3"));
+        EnergySource wind = new EnergySource();
+        wind.setSource(EnergySourceCategory.WIND);
+        wind.setPercentage(new BigDecimal("66.7"));
+        ocpi.setEnergySources(List.of(solar, wind));
+
+        EnergyMix roundTrip = mapper.toOcpi(mapper.toDatex(ocpi));
+
+        assertThat(roundTrip.getEnergySources().get(0).getPercentage()).isEqualByComparingTo("33.3");
+        assertThat(roundTrip.getEnergySources().get(1).getPercentage()).isEqualByComparingTo("66.7");
+    }
 }
