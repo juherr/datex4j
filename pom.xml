@@ -43,11 +43,11 @@
     <module>datex4j-xml</module>
     <module>datex4j-builders</module>
     <module>datex4j-location</module>
-    <module>datex4j-traffic</module>
-    <module>datex4j-srti</module>
-    <module>datex4j-parking</module>
-    <module>datex4j-evcharging</module>
-    <module>datex4j-uvar</module>
+    <module>datex4j-domain-traffic</module>
+    <module>datex4j-domain-srti</module>
+    <module>datex4j-domain-parking</module>
+    <module>datex4j-domain-evcharging</module>
+    <module>datex4j-domain-uvar</module>
     <module>datex4j-json</module>
     <module>datex4j-validation</module>
     <module>examples</module>
