@@ -16,6 +16,7 @@
 package dev.juherr.datex4j.location;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import dev.juherr.datex4j.model.v3_7.locationreferencing.PointCoordinates;
 import org.junit.jupiter.api.Test;
@@ -23,10 +24,26 @@ import org.junit.jupiter.api.Test;
 class LocationsTest {
 
     @Test
-    void buildsPointCoordinates() {
-        PointCoordinates coordinates = Locations.pointCoordinates(51.5074f, -0.1278f);
+    void buildsPointCoordinatesFromDoubles() {
+        PointCoordinates coordinates = Locations.pointCoordinates(51.5074, -0.1278);
 
-        assertEquals(51.5074f, coordinates.getLatitude());
-        assertEquals(-0.1278f, coordinates.getLongitude());
+        // Values are narrowed to the DATEX II float representation.
+        assertEquals((float) 51.5074, coordinates.getLatitude());
+        assertEquals((float) -0.1278, coordinates.getLongitude());
+    }
+
+    @Test
+    void rejectsOutOfRangeLatitude() {
+        assertThrows(IllegalArgumentException.class, () -> Locations.pointCoordinates(90.5, 0.0));
+    }
+
+    @Test
+    void rejectsOutOfRangeLongitude() {
+        assertThrows(IllegalArgumentException.class, () -> Locations.pointCoordinates(0.0, 200.0));
+    }
+
+    @Test
+    void rejectsNonFiniteValues() {
+        assertThrows(IllegalArgumentException.class, () -> Locations.pointCoordinates(Double.NaN, 0.0));
     }
 }
