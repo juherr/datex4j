@@ -32,7 +32,7 @@ class EvseMapperTest {
 
     private final EvseMapper mapper = new EvseMapper();
 
-    private EVSE sampleEvse() {
+    private static EVSE sampleEvse() {
         EVSE evse = new EVSE();
         evse.setUid("EVSE-1");
         evse.setEvseId("NL*TNM*E0001");

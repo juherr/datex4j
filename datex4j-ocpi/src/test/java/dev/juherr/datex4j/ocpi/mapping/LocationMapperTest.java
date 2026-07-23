@@ -29,7 +29,7 @@ class LocationMapperTest {
 
     private final LocationMapper mapper = new LocationMapper();
 
-    private Location sampleLocation() {
+    private static Location sampleLocation() {
         Location location = new Location();
         location.setId("LOC-1");
         location.setName("Main Street Hub");
