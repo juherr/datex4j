@@ -33,13 +33,21 @@ import java.util.List;
 /**
  * Maps an OCPI {@link Location} to a DATEX II {@link EnergyInfrastructureSite} and back.
  *
- * <p><b>Unmapped fields.</b> OCPI {@code country_code}, {@code party_id}, {@code address},
- * {@code city}, {@code postal_code}, {@code time_zone} are not mapped in this iteration; DATEX II
- * {@code typeOfSite}, {@code brand} have no OCPI equivalent.
+ * <p><b>Unmapped fields.</b> OCPI {@code country_code}, {@code party_id}, {@code city}, {@code
+ * postal_code} are not mapped in this iteration; DATEX II {@code typeOfSite}, {@code brand} have
+ * no OCPI equivalent.
+ *
+ * <p><b>Address and time zone.</b> OCPI {@code address} and {@code time_zone} are deliberately left
+ * unmapped: DATEX II only models a street-address/time-zone concept via the
+ * {@link dev.juherr.datex4j.model.v3_7.locationextension.FacilityLocation} location-extension type,
+ * which is reachable solely through the generic {@code _extension} ({@code xs:any}) mechanism, not
+ * through any typed property of {@link EnergyInfrastructureSite}. Mapping them is deferred to a
+ * future profile/extension mechanism.
  *
  * <p><b>Opening hours.</b> OCPI {@code opening_times} maps to DATEX II {@code operatingHours} via
  * {@link HoursMapper}, covering only the basic subset: 24/7 and regular weekly hours. Exceptional
- * openings/closings have no DATEX II equivalent mapped here and are not round-tripped.
+ * openings/closings ({@code exceptional_openings}, {@code exceptional_closings}) have no DATEX II
+ * equivalent mapped here and are not round-tripped.
  *
  * <p><b>Directions.</b> OCPI {@code directions} (a list of localized texts) is an <b>approximate</b>
  * mapping to DATEX II {@code additionalInformation} (free-text multilingual strings) &mdash; the
