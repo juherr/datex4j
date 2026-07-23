@@ -19,6 +19,7 @@ import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricChargingPoint;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricEnergyMix;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureSite;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureStation;
+import dev.juherr.datex4j.ocpi.mapping.internal.Images;
 import dev.juherr.datex4j.ocpi.mapping.internal.MultilingualStrings;
 import dev.juherr.datex4j.ocpi.mapping.internal.Temporals;
 import dev.juherr.datex4j.ocpi.model.v2_3.EVSE;
@@ -31,9 +32,13 @@ import java.util.List;
  * Maps an OCPI {@link Location} to a DATEX II {@link EnergyInfrastructureSite} and back.
  *
  * <p><b>Unmapped fields.</b> OCPI {@code country_code}, {@code party_id}, {@code address},
- * {@code city}, {@code postal_code}, {@code time_zone}, {@code opening_times}, {@code images},
- * {@code directions} are not mapped in this iteration; DATEX II {@code typeOfSite}, {@code brand}
- * have no OCPI equivalent.
+ * {@code city}, {@code postal_code}, {@code time_zone}, {@code opening_times}, {@code directions}
+ * are not mapped in this iteration; DATEX II {@code typeOfSite}, {@code brand} have no OCPI
+ * equivalent.
+ *
+ * <p><b>Images.</b> OCPI {@code images} maps to DATEX II {@code photoUrl} via {@link
+ * dev.juherr.datex4j.ocpi.mapping.internal.Images}; only the image URL round-trips, other {@code
+ * Image} fields (thumbnail, category, type, width, height) have no DATEX II equivalent.
  *
  * <p><b>Energy mix.</b> OCPI models {@code energy_mix} once per {@code Location}, while DATEX II
  * models {@link dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricEnergyMix} once per
@@ -62,6 +67,7 @@ public final class LocationMapper {
         site.setLastUpdated(Temporals.toXmlDateTime(location.getLastUpdated()));
         site.setOperator(organisationMapper.toDatex(location.getOperator()));
         site.setOwner(organisationMapper.toDatex(location.getOwner()));
+        site.getPhotoUrl().addAll(Images.toDatex(location.getImages()));
         if (location.getEvses() != null) {
             for (var evse : location.getEvses()) {
                 var station = evseMapper.toDatex(evse);
@@ -101,6 +107,7 @@ public final class LocationMapper {
         location.setLastUpdated(Temporals.toIso(site.getLastUpdated()));
         location.setOperator(organisationMapper.toOcpi(site.getOperator()));
         location.setOwner(organisationMapper.toOcpi(site.getOwner()));
+        location.setImages(Images.toOcpi(site.getPhotoUrl()));
         List<EVSE> evses = new ArrayList<>();
         for (EnergyInfrastructureStation station : site.getEnergyInfrastructureStation()) {
             EVSE mapped = evseMapper.toOcpi(station);

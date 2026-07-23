@@ -23,7 +23,9 @@ import dev.juherr.datex4j.ocpi.model.v2_3.BusinessDetails;
 import dev.juherr.datex4j.ocpi.model.v2_3.EVSE;
 import dev.juherr.datex4j.ocpi.model.v2_3.EnergyMix;
 import dev.juherr.datex4j.ocpi.model.v2_3.GeoLocation;
+import dev.juherr.datex4j.ocpi.model.v2_3.Image;
 import dev.juherr.datex4j.ocpi.model.v2_3.Location;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -138,5 +140,42 @@ class LocationMapperTest {
         Location roundTrip = mapper.toOcpi(mapper.toDatex(sampleLocation()));
 
         assertThat(roundTrip.getEnergyMix()).isNull();
+    }
+
+    @Test
+    void toDatexMapsImagesToPhotoUrl() {
+        Location location = sampleLocation();
+        Image image = new Image();
+        image.setUrl(URI.create("https://x/p.png"));
+        location.setImages(List.of(image));
+
+        EnergyInfrastructureSite site = mapper.toDatex(location);
+
+        assertThat(site.getPhotoUrl()).hasSize(1);
+        assertThat(site.getPhotoUrl().get(0).getUrlLinkAddress()).isEqualTo("https://x/p.png");
+    }
+
+    @Test
+    void roundTripsImageUrl() {
+        Location location = sampleLocation();
+        Image image = new Image();
+        image.setUrl(URI.create("https://x/p.png"));
+        location.setImages(List.of(image));
+
+        Location roundTrip = mapper.toOcpi(mapper.toDatex(location));
+
+        assertThat(roundTrip.getImages()).hasSize(1);
+        assertThat(roundTrip.getImages().get(0).getUrl()).isEqualTo(URI.create("https://x/p.png"));
+    }
+
+    @Test
+    void toDatexSkipsImagesWithNullUrl() {
+        Location location = sampleLocation();
+        Image withNullUrl = new Image();
+        location.setImages(Arrays.asList(withNullUrl, null));
+
+        EnergyInfrastructureSite site = mapper.toDatex(location);
+
+        assertThat(site.getPhotoUrl()).isEmpty();
     }
 }

@@ -18,6 +18,7 @@ package dev.juherr.datex4j.ocpi.mapping;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricChargingPoint;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureStation;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.RefillPoint;
+import dev.juherr.datex4j.ocpi.mapping.internal.Images;
 import dev.juherr.datex4j.ocpi.mapping.internal.Temporals;
 import dev.juherr.datex4j.ocpi.model.v2_3.EVSE;
 import java.util.ArrayList;
@@ -28,8 +29,12 @@ import java.util.List;
  * {@link ElectricChargingPoint}, and back.
  *
  * <p><b>Unmapped fields.</b> OCPI {@code status} (map separately via {@code StatusMapper}),
- * {@code capabilities}, {@code floorLevel}, {@code parking}, {@code directions}, {@code images} have
- * no direct slot; only the first refill point is read back to OCPI.
+ * {@code capabilities}, {@code floorLevel}, {@code parking}, {@code directions} have no direct
+ * slot; only the first refill point is read back to OCPI.
+ *
+ * <p><b>Images.</b> OCPI {@code images} maps to DATEX II {@code photoUrl} via {@link
+ * dev.juherr.datex4j.ocpi.mapping.internal.Images}; only the image URL round-trips, other {@code
+ * Image} fields (thumbnail, category, type, width, height) have no DATEX II equivalent.
  */
 public final class EvseMapper {
 
@@ -56,6 +61,7 @@ public final class EvseMapper {
         station.setExternalIdentifier(evse.getEvseId());
         station.setLocationReference(geoLocationMapper.toDatex(evse.getCoordinates()));
         station.setLastUpdated(Temporals.toXmlDateTime(evse.getLastUpdated()));
+        station.getPhotoUrl().addAll(Images.toDatex(evse.getImages()));
         station.getRefillPoint().add(point);
         return station;
     }
@@ -70,6 +76,7 @@ public final class EvseMapper {
         evse.setEvseId(station.getExternalIdentifier());
         evse.setCoordinates(geoLocationMapper.toOcpi(station.getLocationReference()));
         evse.setLastUpdated(Temporals.toIso(station.getLastUpdated()));
+        evse.setImages(Images.toOcpi(station.getPhotoUrl()));
 
         RefillPoint first = station.getRefillPoint().isEmpty()
                 ? null
