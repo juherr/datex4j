@@ -15,6 +15,7 @@
  */
 package dev.juherr.datex4j.ocpi.mapping;
 
+import dev.juherr.datex4j.model.v3_7.common.MultilingualString;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricChargingPoint;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricEnergyMix;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureSite;
@@ -22,6 +23,7 @@ import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureSt
 import dev.juherr.datex4j.ocpi.mapping.internal.Images;
 import dev.juherr.datex4j.ocpi.mapping.internal.MultilingualStrings;
 import dev.juherr.datex4j.ocpi.mapping.internal.Temporals;
+import dev.juherr.datex4j.ocpi.model.v2_3.DisplayText;
 import dev.juherr.datex4j.ocpi.model.v2_3.EVSE;
 import dev.juherr.datex4j.ocpi.model.v2_3.EnergyMix;
 import dev.juherr.datex4j.ocpi.model.v2_3.Location;
@@ -32,9 +34,16 @@ import java.util.List;
  * Maps an OCPI {@link Location} to a DATEX II {@link EnergyInfrastructureSite} and back.
  *
  * <p><b>Unmapped fields.</b> OCPI {@code country_code}, {@code party_id}, {@code address},
- * {@code city}, {@code postal_code}, {@code time_zone}, {@code opening_times}, {@code directions}
- * are not mapped in this iteration; DATEX II {@code typeOfSite}, {@code brand} have no OCPI
- * equivalent.
+ * {@code city}, {@code postal_code}, {@code time_zone}, {@code opening_times} are not mapped in
+ * this iteration; DATEX II {@code typeOfSite}, {@code brand} have no OCPI equivalent.
+ *
+ * <p><b>Directions.</b> OCPI {@code directions} (a list of localized texts) is an <b>approximate</b>
+ * mapping to DATEX II {@code additionalInformation} (free-text multilingual strings) &mdash; the
+ * two fields are not semantically equivalent. Only the first {@code DisplayText} round-trips; on
+ * {@code toDatex}, its language (defaulting to {@code "en"} when absent) and text become one
+ * {@code MultilingualString} appended to {@code additionalInformation}; on {@code toOcpi}, the
+ * first {@code additionalInformation} entry is read back into a single-element {@code directions}
+ * list.
  *
  * <p><b>Images.</b> OCPI {@code images} maps to DATEX II {@code photoUrl} via {@link
  * dev.juherr.datex4j.ocpi.mapping.internal.Images}; only the image URL round-trips, other {@code
@@ -79,7 +88,23 @@ public final class LocationMapper {
         if (location.getEnergyMix() != null) {
             applyEnergyMix(site, location.getEnergyMix());
         }
+        applyFirstDirection(site, location.getDirections());
         return site;
+    }
+
+    private void applyFirstDirection(EnergyInfrastructureSite site, List<DisplayText> directions) {
+        if (directions == null || directions.isEmpty()) {
+            return;
+        }
+        DisplayText direction = directions.get(0);
+        if (direction == null || direction.getText() == null) {
+            return;
+        }
+        String lang = direction.getLanguage() != null ? direction.getLanguage() : DEFAULT_LANG;
+        MultilingualString info = MultilingualStrings.of(lang, direction.getText());
+        if (info != null) {
+            site.getAdditionalInformation().add(info);
+        }
     }
 
     private void applyEnergyMix(EnergyInfrastructureSite site, EnergyMix energyMix) {
@@ -117,7 +142,24 @@ public final class LocationMapper {
         }
         location.setEvses(evses);
         location.setEnergyMix(energyMixMapper.toOcpi(findFirstEnergyMix(site)));
+        location.setDirections(firstDirection(site.getAdditionalInformation()));
         return location;
+    }
+
+    private static List<DisplayText> firstDirection(List<MultilingualString> additionalInformation) {
+        if (additionalInformation == null || additionalInformation.isEmpty()) {
+            return null;
+        }
+        MultilingualString info = additionalInformation.get(0);
+        String text = MultilingualStrings.firstValue(info);
+        if (text == null) {
+            return null;
+        }
+        String lang = info.getValues().getValue().get(0).getLang();
+        DisplayText direction = new DisplayText();
+        direction.setLanguage(lang);
+        direction.setText(text);
+        return List.of(direction);
     }
 
     private static ElectricEnergyMix findFirstEnergyMix(EnergyInfrastructureSite site) {

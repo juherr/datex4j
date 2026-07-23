@@ -19,7 +19,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricChargingPoint;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureSite;
+import dev.juherr.datex4j.ocpi.mapping.internal.MultilingualStrings;
 import dev.juherr.datex4j.ocpi.model.v2_3.BusinessDetails;
+import dev.juherr.datex4j.ocpi.model.v2_3.DisplayText;
 import dev.juherr.datex4j.ocpi.model.v2_3.EVSE;
 import dev.juherr.datex4j.ocpi.model.v2_3.EnergyMix;
 import dev.juherr.datex4j.ocpi.model.v2_3.GeoLocation;
@@ -177,5 +179,43 @@ class LocationMapperTest {
         EnergyInfrastructureSite site = mapper.toDatex(location);
 
         assertThat(site.getPhotoUrl()).isEmpty();
+    }
+
+    @Test
+    void toDatexMapsFirstDirectionToAdditionalInformation() {
+        Location location = sampleLocation();
+        DisplayText direction = new DisplayText();
+        direction.setLanguage("en");
+        direction.setText("Turn left");
+        location.setDirections(List.of(direction));
+
+        EnergyInfrastructureSite site = mapper.toDatex(location);
+
+        assertThat(site.getAdditionalInformation()).hasSize(1);
+        assertThat(MultilingualStrings.firstValue(
+                        site.getAdditionalInformation().get(0)))
+                .isEqualTo("Turn left");
+    }
+
+    @Test
+    void roundTripsFirstDirection() {
+        Location location = sampleLocation();
+        DisplayText direction = new DisplayText();
+        direction.setLanguage("en");
+        direction.setText("Turn left");
+        location.setDirections(List.of(direction));
+
+        Location roundTrip = mapper.toOcpi(mapper.toDatex(location));
+
+        assertThat(roundTrip.getDirections()).hasSize(1);
+        assertThat(roundTrip.getDirections().get(0).getText()).isEqualTo("Turn left");
+        assertThat(roundTrip.getDirections().get(0).getLanguage()).isEqualTo("en");
+    }
+
+    @Test
+    void toOcpiLeavesDirectionsEmptyWhenSiteHasNoAdditionalInformation() {
+        Location roundTrip = mapper.toOcpi(mapper.toDatex(sampleLocation()));
+
+        assertThat(roundTrip.getDirections()).isNullOrEmpty();
     }
 }
