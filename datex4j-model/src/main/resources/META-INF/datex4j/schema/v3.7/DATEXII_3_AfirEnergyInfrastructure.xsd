@@ -1,0 +1,834 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:aegi="http://datex2.eu/schema/3/afirEnergyInfrastructure" version="3.7" targetNamespace="http://datex2.eu/schema/3/afirEnergyInfrastructure" xmlns:com="http://datex2.eu/schema/3/common" xmlns:afac="http://datex2.eu/schema/3/afirFacilities" xmlns:loc="http://datex2.eu/schema/3/locationReferencing" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://datex2.eu/schema/3/locationReferencing" schemaLocation="DATEXII_3_LocationReferencing.xsd" />
+  <xs:import namespace="http://datex2.eu/schema/3/afirFacilities" schemaLocation="DATEXII_3_AfirFacilities.xsd" />
+  <xs:import namespace="http://datex2.eu/schema/3/common" schemaLocation="DATEXII_3_Common.xsd" />
+  <xs:complexType name="_AuthenticationAndIdentificationEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:AuthenticationAndIdentificationEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_BioethanolTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:BioethanolTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_ChargingModeEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:ChargingModeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_ChargingPointUsageTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:ChargingPointUsageTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_ConnectorFormatTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:ConnectorFormatTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_ConnectorTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:ConnectorTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_CurrentTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:CurrentTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_DeliveryUnitEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:DeliveryUnitEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_DieselVehicleTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:DieselVehicleTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_ElectricEnergySourceTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:ElectricEnergySourceTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_EnergyInfrastructureSiteTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:EnergyInfrastructureSiteTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_EnergyInfrastructureTableVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="aegi:EnergyInfrastructureTable" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_EnergyRateReference">
+    <xs:complexContent>
+      <xs:extension base="com:Reference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="aegi:EnergyRate" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_GasConnectorTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:GasConnectorTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_HydrogenFuellingProcessProtocolEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:HydrogenFuellingProcessProtocolEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_HydrogenRefuellingModeEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:HydrogenRefuellingModeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_OctaneTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:OctaneTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_PetrolTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:PetrolTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_PriceTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:PriceTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_RatePolicyEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:RatePolicyEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_RefillPointStatusEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:RefillPointStatusEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_ServiceTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:ServiceTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_SmartRechargingServicesEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:SmartRechargingServicesEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_VehicleToGridCommunicationTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="aegi:VehicleToGridCommunicationTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="AlternativeFuelsRefillPoint">
+    <xs:complexContent>
+      <xs:extension base="aegi:RefillPoint">
+        <xs:sequence>
+          <xs:element name="connector" type="aegi:_GasConnectorTypeEnum" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="otherConnector" type="com:String" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="hydrogenProcessProtocol" type="aegi:_HydrogenFuellingProcessProtocolEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="renewableSourcesRatio" type="com:Percentage" minOccurs="0" maxOccurs="1" />
+          <xs:element name="pressure" type="aegi:Bar" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_alternativeFuelsRefillPointExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="Ampere">
+    <xs:restriction base="com:Float" />
+  </xs:simpleType>
+  <xs:complexType name="AssociatedParking">
+    <xs:complexContent>
+      <xs:extension base="afac:AssociatedFacility">
+        <xs:sequence>
+          <xs:element name="carParkingCapacity" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="truckParkingCapacity" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="bikeParkingCapacity" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_associatedParkingExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="AuthenticationAndIdentificationEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="activeRFIDChip" />
+      <xs:enumeration value="apps" />
+      <xs:enumeration value="calypso" />
+      <xs:enumeration value="cashPayment" />
+      <xs:enumeration value="creditCard" />
+      <xs:enumeration value="debitCard" />
+      <xs:enumeration value="mifareClassic" />
+      <xs:enumeration value="mifareDesfire" />
+      <xs:enumeration value="nfc" />
+      <xs:enumeration value="overTheAir" />
+      <xs:enumeration value="phoneDialog" />
+      <xs:enumeration value="phoneSMS" />
+      <xs:enumeration value="pinpad" />
+      <xs:enumeration value="plc" />
+      <xs:enumeration value="prepaidCard" />
+      <xs:enumeration value="rfid" />
+      <xs:enumeration value="website" />
+      <xs:enumeration value="unlimitedAccess" />
+      <xs:enumeration value="noAccess" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Bar">
+    <xs:restriction base="com:Float" />
+  </xs:simpleType>
+  <xs:simpleType name="BioethanolTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="superE5" />
+      <xs:enumeration value="superE10" />
+      <xs:enumeration value="e15" />
+      <xs:enumeration value="e85" />
+      <xs:enumeration value="e100" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ChargingModeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="mode1AC1p" />
+      <xs:enumeration value="mode1AC3p" />
+      <xs:enumeration value="mode2AC1p" />
+      <xs:enumeration value="mode2AC3p" />
+      <xs:enumeration value="mode3AC3p" />
+      <xs:enumeration value="mode4DC" />
+      <xs:enumeration value="legacyInductive" />
+      <xs:enumeration value="ccs" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ChargingPointUsageTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="electricBoat" />
+      <xs:enumeration value="electricBike" />
+      <xs:enumeration value="electricalDevices" />
+      <xs:enumeration value="electricMotorcycle" />
+      <xs:enumeration value="electricVehicle" />
+      <xs:enumeration value="lorryPowerConsumption" />
+      <xs:enumeration value="motorhomeOrCaravanSupply" />
+      <xs:enumeration value="overheadLineDrivenVehicles" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="Connector">
+    <xs:sequence>
+      <xs:element name="connectorType" type="aegi:_ConnectorTypeEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="otherConnector" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="countryOfDomesticSocket" type="com:CountryCode" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="connectorFormat" type="aegi:_ConnectorFormatTypeEnum" minOccurs="0" maxOccurs="1" />
+      <xs:element name="maxPowerAtSocket" type="aegi:Watt" minOccurs="1" maxOccurs="1" />
+      <xs:element name="voltage" type="aegi:Volt" minOccurs="0" maxOccurs="1" />
+      <xs:element name="maximumCurrent" type="aegi:Ampere" minOccurs="0" maxOccurs="1" />
+      <xs:element name="externalIdentifier" type="afac:ExternalIdentifier" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="_connectorExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="ConnectorFormatTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="cableMode2" />
+      <xs:enumeration value="cableMode3" />
+      <xs:enumeration value="otherCable" />
+      <xs:enumeration value="socket" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ConnectorTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="chademo" />
+      <xs:enumeration value="cee3" />
+      <xs:enumeration value="cee5" />
+      <xs:enumeration value="yazaki" />
+      <xs:enumeration value="domestic" />
+      <xs:enumeration value="domesticAType" />
+      <xs:enumeration value="domesticBType" />
+      <xs:enumeration value="domesticCType" />
+      <xs:enumeration value="domesticDType" />
+      <xs:enumeration value="domesticEType" />
+      <xs:enumeration value="domesticFType" />
+      <xs:enumeration value="domesticGType" />
+      <xs:enumeration value="domesticHType" />
+      <xs:enumeration value="domesticIType" />
+      <xs:enumeration value="domesticJType" />
+      <xs:enumeration value="domesticKType" />
+      <xs:enumeration value="domesticLType" />
+      <xs:enumeration value="domesticMType" />
+      <xs:enumeration value="domesticNType" />
+      <xs:enumeration value="domesticOType" />
+      <xs:enumeration value="iec60309x2single16" />
+      <xs:enumeration value="iec60309x2three16" />
+      <xs:enumeration value="iec60309x2three32" />
+      <xs:enumeration value="iec60309x2three64" />
+      <xs:enumeration value="iec62196T1" />
+      <xs:enumeration value="iec62196T1COMBO" />
+      <xs:enumeration value="iec62196T2" />
+      <xs:enumeration value="iec62196T2COMBO" />
+      <xs:enumeration value="iec62196T3A" />
+      <xs:enumeration value="iec62196T3C" />
+      <xs:enumeration value="mcs" />
+      <xs:enumeration value="pantographBottomUp" />
+      <xs:enumeration value="pantographTopDown" />
+      <xs:enumeration value="teslaConnectorEurope" />
+      <xs:enumeration value="teslaConnectorAmerica" />
+      <xs:enumeration value="teslaR" />
+      <xs:enumeration value="teslaS" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CurrentTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ac" />
+      <xs:enumeration value="dc" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="DedicatedParkingSpaces">
+    <xs:complexContent>
+      <xs:extension base="afac:FacilityObject">
+        <xs:sequence>
+          <xs:element name="numberOfSpaces" type="com:NonNegativeInteger" minOccurs="1" maxOccurs="1" />
+          <xs:element name="userSpecific" type="afac:_UserTypeEnum" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_dedicatedParkingSpacesExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="DeliveryUnitEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="litre" />
+      <xs:enumeration value="kWh" />
+      <xs:enumeration value="kg" />
+      <xs:enumeration value="m3" />
+      <xs:enumeration value="imperialGallon" />
+      <xs:enumeration value="usGallon" />
+      <xs:enumeration value="gasGallonEquivalent" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="DieselRefillPoint">
+    <xs:complexContent>
+      <xs:extension base="aegi:RefillPoint">
+        <xs:sequence>
+          <xs:element name="dieselVehicleType" type="aegi:_DieselVehicleTypeEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="cetane" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="bioDieselShare" type="com:Percentage" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_dieselRefillPointExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="DieselVehicleTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="carDiesel" />
+      <xs:enumeration value="truckDiesel" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ElectricChargingEquipment">
+    <xs:complexContent>
+      <xs:extension base="afac:SupplementalFacility">
+        <xs:sequence>
+          <xs:element name="electricChargingPoint" type="aegi:ElectricChargingPoint" />
+          <xs:element name="_electricChargingEquipmentExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ElectricChargingPoint">
+    <xs:complexContent>
+      <xs:extension base="aegi:RefillPoint">
+        <xs:sequence>
+          <xs:element name="currentType" type="aegi:_CurrentTypeEnum" minOccurs="1" maxOccurs="1" />
+          <xs:element name="usageType" type="aegi:_ChargingPointUsageTypeEnum" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="vehicleToGridCommunicationType" type="aegi:_VehicleToGridCommunicationTypeEnum" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="numberOfConnectors" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="availableVoltage" type="aegi:Volt" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="availableChargingPower" type="aegi:Watt" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="chargingMode" type="aegi:_ChargingModeEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="smartRechargingServices" type="aegi:_SmartRechargingServicesEnum" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="otherSmartRechargingServices" type="com:MultilingualString" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="connector" type="aegi:Connector" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_electricChargingPointExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ElectricChargingPointStatus">
+    <xs:complexContent>
+      <xs:extension base="aegi:RefillPointStatus">
+        <xs:sequence>
+          <xs:element name="remainingChargingTime" type="com:Seconds" minOccurs="0" maxOccurs="1" />
+          <xs:element name="currentVoltage" type="aegi:Volt" minOccurs="0" maxOccurs="1" />
+          <xs:element name="currentChargingPower" type="aegi:Watt" minOccurs="0" maxOccurs="1" />
+          <xs:element name="nextAvailableChargingSlots" type="com:DateTime" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_electricChargingPointStatusExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ElectricEnergy">
+    <xs:complexContent>
+      <xs:extension base="aegi:EnergyProduct">
+        <xs:sequence>
+          <xs:element name="carbonDioxideImpact" type="aegi:GramsPerKilowattHour" minOccurs="0" maxOccurs="1" />
+          <xs:element name="nuclearWasteImpact" type="aegi:GramsPerKilowattHour" minOccurs="0" maxOccurs="1" />
+          <xs:element name="electricEnergySourceRatio" type="aegi:ElectricEnergySourceRatio" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_electricEnergyExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ElectricEnergySourceRatio">
+    <xs:sequence>
+      <xs:element name="energySource" type="aegi:_ElectricEnergySourceTypeEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="otherEnergySource" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="sourceRatioValue" type="com:PercentageValue" />
+      <xs:element name="_electricEnergySourceRatioExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="ElectricEnergySourceTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="biogas" />
+      <xs:enumeration value="coal" />
+      <xs:enumeration value="gas" />
+      <xs:enumeration value="nuclear" />
+      <xs:enumeration value="solar" />
+      <xs:enumeration value="water" />
+      <xs:enumeration value="wind" />
+      <xs:enumeration value="generalGreen" />
+      <xs:enumeration value="generalFossil" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="EnergyBasedApplicability">
+    <xs:sequence>
+      <xs:element name="fromKWh" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+      <xs:element name="toKWh" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+      <xs:element name="_energyBasedApplicabilityExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="EnergyInfrastructureSite">
+    <xs:complexContent>
+      <xs:extension base="afac:Facility">
+        <xs:sequence>
+          <xs:element name="typeOfSite" type="aegi:_EnergyInfrastructureSiteTypeEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="brand" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+          <xs:element name="exclusiveUsers" type="afac:_UserTypeEnum" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="preferredUsers" type="afac:_UserTypeEnum" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="serviceType" type="aegi:ServiceType" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="entrance" type="loc:Location" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="exit" type="loc:Location" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="energyInfrastructureStation" type="aegi:EnergyInfrastructureStation" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="energyDistributor" type="afac:Organisation" minOccurs="0" />
+          <xs:element name="mobilityServiceProvider" type="afac:Organisation" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="roamingPlatform" type="afac:Organisation" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_energyInfrastructureSiteExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="EnergyInfrastructureSiteStatus">
+    <xs:complexContent>
+      <xs:extension base="afac:FacilityStatus">
+        <xs:sequence>
+          <xs:element name="availableCarParkingPlaces" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="availableTruckParkingPlaces" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="energyInfrastructureStationStatus" type="aegi:EnergyInfrastructureStationStatus" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="serviceType" type="aegi:ServiceType" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_energyInfrastructureSiteStatusExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="EnergyInfrastructureSiteTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="inBuilding" />
+      <xs:enumeration value="openSpace" />
+      <xs:enumeration value="onstreet" />
+      <xs:enumeration value="onCompanySite" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="EnergyInfrastructureStation">
+    <xs:complexContent>
+      <xs:extension base="afac:Facility">
+        <xs:sequence>
+          <xs:element name="totalMaximumPower" type="aegi:Watt" minOccurs="0" maxOccurs="1" />
+          <xs:element name="authenticationAndIdentificationMethods" type="aegi:_AuthenticationAndIdentificationEnum" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="numberOfRefillPoints" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="userInterfaceLanguage" type="com:Language" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="renewableSources" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+          <xs:element name="energyDistributor" type="afac:Organisation" minOccurs="0" />
+          <xs:element name="mobilityServiceProvider" type="afac:Organisation" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="roamingPlatform" type="afac:Organisation" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="hydrogen" type="aegi:Hydrogen" minOccurs="0" />
+          <xs:element name="serviceType" type="aegi:ServiceType" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="refillPoint" type="aegi:RefillPoint" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="energyProduct" type="aegi:EnergyProduct" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_energyInfrastructureStationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="EnergyInfrastructureStationStatus">
+    <xs:complexContent>
+      <xs:extension base="afac:FacilityStatus">
+        <xs:sequence>
+          <xs:element name="isAvailable" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+          <xs:element name="limitedHydrogenAmount" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+          <xs:element name="refillPointStatus" type="aegi:RefillPointStatus" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="serviceType" type="aegi:ServiceType" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="energyRateUpdate" type="aegi:EnergyRateUpdate" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_energyInfrastructureStationStatusExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="EnergyInfrastructureStatusPublication">
+    <xs:complexContent>
+      <xs:extension base="com:PayloadPublication">
+        <xs:sequence>
+          <xs:element name="tableReference" type="aegi:_EnergyInfrastructureTableVersionedReference" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="headerInformation" type="com:HeaderInformation" minOccurs="0" />
+          <xs:element name="energyInfrastructureSiteStatus" type="aegi:EnergyInfrastructureSiteStatus" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_energyInfrastructureStatusPublicationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="EnergyInfrastructureTable">
+    <xs:sequence>
+      <xs:element name="tableName" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="energyInfrastructureSite" type="aegi:EnergyInfrastructureSite" maxOccurs="unbounded" />
+      <xs:element name="_energyInfrastructureTableExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="version" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="EnergyInfrastructureTablePublication">
+    <xs:complexContent>
+      <xs:extension base="com:PayloadPublication">
+        <xs:sequence>
+          <xs:element name="headerInformation" type="com:HeaderInformation" minOccurs="0" />
+          <xs:element name="energyInfrastructureTable" type="aegi:EnergyInfrastructureTable" maxOccurs="unbounded" />
+          <xs:element name="_energyInfrastructureTablePublicationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="EnergyPrice">
+    <xs:sequence>
+      <xs:element name="priceGroupIndex" type="com:NonNegativeInteger" minOccurs="1" maxOccurs="1" />
+      <xs:element name="priceType" type="aegi:_PriceTypeEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="value" type="afac:AmountOfMoney" minOccurs="1" maxOccurs="1" />
+      <xs:element name="priceCap" type="afac:AmountOfMoney" minOccurs="0" maxOccurs="1" />
+      <xs:element name="taxIncluded" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="taxRate" type="com:Percentage" minOccurs="0" maxOccurs="1" />
+      <xs:element name="additionalInformation" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="overallPeriod" type="com:OverallPeriod" minOccurs="0" />
+      <xs:element name="timeBasedApplicability" type="aegi:TimeBasedApplicability" minOccurs="0" />
+      <xs:element name="energyBasedApplicability" type="aegi:EnergyBasedApplicability" minOccurs="0" />
+      <xs:element name="_energyPriceExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="EnergyProduct">
+    <xs:sequence>
+      <xs:element name="energyProductName" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="isGreenEnergy" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="energyRateByReference" type="aegi:_EnergyRateReference" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="energyProductInformation" type="com:Url" minOccurs="0" maxOccurs="1" />
+      <xs:element name="renewableEnergyEvidence" type="com:Url" minOccurs="0" maxOccurs="1" />
+      <xs:element name="mobilityServiceProvider" type="afac:Organisation" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="energyRate" type="aegi:EnergyRate" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="_energyProductExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="EnergyRate">
+    <xs:sequence>
+      <xs:element name="ratePolicy" type="aegi:_RatePolicyEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="lastUpdated" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="applicableCurrency" type="afac:CurrencyCode" minOccurs="1" maxOccurs="unbounded" />
+      <xs:element name="rateName" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="combinationWithParkingFee" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="maximumDeliveryFee" type="afac:AmountOfMoney" minOccurs="0" maxOccurs="1" />
+      <xs:element name="minimumDeliveryFee" type="afac:AmountOfMoney" minOccurs="0" maxOccurs="1" />
+      <xs:element name="discount" type="com:Percentage" minOccurs="0" maxOccurs="1" />
+      <xs:element name="additionalInformation" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="payment" type="afac:Payment" minOccurs="0" />
+      <xs:element name="energyPrice" type="aegi:EnergyPrice" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="overallPeriod" type="com:OverallPeriod" minOccurs="0" />
+      <xs:element name="_energyRateExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="EnergyRateUpdate">
+    <xs:sequence>
+      <xs:element name="lastUpdated" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="energyRateReference" type="aegi:_EnergyRateReference" minOccurs="1" maxOccurs="1" />
+      <xs:element name="additionalInformation" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="energyPrice" type="aegi:EnergyPrice" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="_energyRateUpdateExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="GasConnectorTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="gaseousHydrogen" />
+      <xs:enumeration value="liquidHydrogen" />
+      <xs:enumeration value="cng" />
+      <xs:enumeration value="lng" />
+      <xs:enumeration value="lpg" />
+      <xs:enumeration value="biogas" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="GramsPerKilowattHour">
+    <xs:restriction base="com:Float" />
+  </xs:simpleType>
+  <xs:complexType name="Hydrogen">
+    <xs:sequence>
+      <xs:element name="refuellingMode" type="aegi:_HydrogenRefuellingModeEnum" minOccurs="1" maxOccurs="unbounded" />
+      <xs:element name="cumulativeCapacityperDay" type="aegi:KilogramPerDay" minOccurs="1" maxOccurs="1" />
+      <xs:element name="_hydrogenExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="HydrogenFuellingProcessProtocolEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="saej2601v2010" />
+      <xs:enumeration value="saej2601v2014" />
+      <xs:enumeration value="saej2601v2016" />
+      <xs:enumeration value="mcMethod" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="HydrogenRefuellingModeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="gaseousHydrogen350barCar" />
+      <xs:enumeration value="gaseousHydrogen350barTruck" />
+      <xs:enumeration value="gaseousHydrogen700barCar" />
+      <xs:enumeration value="gaseousHydrogen700barTruck" />
+      <xs:enumeration value="liquidHydrogen" />
+      <xs:enumeration value="cryoCompressedHydrogren" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="KilogramPerDay">
+    <xs:restriction base="com:Float" />
+  </xs:simpleType>
+  <xs:simpleType name="OctaneTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="octane95" />
+      <xs:enumeration value="octane98" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="PetrolRefillPoint">
+    <xs:complexContent>
+      <xs:extension base="aegi:RefillPoint">
+        <xs:sequence>
+          <xs:element name="petrolType" type="aegi:_PetrolTypeEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="octaneType" type="aegi:_OctaneTypeEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="octane" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="bioethanolShare" type="com:Percentage" minOccurs="0" maxOccurs="1" />
+          <xs:element name="bioethanolType" type="aegi:_BioethanolTypeEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_petrolRefillPointExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="PetrolTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="leaded" />
+      <xs:enumeration value="unleaded" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="PlannedRefillPointStatus">
+    <xs:sequence>
+      <xs:element name="status" type="aegi:_RefillPointStatusEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="overallPeriod" type="com:OverallPeriod" />
+      <xs:element name="_plannedRefillPointStatusExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="PriceTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="pricePerMinute" />
+      <xs:enumeration value="pricePerKg" />
+      <xs:enumeration value="pricePerKWh" />
+      <xs:enumeration value="basePrice" />
+      <xs:enumeration value="flatRate" />
+      <xs:enumeration value="free" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="RatePolicyEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="contract" />
+      <xs:enumeration value="adHoc" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="RefillPoint" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="afac:Facility">
+        <xs:sequence>
+          <xs:element name="deliveryUnit" type="aegi:_DeliveryUnitEnum" minOccurs="1" maxOccurs="1" />
+          <xs:element name="maximumDeliveryAmount" type="aegi:Units" minOccurs="0" maxOccurs="1" />
+          <xs:element name="minimumDeliveryAmount" type="aegi:Units" minOccurs="0" maxOccurs="1" />
+          <xs:element name="modelType" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+          <xs:element name="reservation" type="afac:_ReservationTypeEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="energyProduct" type="aegi:EnergyProduct" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_refillPointExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RefillPointStatus">
+    <xs:complexContent>
+      <xs:extension base="afac:FacilityStatus">
+        <xs:sequence>
+          <xs:element name="status" type="aegi:_RefillPointStatusEnum" minOccurs="1" maxOccurs="1" />
+          <xs:element name="unitsInStock" type="aegi:Units" minOccurs="0" maxOccurs="1" />
+          <xs:element name="energyRateUpdate" type="aegi:EnergyRateUpdate" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="waitingTime" type="afac:DurationValue" minOccurs="0" />
+          <xs:element name="plannedRefillPointStatus" type="aegi:PlannedRefillPointStatus" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_refillPointStatusExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="RefillPointStatusEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="available" />
+      <xs:enumeration value="blocked" />
+      <xs:enumeration value="charging" />
+      <xs:enumeration value="faulted" />
+      <xs:enumeration value="inoperative" />
+      <xs:enumeration value="occupied" />
+      <xs:enumeration value="outOfOrder" />
+      <xs:enumeration value="outOfStock" />
+      <xs:enumeration value="planned" />
+      <xs:enumeration value="removed" />
+      <xs:enumeration value="reserved" />
+      <xs:enumeration value="unavailable" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ServiceType">
+    <xs:sequence>
+      <xs:element name="serviceType" type="aegi:_ServiceTypeEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="overallPeriod" type="com:OverallPeriod" minOccurs="0" />
+      <xs:element name="_serviceTypeExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="ServiceTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="fullService" />
+      <xs:enumeration value="physicalAttendance" />
+      <xs:enumeration value="selfService" />
+      <xs:enumeration value="unattended" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SmartRechargingServicesEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="remoteMonitoring" />
+      <xs:enumeration value="powerOptimisationByUser" />
+      <xs:enumeration value="bidirectionalRecharging" />
+      <xs:enumeration value="plugAndCharge" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="TimeBasedApplicability">
+    <xs:sequence>
+      <xs:element name="fromMinute" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+      <xs:element name="toMinute" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+      <xs:element name="_timeBasedApplicabilityExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="Units">
+    <xs:restriction base="com:Float" />
+  </xs:simpleType>
+  <xs:simpleType name="VehicleToGridCommunicationTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="none" />
+      <xs:enumeration value="iso15118" />
+      <xs:enumeration value="iec619802" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Volt">
+    <xs:restriction base="com:Float" />
+  </xs:simpleType>
+  <xs:simpleType name="Watt">
+    <xs:restriction base="com:Float" />
+  </xs:simpleType>
+</xs:schema>

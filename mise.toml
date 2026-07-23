@@ -1,0 +1,5 @@
+# Developer toolchain pinned for reproducible local and CI builds.
+# Maven is provided by the committed Maven Wrapper (./mvnw), so only Java is pinned here.
+# Run `mise install` to provision Java, then `./mvnw verify`.
+[tools]
+java = "temurin-25.0.2"

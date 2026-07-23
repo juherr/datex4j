@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:tmp="http://datex2.eu/schema/3/trafficManagementPlan" version="3.7" targetNamespace="http://datex2.eu/schema/3/trafficManagementPlan" xmlns:vms="http://datex2.eu/schema/3/vms" xmlns:com="http://datex2.eu/schema/3/common" xmlns:sit="http://datex2.eu/schema/3/situation" xmlns:loc="http://datex2.eu/schema/3/locationReferencing" xmlns:rer="http://datex2.eu/schema/3/reroutingManagementEnhanced" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://datex2.eu/schema/3/reroutingManagementEnhanced" schemaLocation="DATEXII_3_ReroutingManagementEnhanced.xsd" />
+  <xs:import namespace="http://datex2.eu/schema/3/locationReferencing" schemaLocation="DATEXII_3_LocationReferencing.xsd" />
+  <xs:import namespace="http://datex2.eu/schema/3/situation" schemaLocation="DATEXII_3_Situation.xsd" />
+  <xs:import namespace="http://datex2.eu/schema/3/common" schemaLocation="DATEXII_3_Common.xsd" />
+  <xs:import namespace="http://datex2.eu/schema/3/vms" schemaLocation="DATEXII_3_Vms.xsd" />
+  <xs:complexType name="_ActionDefinitionVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="tmp:ActionDefinition" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_ConditionOperator">
+    <xs:simpleContent>
+      <xs:extension base="tmp:ConditionOperator">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_MeasureDefinitionVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="tmp:MeasureDefinition" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_OrganisationReference">
+    <xs:complexContent>
+      <xs:extension base="com:Reference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="fac:Organisation" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_ResponseEffectTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="tmp:ResponseEffectTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_ResponseStageEnum">
+    <xs:simpleContent>
+      <xs:extension base="tmp:ResponseStageEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_ScenarioVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="tmp:Scenario" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_SituationRecordVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="sit:SituationRecord" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_StrategyDefinitionVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="tmp:StrategyDefinition" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_StrategyVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="tmp:Strategy" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_TmplanOperationStatusEnum">
+    <xs:simpleContent>
+      <xs:extension base="tmp:TmplanOperationStatusEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_TmplanTableVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="tmp:TmplanTable" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Action" abstract="true">
+    <xs:sequence>
+      <xs:element name="versionTime" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="_actionExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ActionByReference">
+    <xs:complexContent>
+      <xs:extension base="tmp:Action">
+        <xs:sequence>
+          <xs:element name="actionReference" type="tmp:_ActionDefinitionVersionedReference" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_actionByReferenceExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ActionDefinition">
+    <xs:complexContent>
+      <xs:extension base="tmp:Action">
+        <xs:sequence>
+          <xs:element name="externalIdentification" type="com:String" minOccurs="0" maxOccurs="1" />
+          <xs:element name="description" type="com:MultilingualString" minOccurs="1" maxOccurs="1" />
+          <xs:element name="actionImplementer" type="com:InternationalIdentifier" minOccurs="0" />
+          <xs:element name="operatorActionDefinition" type="tmp:OperatorActionDefinition" minOccurs="0" />
+          <xs:element name="activationDelay" type="tmp:ActivationDelay" minOccurs="0" />
+          <xs:element name="_actionDefinitionExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required" />
+        <xs:attribute name="version" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ActivationConditions">
+    <xs:sequence>
+      <xs:element name="automaticallyApproved" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="automaticallyImplemented" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="automaticallyDeactivated" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="activationDelay" type="tmp:ActivationDelay" minOccurs="0" />
+      <xs:element name="activationTrigger" type="tmp:Condition" minOccurs="0" />
+      <xs:element name="deactivationTrigger" type="tmp:Condition" minOccurs="0" />
+      <xs:element name="_activationConditionsExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ActivationDelay">
+    <xs:sequence>
+      <xs:element name="activationDelay" type="com:Seconds" minOccurs="1" maxOccurs="1" />
+      <xs:element name="deactivationDelay" type="com:Seconds" minOccurs="1" maxOccurs="1" />
+      <xs:element name="_activationDelayExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CompositeMeasure">
+    <xs:complexContent>
+      <xs:extension base="tmp:Measure">
+        <xs:sequence>
+          <xs:element name="measure" type="tmp:Measure" minOccurs="2" maxOccurs="unbounded" />
+          <xs:element name="_compositeMeasureExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required" />
+        <xs:attribute name="version" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Condition" abstract="true">
+    <xs:sequence>
+      <xs:element name="negate" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="_conditionExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="ConditionOperator">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="and" />
+      <xs:enumeration value="or" />
+      <xs:enumeration value="xor" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ConditionSet">
+    <xs:complexContent>
+      <xs:extension base="tmp:Condition">
+        <xs:sequence>
+          <xs:element name="operator" type="tmp:_ConditionOperator" minOccurs="1" maxOccurs="1" />
+          <xs:element name="condition" type="tmp:Condition" maxOccurs="unbounded" />
+          <xs:element name="_conditionSetExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="Duration">
+    <xs:restriction base="com:String" />
+  </xs:simpleType>
+  <xs:complexType name="GeneralInstructionOrMessageToRoadUsersDefinition">
+    <xs:complexContent>
+      <xs:extension base="tmp:NetworkManagementDefinition">
+        <xs:sequence>
+          <xs:element name="generalInstructionToRoadUsersType" type="sit:_GeneralInstructionToRoadUsersTypeEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="generalMessageToRoadUsers" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_generalInstructionOrMessageToRoadUsersDefinitionExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GeneralNetworkManagementDefinition">
+    <xs:complexContent>
+      <xs:extension base="tmp:NetworkManagementDefinition">
+        <xs:sequence>
+          <xs:element name="generalNetworkManagementType" type="sit:_GeneralNetworkManagementTypeEnum" minOccurs="1" maxOccurs="1" />
+          <xs:element name="trafficManuallyDirectedBy" type="sit:_PersonCategoryEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_generalNetworkManagementDefinitionExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ImpactKind">
+    <xs:sequence>
+      <xs:element name="capacityReduced" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="impactDetail" type="sit:Impact" minOccurs="0" />
+      <xs:element name="_impactKindExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Measure" abstract="true">
+    <xs:sequence>
+      <xs:element name="versionTime" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="_measureExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MeasureByReference">
+    <xs:complexContent>
+      <xs:extension base="tmp:Measure">
+        <xs:sequence>
+          <xs:element name="measureReference" type="tmp:_MeasureDefinitionVersionedReference" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_measureByReferenceExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MeasureDefinition">
+    <xs:complexContent>
+      <xs:extension base="tmp:Measure">
+        <xs:sequence>
+          <xs:element name="externalIdentification" type="com:String" minOccurs="0" maxOccurs="1" />
+          <xs:element name="description" type="com:MultilingualString" minOccurs="1" maxOccurs="1" />
+          <xs:element name="responsibleRoadOperator" type="tmp:_OrganisationReference" minOccurs="1" maxOccurs="1" />
+          <xs:element name="shortName" type="com:String" minOccurs="0" maxOccurs="1" />
+          <xs:element name="action" type="tmp:Action" maxOccurs="unbounded" />
+          <xs:element name="responseType" type="tmp:ResponseType" minOccurs="0" />
+          <xs:element name="activationConditions" type="tmp:ActivationConditions" minOccurs="0" />
+          <xs:element name="_measureDefinitionExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required" />
+        <xs:attribute name="version" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NetworkManagementDefinition" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="tmp:OperatorActionDefinition">
+        <xs:sequence>
+          <xs:element name="complianceOption" type="sit:_ComplianceOptionEnum" minOccurs="1" maxOccurs="1" />
+          <xs:element name="applicableForTrafficDirection" type="loc:_DirectionEnum" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="applicableForTrafficType" type="sit:_TrafficTypeEnum" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="placesAtWhichApplicable" type="sit:_PlacesEnum" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="automaticallyInitiated" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+          <xs:element name="forVehiclesWithCharacteristicsOf" type="com:VehicleCharacteristics" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_networkManagementDefinitionExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NonPredefinedAction">
+    <xs:sequence>
+      <xs:element name="nonPredefinedActionDescription" type="com:MultilingualString" minOccurs="1" maxOccurs="1" />
+      <xs:element name="nonPredefinedActionId" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="actionImplementingSituationRecord" type="tmp:_SituationRecordVersionedReference" minOccurs="0" maxOccurs="1" />
+      <xs:element name="internationalIdentifier" type="com:InternationalIdentifier" />
+      <xs:element name="operatorActionDefinition" type="tmp:OperatorActionDefinition" minOccurs="0" />
+      <xs:element name="_nonPredefinedActionExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NonPredefinedTmplanOperation">
+    <xs:complexContent>
+      <xs:extension base="tmp:TmplanOperation">
+        <xs:sequence>
+          <xs:element name="nonPredefinedScenarioDescription" type="com:MultilingualString" minOccurs="1" maxOccurs="1" />
+          <xs:element name="nonPredefinedScenarioId" type="com:String" minOccurs="0" maxOccurs="1" />
+          <xs:element name="nonPredefinedStrategyDescription" type="com:MultilingualString" minOccurs="1" maxOccurs="1" />
+          <xs:element name="nonPredefinedStrategyId" type="com:String" minOccurs="0" maxOccurs="1" />
+          <xs:element name="nonPredefinedAction" type="tmp:NonPredefinedAction" maxOccurs="unbounded" />
+          <xs:element name="_nonPredefinedTmplanOperationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="OperatorActionDefinition" abstract="true">
+    <xs:sequence>
+      <xs:element name="targetLocation" type="loc:LocationReference" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="_operatorActionDefinitionExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="OperatorActionExtendedTmplan">
+    <xs:sequence>
+      <xs:element name="tmplanImplementingAction" type="tmp:TmplanImplementingAction" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PredefinedAction">
+    <xs:sequence>
+      <xs:element name="actionImplementingSituationRecord" type="tmp:_SituationRecordVersionedReference" minOccurs="0" maxOccurs="1" />
+      <xs:element name="predefinedActionReference" type="tmp:_ActionDefinitionVersionedReference" minOccurs="1" maxOccurs="1" />
+      <xs:element name="_predefinedActionExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PredefinedMeasureSelected">
+    <xs:sequence>
+      <xs:element name="predefinedMeasureReference" type="tmp:_MeasureDefinitionVersionedReference" minOccurs="1" maxOccurs="1" />
+      <xs:element name="predefinedAction" type="tmp:PredefinedAction" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="_predefinedMeasureSelectedExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PredefinedTmplanOperation">
+    <xs:complexContent>
+      <xs:extension base="tmp:TmplanOperation">
+        <xs:sequence>
+          <xs:element name="tmplanTableReference" type="tmp:_TmplanTableVersionedReference" minOccurs="1" maxOccurs="1" />
+          <xs:element name="predefinedScenarioReference" type="tmp:_ScenarioVersionedReference" minOccurs="0" maxOccurs="1" />
+          <xs:element name="predefinedStrategyReference" type="tmp:_StrategyVersionedReference" minOccurs="0" maxOccurs="1" />
+          <xs:element name="predefinedMeasureSelected" type="tmp:PredefinedMeasureSelected" minOccurs="0" />
+          <xs:element name="problemLocationOverride" type="loc:LocationReference" minOccurs="0" />
+          <xs:element name="_predefinedTmplanOperationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ReroutingManagementDefinition">
+    <xs:complexContent>
+      <xs:extension base="tmp:NetworkManagementDefinition">
+        <xs:sequence>
+          <xs:element name="name" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+          <xs:element name="type" type="rer:_ReroutingTypeEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="bindingTrafficRegulation" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+          <xs:element name="preventiveMeasure" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+          <xs:element name="routingOrigin" type="loc:Location" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="routingThrough" type="loc:Location" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="routingDestination" type="loc:Location" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="originalRoute" type="rer:RouteDescription" minOccurs="0" />
+          <xs:element name="alternativeRoute" type="rer:RouteDescription" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_reroutingManagementDefinitionExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="ResponseEffectTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="capacityIncrease" />
+      <xs:enumeration value="inflowReduction" />
+      <xs:enumeration value="outflowIncrease" />
+      <xs:enumeration value="prewarning" />
+      <xs:enumeration value="rerouting" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ResponseStageEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="prewarning" />
+      <xs:enumeration value="basic" />
+      <xs:enumeration value="trafficCondition" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ResponseType">
+    <xs:sequence>
+      <xs:element name="effect" type="tmp:_ResponseEffectTypeEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="stage" type="tmp:_ResponseStageEnum" minOccurs="0" maxOccurs="1" />
+      <xs:element name="_responseTypeExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RoadOrCarriagewayOrLaneManagementDefinition">
+    <xs:complexContent>
+      <xs:extension base="tmp:NetworkManagementDefinition">
+        <xs:sequence>
+          <xs:element name="roadOrCarriagewayOrLaneManagementType" type="sit:_RoadOrCarriagewayOrLaneManagementTypeEnum" minOccurs="1" maxOccurs="1" />
+          <xs:element name="minimumCarOccupancy" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_roadOrCarriagewayOrLaneManagementDefinitionExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RoadsideAssistanceDefinition">
+    <xs:complexContent>
+      <xs:extension base="tmp:OperatorActionDefinition">
+        <xs:sequence>
+          <xs:element name="roadsideAssistanceType" type="sit:_RoadsideAssistanceTypeEnum" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_roadsideAssistanceDefinitionExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Scenario">
+    <xs:sequence>
+      <xs:element name="externalIdentification" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="versionTime" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="description" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="situationType" type="sit:_CauseTypeEnum" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="emergencyServicesAccessibility" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="name" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="scenarioDirector" type="tmp:_OrganisationReference" minOccurs="0" maxOccurs="1" />
+      <xs:element name="situationFilter" type="com:String" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="strategy" type="tmp:Strategy" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="impactKind" type="tmp:ImpactKind" minOccurs="0" />
+      <xs:element name="problemLocation" type="loc:LocationReference" minOccurs="0" />
+      <xs:element name="scheduledScenarioValidity" type="com:OverallPeriod" minOccurs="0" />
+      <xs:element name="situationTypeDetail" type="sit:DetailedCauseType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="_scenarioExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="version" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="SignSetting">
+    <xs:sequence>
+      <xs:element name="signSettingDefinition" type="tmp:SignSettingDefinition" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SignSettingDefinition">
+    <xs:complexContent>
+      <xs:extension base="tmp:NetworkManagementDefinition">
+        <xs:sequence>
+          <xs:element name="setting" type="vms:VmsControllerStatus" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_signSettingDefinitionExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SpeedManagementDefinition">
+    <xs:complexContent>
+      <xs:extension base="tmp:NetworkManagementDefinition">
+        <xs:sequence>
+          <xs:element name="speedManagementType" type="sit:_SpeedManagementTypeEnum" minOccurs="1" maxOccurs="1" />
+          <xs:element name="temporarySpeedLimit" type="com:KilometresPerHour" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_speedManagementDefinitionExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Strategy" abstract="true">
+    <xs:sequence>
+      <xs:element name="versionTime" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="_strategyExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StrategyByReference">
+    <xs:complexContent>
+      <xs:extension base="tmp:Strategy">
+        <xs:sequence>
+          <xs:element name="strategyReference" type="tmp:_StrategyDefinitionVersionedReference" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_strategyByReferenceExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="StrategyDefinition">
+    <xs:complexContent>
+      <xs:extension base="tmp:Strategy">
+        <xs:sequence>
+          <xs:element name="externalIdentification" type="com:String" minOccurs="0" maxOccurs="1" />
+          <xs:element name="description" type="com:MultilingualString" minOccurs="1" maxOccurs="1" />
+          <xs:element name="shortName" type="com:String" minOccurs="0" maxOccurs="1" />
+          <xs:element name="priority" type="com:Integer" minOccurs="0" maxOccurs="1" />
+          <xs:element name="strategyMeasure" type="tmp:StrategyMeasure" maxOccurs="unbounded" />
+          <xs:element name="responseType" type="tmp:ResponseType" minOccurs="0" />
+          <xs:element name="overallActivation" type="tmp:ActivationConditions" minOccurs="0" />
+          <xs:element name="_strategyDefinitionExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required" />
+        <xs:attribute name="version" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="StrategyMeasure">
+    <xs:sequence>
+      <xs:element name="processingIndex" type="com:Integer" minOccurs="0" maxOccurs="1" />
+      <xs:element name="essentialForStrategy" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="activationConditions" type="tmp:ActivationConditions" minOccurs="0" />
+      <xs:element name="measure" type="tmp:Measure" />
+      <xs:element name="_strategyMeasureExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TmplanImplementingAction">
+    <xs:sequence>
+      <xs:element name="nonPredefinedActionIdReference" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="predefinedActionReference" type="tmp:_ActionDefinitionVersionedReference" minOccurs="0" maxOccurs="1" />
+      <xs:element name="predefinedMeasureReference" type="tmp:_MeasureDefinitionVersionedReference" minOccurs="0" maxOccurs="1" />
+      <xs:element name="predefinedStrategyReference" type="tmp:_StrategyDefinitionVersionedReference" minOccurs="0" maxOccurs="1" />
+      <xs:element name="_tmplanImplementingActionExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TmplanOperation" abstract="true">
+    <xs:sequence>
+      <xs:element name="creationTime" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="expiryTime" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+      <xs:element name="status" type="tmp:_TmplanOperationStatusEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="statusReason" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="versionTime" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="involvedRoadOperatorConsensusRate" type="com:Percentage" minOccurs="0" maxOccurs="1" />
+      <xs:element name="headerInformation" type="com:HeaderInformation" />
+      <xs:element name="_tmplanOperationExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="version" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="TmplanOperationPublication">
+    <xs:complexContent>
+      <xs:extension base="com:PayloadPublication">
+        <xs:sequence>
+          <xs:element name="tmplanOperation" type="tmp:TmplanOperation" maxOccurs="unbounded" />
+          <xs:element name="_tmplanOperationPublicationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="TmplanOperationStatusEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="scheduled" />
+      <xs:enumeration value="schedulingAborted" />
+      <xs:enumeration value="schedulingRejected" />
+      <xs:enumeration value="schedulingRequested" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="TmplanTable">
+    <xs:sequence>
+      <xs:element name="externalIdentification" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="versionTime" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="description" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="scenario" type="tmp:Scenario" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="measure" type="tmp:Measure" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="action" type="tmp:Action" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="_tmplanTableExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="version" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="TmplanTablePublication">
+    <xs:complexContent>
+      <xs:extension base="com:PayloadPublication">
+        <xs:sequence>
+          <xs:element name="headerInformation" type="com:HeaderInformation" />
+          <xs:element name="tmplanTable" type="tmp:TmplanTable" maxOccurs="unbounded" />
+          <xs:element name="_tmplanTablePublicationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TrafficSignalSettingDefinition">
+    <xs:complexContent>
+      <xs:extension base="tmp:NetworkManagementDefinition">
+        <xs:sequence>
+          <xs:element name="setting" type="com:String" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_trafficSignalSettingDefinitionExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TriggerCondition">
+    <xs:complexContent>
+      <xs:extension base="tmp:Condition">
+        <xs:sequence>
+          <xs:element name="triggerDefinition" type="com:String" minOccurs="1" maxOccurs="1" />
+          <xs:element name="description" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_triggerConditionExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="WinterDrivingManagementDefinition">
+    <xs:complexContent>
+      <xs:extension base="tmp:NetworkManagementDefinition">
+        <xs:sequence>
+          <xs:element name="winterEquipmentManagementType" type="com:_WinterEquipmentManagementTypeEnum" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_winterDrivingManagementDefinitionExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

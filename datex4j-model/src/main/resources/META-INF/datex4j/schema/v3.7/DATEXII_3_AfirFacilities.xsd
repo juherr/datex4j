@@ -1,0 +1,1361 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:afac="http://datex2.eu/schema/3/afirFacilities" version="3.7" targetNamespace="http://datex2.eu/schema/3/afirFacilities" xmlns:com="http://datex2.eu/schema/3/common" xmlns:aegi="http://datex2.eu/schema/3/afirEnergyInfrastructure" xmlns:loc="http://datex2.eu/schema/3/locationReferencing" xmlns:locx="http://datex2.eu/schema/3/locationExtension" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://datex2.eu/schema/3/locationExtension" schemaLocation="DATEXII_3_LocationExtension.xsd" />
+  <xs:import namespace="http://datex2.eu/schema/3/locationReferencing" schemaLocation="DATEXII_3_LocationReferencing.xsd" />
+  <xs:import namespace="http://datex2.eu/schema/3/afirEnergyInfrastructure" schemaLocation="DATEXII_3_AfirEnergyInfrastructure.xsd" />
+  <xs:import namespace="http://datex2.eu/schema/3/common" schemaLocation="DATEXII_3_Common.xsd" />
+  <xs:complexType name="_AccessibilityEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:AccessibilityEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_AvailabilityEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:AvailabilityEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_CredentialTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:CredentialTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_EnergySourceEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:EnergySourceEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_EquipmentTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:EquipmentTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_FacilityObjectVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="afac:FacilityObject" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_FacilityTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:FacilityTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_ImageFormatEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:ImageFormatEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_MeansOfPaymentEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:MeansOfPaymentEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_OpeningStatusEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:OpeningStatusEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_OperatingHoursSpecificationVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="afac:OperatingHoursSpecification" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_OperatingHoursTableVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="afac:OperatingHoursTable" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_OperationStatusEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:OperationStatusEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_OrganisationTableVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="afac:OrganisationTable" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_OrganisationTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:OrganisationTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_OrganisationVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="afac:Organisation" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_PaymentBrandsEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:PaymentBrandsEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_PaymentModeEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:PaymentModeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_RateAvailabilityTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:RateAvailabilityTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_RateLineTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:RateLineTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_RateLineUsageConditionsTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:RateLineUsageConditionsTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_RateMatrixVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="afac:RateMatrix" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_RateTableVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="afac:RateTable" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_RateTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:RateTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_ReferenceableOrganisationVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="afac:ReferenceableOrganisation" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_RefundTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:RefundTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_ReservationTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:ReservationTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_RightSpecificationVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="afac:RightSpecification" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="_RightTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:RightTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_ServiceFacilityTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:ServiceFacilityTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_SurchargeTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:SurchargeTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_TypeOfIdentifierEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:TypeOfIdentifierEnum">
+        <xs:attribute name="_extendedValue" type="afac:_TypeOfIdentifierEnumExtensionType" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:simpleType name="_TypeOfIdentifierEnumExtensionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="evseId" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="_UnitOfTimeEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:UnitOfTimeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_UserTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="afac:UserTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:simpleType name="AccessibilityEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="barrierFreeAccessible" />
+      <xs:enumeration value="disabilityAccessible" />
+      <xs:enumeration value="wheelChairAccessible" />
+      <xs:enumeration value="disabilityFacilities" />
+      <xs:enumeration value="orientationSystemForBlindPeople" />
+      <xs:enumeration value="marking" />
+      <xs:enumeration value="none" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="AfirFacilityLocation">
+    <xs:sequence>
+      <xs:element name="timeZone" type="afac:TimeZone" minOccurs="0" maxOccurs="1" />
+      <xs:element name="address" type="locx:Address" minOccurs="0" />
+      <xs:element name="nutsArea" type="afac:NutsArea" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Amenities">
+    <xs:sequence>
+      <xs:element name="illuminated" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="roofed" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="illuminatedRechargingParkingNearby" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="roofedRechargingParkingNearby" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="_amenitiesExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AmountInCurrency">
+    <xs:sequence>
+      <xs:element name="currencyValue" type="afac:AmountOfMoney" minOccurs="1" maxOccurs="1" />
+      <xs:element name="currencyType" type="afac:CurrencyCode" minOccurs="1" maxOccurs="1" />
+      <xs:element name="_amountInCurrencyExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="AmountOfMoney">
+    <xs:restriction base="com:Decimal">
+      <xs:totalDigits value="8" />
+      <xs:fractionDigits value="2" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="AnOrganisation">
+    <xs:complexContent>
+      <xs:extension base="afac:Organisation">
+        <xs:sequence>
+          <xs:element name="lastUpdated" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+          <xs:element name="name" type="com:MultilingualString" minOccurs="1" maxOccurs="1" />
+          <xs:element name="legalName" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+          <xs:element name="description" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+          <xs:element name="linkToGeneralInformation" type="com:Url" minOccurs="0" maxOccurs="1" />
+          <xs:element name="linkToLogo" type="com:Url" minOccurs="0" maxOccurs="1" />
+          <xs:element name="linkToWebform" type="com:Url" minOccurs="0" maxOccurs="1" />
+          <xs:element name="available24hours" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+          <xs:element name="responsibility" type="com:MultilingualString" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="publishingAgreement" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+          <xs:element name="type" type="afac:_OrganisationTypeEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="nationalOrganisationNumber" type="com:String" minOccurs="0" maxOccurs="1" />
+          <xs:element name="nationalRegister" type="com:String" minOccurs="0" maxOccurs="1" />
+          <xs:element name="vatIdentificationNumber" type="com:String" minOccurs="0" maxOccurs="1" />
+          <xs:element name="organisationUnit" type="afac:OrganisationUnit" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="externalIdentifier" type="afac:ExternalIdentifier" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="subOrganisation" type="afac:Organisation" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_anOrganisationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AssignedRightTimeRelative" abstract="true">
+    <xs:sequence>
+      <xs:element name="_assignedRightTimeRelativeExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AssociatedFacility">
+    <xs:sequence>
+      <xs:element name="type" type="afac:_FacilityTypeEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="facilityReference" type="afac:_FacilityObjectVersionedReference" minOccurs="0" maxOccurs="1" />
+      <xs:element name="description" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="_associatedFacilityExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="AvailabilityEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="available" />
+      <xs:enumeration value="notAvailable" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ClosureInformation">
+    <xs:sequence>
+      <xs:element name="permananentlyClosed" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="temporarilyClosed" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="closedFrom" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+      <xs:element name="temporarilyClosedUntil" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+      <xs:element name="_closureInformationExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ContactInformation">
+    <xs:sequence>
+      <xs:element name="language" type="com:Language" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="telephoneNumber" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="faxNumber" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="eMail" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="_contactInformationExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ContactPerson">
+    <xs:complexContent>
+      <xs:extension base="afac:ContactInformation">
+        <xs:sequence>
+          <xs:element name="name" type="com:String" minOccurs="1" maxOccurs="1" />
+          <xs:element name="firstName" type="com:String" minOccurs="0" maxOccurs="1" />
+          <xs:element name="title" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+          <xs:element name="position" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_contactPersonExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Credential">
+    <xs:sequence>
+      <xs:element name="type" type="afac:_CredentialTypeEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="otherType" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="_credentialExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CredentialAssigned">
+    <xs:complexContent>
+      <xs:extension base="afac:Credential">
+        <xs:sequence>
+          <xs:element name="localIdentifier" type="com:String" minOccurs="0" maxOccurs="1" />
+          <xs:element name="issuer" type="afac:_OrganisationVersionedReference" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_credentialAssignedExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="CredentialTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="hangtag" />
+      <xs:enumeration value="permit" />
+      <xs:enumeration value="licensePlate" />
+      <xs:enumeration value="ticket" />
+      <xs:enumeration value="eticket" />
+      <xs:enumeration value="barcode" />
+      <xs:enumeration value="bluetooth" />
+      <xs:enumeration value="rfid" />
+      <xs:enumeration value="qrCode" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CurrencyCode">
+    <xs:restriction base="com:String">
+      <xs:pattern value="[A-Z][A-Z][A-Z]" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="Dimension">
+    <xs:sequence>
+      <xs:element name="length" type="com:MetresAsFloat" minOccurs="0" maxOccurs="1" />
+      <xs:element name="width" type="com:MetresAsFloat" minOccurs="0" maxOccurs="1" />
+      <xs:element name="height" type="com:MetresAsFloat" minOccurs="0" maxOccurs="1" />
+      <xs:element name="usableArea" type="afac:SquareMetres" minOccurs="0" maxOccurs="1" />
+      <xs:element name="_dimensionExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="Duration">
+    <xs:restriction base="xs:duration" />
+  </xs:simpleType>
+  <xs:complexType name="DurationValue">
+    <xs:complexContent>
+      <xs:extension base="com:DataValue">
+        <xs:sequence>
+          <xs:element name="duration" type="com:Seconds" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_durationValueExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Eligibility">
+    <xs:sequence>
+      <xs:element name="name" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="noFeeToUse" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="description" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="priority" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+      <xs:element name="combinable" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="qualification" type="afac:Qualification" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="rateDiscount" type="afac:RateDiscount" minOccurs="0" />
+      <xs:element name="rightSpecification" type="afac:RightSpecification" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="_eligibilityExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="EnergySourceEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="all" />
+      <xs:enumeration value="battery" />
+      <xs:enumeration value="biodiesel" />
+      <xs:enumeration value="diesel" />
+      <xs:enumeration value="dieselBatteryHybrid" />
+      <xs:enumeration value="ethanol" />
+      <xs:enumeration value="hydrogen" />
+      <xs:enumeration value="liquidGas" />
+      <xs:enumeration value="lpg" />
+      <xs:enumeration value="methane" />
+      <xs:enumeration value="petrol" />
+      <xs:enumeration value="petrol95Octane" />
+      <xs:enumeration value="petrol98Octane" />
+      <xs:enumeration value="petrolBatteryHybrid" />
+      <xs:enumeration value="petrolLeaded" />
+      <xs:enumeration value="petrolUnleaded" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="EquipmentTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="bathRoom" />
+      <xs:enumeration value="bikeParking" />
+      <xs:enumeration value="cashMachine" />
+      <xs:enumeration value="copyMachineOrService" />
+      <xs:enumeration value="defibrillator" />
+      <xs:enumeration value="dsrcReceiver" />
+      <xs:enumeration value="dumpingStation" />
+      <xs:enumeration value="electricChargingStation" />
+      <xs:enumeration value="elevator" />
+      <xs:enumeration value="faxMachineOrService" />
+      <xs:enumeration value="fireExtinguisher" />
+      <xs:enumeration value="fireHose" />
+      <xs:enumeration value="fireHydrant" />
+      <xs:enumeration value="firstAidEquipment" />
+      <xs:enumeration value="iceFreeScaffold" />
+      <xs:enumeration value="informationPoint" />
+      <xs:enumeration value="informationStele" />
+      <xs:enumeration value="internetTerminal" />
+      <xs:enumeration value="internetWireless" />
+      <xs:enumeration value="luggageLocker" />
+      <xs:enumeration value="paymentMachine" />
+      <xs:enumeration value="picnicFacilities" />
+      <xs:enumeration value="playground" />
+      <xs:enumeration value="publicCardPhone" />
+      <xs:enumeration value="publicCoinPhone" />
+      <xs:enumeration value="publicPhone" />
+      <xs:enumeration value="refuseBin" />
+      <xs:enumeration value="restingFacilities" />
+      <xs:enumeration value="safeDeposit" />
+      <xs:enumeration value="shelter" />
+      <xs:enumeration value="shower" />
+      <xs:enumeration value="snowAndIceRemovalEquipment" />
+      <xs:enumeration value="toilet" />
+      <xs:enumeration value="tollTerminal" />
+      <xs:enumeration value="tyreAirPressureEquipment" />
+      <xs:enumeration value="waterBasin" />
+      <xs:enumeration value="vendingMachine" />
+      <xs:enumeration value="waterSupply" />
+      <xs:enumeration value="wasteDisposal" />
+      <xs:enumeration value="waterTap" />
+      <xs:enumeration value="none" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ExternalIdentifier">
+    <xs:sequence>
+      <xs:element name="identifier" type="com:String" minOccurs="1" maxOccurs="1" />
+      <xs:element name="typeOfIdentifier" type="afac:_TypeOfIdentifierEnum" minOccurs="0" maxOccurs="1" />
+      <xs:element name="otherTypeOfIdentifier" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="_externalIdentifierExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Facility" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="afac:FacilityObject">
+        <xs:sequence>
+          <xs:element name="supplementalFacility" type="afac:SupplementalFacility" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="dedicatedParkingSpaces" type="aegi:DedicatedParkingSpaces" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_facilityExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="FacilityObject" abstract="true">
+    <xs:sequence>
+      <xs:element name="name" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="alias" type="com:MultilingualString" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="lastUpdated" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+      <xs:element name="description" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="accessibility" type="afac:_AccessibilityEnum" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="additionalInformation" type="com:MultilingualString" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="externalIdentifier" type="afac:ExternalIdentifier" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="informationWebsite" type="com:UrlLink" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="photoUrl" type="com:UrlLink" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="photo" type="afac:Image" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="operatingHours" type="afac:OperatingHours" minOccurs="0" />
+      <xs:element name="locationReference" type="loc:LocationReference" minOccurs="0" />
+      <xs:element name="owner" type="afac:Organisation" minOccurs="0" />
+      <xs:element name="operator" type="afac:Organisation" minOccurs="0" />
+      <xs:element name="helpdesk" type="afac:Organisation" minOccurs="0" />
+      <xs:element name="associatedFacility" type="afac:AssociatedFacility" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="rates" type="afac:Rates" minOccurs="0" />
+      <xs:element name="applicableForVehicles" type="com:VehicleCharacteristics" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="dimension" type="afac:Dimension" minOccurs="0" />
+      <xs:element name="amenities" type="afac:Amenities" minOccurs="0" />
+      <xs:element name="_facilityObjectExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="version" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="FacilityObjectStatus">
+    <xs:sequence>
+      <xs:element name="reference" type="afac:_FacilityObjectVersionedReference" minOccurs="1" maxOccurs="1" />
+      <xs:element name="lastUpdated" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+      <xs:element name="openingStatus" type="afac:_OpeningStatusEnum" minOccurs="0" maxOccurs="1" />
+      <xs:element name="operationStatus" type="afac:_OperationStatusEnum" minOccurs="0" maxOccurs="1" />
+      <xs:element name="regularOperatingHoursInForce" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="statusDescription" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="newOperatingHours" type="afac:OperatingHours" minOccurs="0" />
+      <xs:element name="newRates" type="afac:Rates" minOccurs="0" />
+      <xs:element name="fault" type="com:Fault" minOccurs="0" />
+      <xs:element name="_facilityObjectStatusExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="FacilityStatus">
+    <xs:complexContent>
+      <xs:extension base="afac:FacilityObjectStatus">
+        <xs:sequence>
+          <xs:element name="supplementalFacilityStatus" type="afac:SupplementalFacilityStatus" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_facilityStatusExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="FacilityTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="airport" />
+      <xs:enumeration value="carPark" />
+      <xs:enumeration value="carRentalStation" />
+      <xs:enumeration value="electricChargingStation" />
+      <xs:enumeration value="energyInfrastructureSite" />
+      <xs:enumeration value="lorryParkingSite" />
+      <xs:enumeration value="parkingSite" />
+      <xs:enumeration value="petrolStation" />
+      <xs:enumeration value="publicTransportDepot" />
+      <xs:enumeration value="publicTransportHub" />
+      <xs:enumeration value="shoppingCentre" />
+      <xs:enumeration value="trainStation" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="FreeOfCharge">
+    <xs:complexContent>
+      <xs:extension base="afac:Rates">
+        <xs:sequence>
+          <xs:element name="_freeOfChargeExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GeneralRateInformation">
+    <xs:complexContent>
+      <xs:extension base="afac:Rates">
+        <xs:sequence>
+          <xs:element name="_generalRateInformationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Image">
+    <xs:sequence>
+      <xs:element name="imageData" type="com:Base64Binary" minOccurs="1" maxOccurs="1" />
+      <xs:element name="imageFormat" type="afac:_ImageFormatEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="_imageExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="ImageFormatEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="bmp" />
+      <xs:enumeration value="gif" />
+      <xs:enumeration value="jpeg" />
+      <xs:enumeration value="png" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="LinkedRightSpecification">
+    <xs:sequence>
+      <xs:element name="qualifyingRightSpec" type="afac:_RightSpecificationVersionedReference" minOccurs="0" maxOccurs="1" />
+      <xs:element name="assignedRightTimeRelative" type="afac:AssignedRightTimeRelative" minOccurs="0" />
+      <xs:element name="_linkedRightSpecificationExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="MeansOfPaymentEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="paymentCreditCard" />
+      <xs:enumeration value="cashBillsOnly" />
+      <xs:enumeration value="cashCoinsOnly" />
+      <xs:enumeration value="tollTag" />
+      <xs:enumeration value="mobileAccount" />
+      <xs:enumeration value="cashCoinsAndBills" />
+      <xs:enumeration value="prepay" />
+      <xs:enumeration value="paymentDebitCard" />
+      <xs:enumeration value="paymentValueCard" />
+      <xs:enumeration value="nfc" />
+      <xs:enumeration value="emv" />
+      <xs:enumeration value="qrCode" />
+      <xs:enumeration value="website" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="NutsArea">
+    <xs:sequence>
+      <xs:element name="nutsCodeType" type="loc:_NutsCodeTypeEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="nutsCode" type="loc:NutsCode" minOccurs="1" maxOccurs="1" />
+      <xs:element name="_nutsAreaExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="OpenAllHours">
+    <xs:complexContent>
+      <xs:extension base="afac:OperatingHours">
+        <xs:sequence>
+          <xs:element name="_openAllHoursExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="OpeningStatusEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="open" />
+      <xs:enumeration value="openWithServiceLimitation" />
+      <xs:enumeration value="closed" />
+      <xs:enumeration value="closedOnHoliday" />
+      <xs:enumeration value="closedOnMaintenance" />
+      <xs:enumeration value="temporarilyClosed" />
+      <xs:enumeration value="statusUnknown" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="OperatingHours" abstract="true">
+    <xs:sequence>
+      <xs:element name="closureInformation" type="afac:ClosureInformation" minOccurs="0" />
+      <xs:element name="_operatingHoursExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="OperatingHoursByReference">
+    <xs:complexContent>
+      <xs:extension base="afac:OperatingHours">
+        <xs:sequence>
+          <xs:element name="operatingHoursReference" type="afac:_OperatingHoursSpecificationVersionedReference" minOccurs="1" maxOccurs="1" />
+          <xs:element name="operatingHoursTableReference" type="afac:_OperatingHoursTableVersionedReference" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_operatingHoursByReferenceExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="OperatingHoursPublication">
+    <xs:complexContent>
+      <xs:extension base="com:PayloadPublication">
+        <xs:sequence>
+          <xs:element name="headerInformation" type="com:HeaderInformation" minOccurs="0" />
+          <xs:element name="operatingHoursTable" type="afac:OperatingHoursTable" maxOccurs="unbounded" />
+          <xs:element name="_operatingHoursPublicationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="OperatingHoursSpecification">
+    <xs:complexContent>
+      <xs:extension base="afac:OperatingHours">
+        <xs:sequence>
+          <xs:element name="lastUpdated" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+          <xs:element name="label" type="com:String" minOccurs="0" maxOccurs="1" />
+          <xs:element name="operatingAllYear" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+          <xs:element name="urlLinkAddress" type="com:Url" minOccurs="0" maxOccurs="1" />
+          <xs:element name="overallPeriod" type="com:OverallPeriod" />
+          <xs:element name="_operatingHoursSpecificationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required" />
+        <xs:attribute name="version" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="OperatingHoursTable">
+    <xs:sequence>
+      <xs:element name="name" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="versionTime" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="informationManager" type="com:InternationalIdentifier" minOccurs="0" />
+      <xs:element name="operatingHoursSpecification" type="afac:OperatingHoursSpecification" maxOccurs="unbounded" />
+      <xs:element name="_operatingHoursTableExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="version" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:simpleType name="OperationStatusEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="inOperation" />
+      <xs:enumeration value="limitedOperation" />
+      <xs:enumeration value="notInOperation" />
+      <xs:enumeration value="notInOperationAbnormal" />
+      <xs:enumeration value="technicalDefect" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="Organisation" abstract="true">
+    <xs:sequence>
+      <xs:element name="generalTimeValidity" type="com:OverallPeriod" minOccurs="0" />
+      <xs:element name="_organisationExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="OrganisationByReference">
+    <xs:complexContent>
+      <xs:extension base="afac:Organisation">
+        <xs:sequence>
+          <xs:element name="organisationReference" type="afac:_ReferenceableOrganisationVersionedReference" minOccurs="1" maxOccurs="1" />
+          <xs:element name="organisationTableReference" type="afac:_OrganisationTableVersionedReference" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_organisationByReferenceExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="OrganisationPublication">
+    <xs:complexContent>
+      <xs:extension base="com:PayloadPublication">
+        <xs:sequence>
+          <xs:element name="headerInformation" type="com:HeaderInformation" minOccurs="0" />
+          <xs:element name="organisationTable" type="afac:OrganisationTable" maxOccurs="unbounded" />
+          <xs:element name="_organisationPublicationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="OrganisationTable">
+    <xs:sequence>
+      <xs:element name="name" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="versionTime" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="informationManager" type="com:InternationalIdentifier" minOccurs="0" />
+      <xs:element name="anOrganisation" type="afac:AnOrganisation" maxOccurs="unbounded" />
+      <xs:element name="_organisationTableExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="version" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:simpleType name="OrganisationTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="publicSector" />
+      <xs:enumeration value="privateSector" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="OrganisationUnit">
+    <xs:sequence>
+      <xs:element name="name" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="function" type="com:MultilingualString" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="locationReference" type="loc:LocationReference" minOccurs="0" />
+      <xs:element name="contactInformation" type="afac:ContactInformation" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="operatingHours" type="afac:OperatingHours" minOccurs="0" />
+      <xs:element name="_organisationUnitExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Payment">
+    <xs:sequence>
+      <xs:element name="paymentMode" type="afac:_PaymentModeEnum" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="paymentMeans" type="afac:_MeansOfPaymentEnum" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="otherPaymentMeans" type="com:MultilingualString" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="brandsAccepted" type="afac:_PaymentBrandsEnum" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="otherBrandsAccepted" type="com:String" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="_paymentExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="PaymentBrandsEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="americanExpress" />
+      <xs:enumeration value="applePay" />
+      <xs:enumeration value="cirrus" />
+      <xs:enumeration value="dinersClub" />
+      <xs:enumeration value="discoverCard" />
+      <xs:enumeration value="giroCard" />
+      <xs:enumeration value="maestro" />
+      <xs:enumeration value="masterCard" />
+      <xs:enumeration value="visa" />
+      <xs:enumeration value="vpay" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PaymentModeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="prepay" />
+      <xs:enumeration value="payOnEntry" />
+      <xs:enumeration value="payPriorToExit" />
+      <xs:enumeration value="payAfterExit" />
+      <xs:enumeration value="payAndExit" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="Qualification">
+    <xs:sequence>
+      <xs:element name="withReservation" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="propulsionEnergyType" type="afac:_EnergySourceEnum" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="noFeeToUse" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="withMembership" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="membershipName" type="com:MultilingualString" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="memberOfOtherRateTable" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="rateTableMember" type="afac:_RateTableVersionedReference" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="activeAssignedRight" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="payment" type="afac:Payment" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="vehicleCharacteristics" type="com:VehicleCharacteristics" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="linkedRightSpecification" type="afac:LinkedRightSpecification" minOccurs="0" />
+      <xs:element name="userQualification" type="afac:UserQualification" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="_qualificationExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="RateAvailabilityTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="private" />
+      <xs:enumeration value="public" />
+      <xs:enumeration value="restricted" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="RateDiscount">
+    <xs:sequence>
+      <xs:element name="discountRate" type="com:Percentage" minOccurs="0" maxOccurs="1" />
+      <xs:element name="fixedValue" type="afac:AmountInCurrency" minOccurs="0" />
+      <xs:element name="_rateDiscountExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RateLine">
+    <xs:sequence>
+      <xs:element name="rateLineType" type="afac:_RateLineTypeEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="description" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="durationStart" type="com:Time" minOccurs="0" maxOccurs="1" />
+      <xs:element name="durationEnd" type="com:Time" minOccurs="0" maxOccurs="1" />
+      <xs:element name="incrementPeriod" type="afac:Duration" minOccurs="0" maxOccurs="1" />
+      <xs:element name="value" type="afac:AmountOfMoney" minOccurs="1" maxOccurs="1" />
+      <xs:element name="minValue" type="afac:AmountOfMoney" minOccurs="0" maxOccurs="1" />
+      <xs:element name="maxValue" type="afac:AmountOfMoney" minOccurs="0" maxOccurs="1" />
+      <xs:element name="usageCondition" type="afac:_RateLineUsageConditionsTypeEnum" minOccurs="0" maxOccurs="1" />
+      <xs:element name="usageDurationLimitation" type="afac:Duration" minOccurs="0" maxOccurs="1" />
+      <xs:element name="usageCountLimitation" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+      <xs:element name="surcharge" type="afac:Surcharge" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="rateLineTax" type="afac:RateLineTax" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="_rateLineExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="sequence" type="com:Integer" use="required" />
+  </xs:complexType>
+  <xs:complexType name="RateLineCollection">
+    <xs:sequence>
+      <xs:element name="applicableCurrency" type="afac:CurrencyCode" minOccurs="0" maxOccurs="1" />
+      <xs:element name="minValueCollection" type="afac:AmountOfMoney" minOccurs="0" maxOccurs="1" />
+      <xs:element name="maxValueCollection" type="afac:AmountOfMoney" minOccurs="0" maxOccurs="1" />
+      <xs:element name="validStart" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+      <xs:element name="validEnd" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+      <xs:element name="minTime" type="afac:Duration" minOccurs="0" maxOccurs="1" />
+      <xs:element name="maxTime" type="afac:Duration" minOccurs="0" maxOccurs="1" />
+      <xs:element name="resetTime" type="com:Time" minOccurs="0" maxOccurs="1" />
+      <xs:element name="taxIncluded" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="taxRate" type="com:Percentage" minOccurs="0" maxOccurs="1" />
+      <xs:element name="taxValue" type="afac:AmountOfMoney" minOccurs="0" maxOccurs="1" />
+      <xs:element name="relativeTimes" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="rateLine" type="afac:RateLine" maxOccurs="unbounded" />
+      <xs:element name="_rateLineCollectionExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="collectionSequence" type="com:Integer" use="required" />
+  </xs:complexType>
+  <xs:complexType name="RateLineTax">
+    <xs:sequence>
+      <xs:element name="taxValue" type="afac:AmountOfMoney" minOccurs="0" maxOccurs="1" />
+      <xs:element name="taxRate" type="com:Percentage" minOccurs="0" maxOccurs="1" />
+      <xs:element name="taxIncluded" type="com:Boolean" minOccurs="1" maxOccurs="1" />
+      <xs:element name="trigger" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="labelForDisplay" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="_rateLineTaxExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="RateLineTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="flatRate" />
+      <xs:enumeration value="incrementingRate" />
+      <xs:enumeration value="flatRateTier" />
+      <xs:enumeration value="perUnit" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="RateLineUsageConditionsTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="fixedDuration" />
+      <xs:enumeration value="fixedNumber" />
+      <xs:enumeration value="once" />
+      <xs:enumeration value="unlimited" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="RateMatrix">
+    <xs:complexContent>
+      <xs:extension base="afac:Rates">
+        <xs:sequence>
+          <xs:element name="name" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+          <xs:element name="description" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+          <xs:element name="versionTime" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+          <xs:element name="informationManager" type="com:InternationalIdentifier" minOccurs="0" />
+          <xs:element name="rateTable" type="afac:RateTable" maxOccurs="unbounded" />
+          <xs:element name="_rateMatrixExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required" />
+        <xs:attribute name="version" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RateMatrixByReference">
+    <xs:complexContent>
+      <xs:extension base="afac:Rates">
+        <xs:sequence>
+          <xs:element name="rateTableReference" type="afac:_RateMatrixVersionedReference" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_rateMatrixByReferenceExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Rates" abstract="true">
+    <xs:sequence>
+      <xs:element name="applicableCurrency" type="afac:CurrencyCode" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="payment" type="afac:Payment" minOccurs="0" />
+      <xs:element name="overallPeriod" type="com:OverallPeriod" minOccurs="0" />
+      <xs:element name="_ratesExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RatesPublication">
+    <xs:complexContent>
+      <xs:extension base="com:PayloadPublication">
+        <xs:sequence>
+          <xs:element name="headerInformation" type="com:HeaderInformation" minOccurs="0" />
+          <xs:element name="rateMatrix" type="afac:RateMatrix" maxOccurs="unbounded" />
+          <xs:element name="_ratesPublicationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RateTable">
+    <xs:complexContent>
+      <xs:extension base="afac:Rates">
+        <xs:sequence>
+          <xs:element name="lastUpdated" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+          <xs:element name="rateTableName" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+          <xs:element name="activeTimes" type="afac:Duration" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="availability" type="afac:_RateAvailabilityTypeEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="rateResponsibleParty" type="afac:_ReferenceableOrganisationVersionedReference" minOccurs="0" maxOccurs="1" />
+          <xs:element name="rateSupersedeLink" type="afac:_RateTableVersionedReference" minOccurs="0" maxOccurs="1" />
+          <xs:element name="validation" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+          <xs:element name="rateType" type="afac:_RateTypeEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="validityStart" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+          <xs:element name="validityEnd" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+          <xs:element name="additionalInformation" type="com:Url" minOccurs="0" maxOccurs="1" />
+          <xs:element name="rateLineCollection" type="afac:RateLineCollection" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="eligibility" type="afac:Eligibility" minOccurs="0" />
+          <xs:element name="_rateTableExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required" />
+        <xs:attribute name="version" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RateTableByReference">
+    <xs:complexContent>
+      <xs:extension base="afac:Rates">
+        <xs:sequence>
+          <xs:element name="rateReference" type="afac:_RateTableVersionedReference" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_rateTableByReferenceExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="RateTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="contract" />
+      <xs:enumeration value="daily" />
+      <xs:enumeration value="event" />
+      <xs:enumeration value="hourly" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ReferenceableOrganisation">
+    <xs:complexContent>
+      <xs:extension base="afac:AnOrganisation">
+        <xs:sequence>
+          <xs:element name="_referenceableOrganisationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required" />
+        <xs:attribute name="version" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="RefundTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="surchargeNonRefundable" />
+      <xs:enumeration value="surchargePartiallyRefundable" />
+      <xs:enumeration value="surchargeFullyRefundable" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="RelativeOffsets">
+    <xs:complexContent>
+      <xs:extension base="afac:AssignedRightTimeRelative">
+        <xs:sequence>
+          <xs:element name="earliestStartRelative" type="afac:Duration" minOccurs="0" maxOccurs="1" />
+          <xs:element name="latestStartRelative" type="afac:Duration" minOccurs="0" maxOccurs="1" />
+          <xs:element name="earliestEndRelative" type="afac:Duration" minOccurs="0" maxOccurs="1" />
+          <xs:element name="latestEndRelative" type="afac:Duration" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_relativeOffsetsExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RelativeTimeRates">
+    <xs:complexContent>
+      <xs:extension base="afac:RateLineCollection">
+        <xs:sequence>
+          <xs:element name="referenceTimeStart" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+          <xs:element name="referenceTimeEnd" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_relativeTimeRatesExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="ReservationTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="optional" />
+      <xs:enumeration value="mandatory" />
+      <xs:enumeration value="notAvailable" />
+      <xs:enumeration value="partly" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="unspecified" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="RightSpecification">
+    <xs:sequence>
+      <xs:element name="type" type="afac:_RightTypeEnum" minOccurs="0" maxOccurs="1" />
+      <xs:element name="description" type="com:MultilingualString" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="financialReference" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="issuer" type="afac:_ReferenceableOrganisationVersionedReference" minOccurs="0" maxOccurs="1" />
+      <xs:element name="transferable" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="transferableConditions" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="credential" type="afac:Credential" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="validity" type="com:Validity" minOccurs="0" />
+      <xs:element name="_rightSpecificationExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="version" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:simpleType name="RightTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="oneTimeUseParking" />
+      <xs:enumeration value="permitParking" />
+      <xs:enumeration value="loadingUnloading" />
+      <xs:enumeration value="setdownPickup" />
+      <xs:enumeration value="waiting" />
+      <xs:enumeration value="accessPermission" />
+      <xs:enumeration value="doingReservation" />
+      <xs:enumeration value="electricCharging" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ServiceFacilityTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="bikeGarage" />
+      <xs:enumeration value="bikeSharing" />
+      <xs:enumeration value="cafe" />
+      <xs:enumeration value="carWash" />
+      <xs:enumeration value="cateringService" />
+      <xs:enumeration value="docstop" />
+      <xs:enumeration value="foodShopping" />
+      <xs:enumeration value="hotel" />
+      <xs:enumeration value="kiosk" />
+      <xs:enumeration value="laundry" />
+      <xs:enumeration value="leisureActivities" />
+      <xs:enumeration value="medicalFacility" />
+      <xs:enumeration value="motel" />
+      <xs:enumeration value="motorcycleGarage" />
+      <xs:enumeration value="motorwayRestaurant" />
+      <xs:enumeration value="motorwayRestaurantSmall" />
+      <xs:enumeration value="overnightAccommodation" />
+      <xs:enumeration value="petrolStation" />
+      <xs:enumeration value="pharmacy" />
+      <xs:enumeration value="payDesk" />
+      <xs:enumeration value="police" />
+      <xs:enumeration value="restaurant" />
+      <xs:enumeration value="restaurantSelfService" />
+      <xs:enumeration value="shop" />
+      <xs:enumeration value="snackBar" />
+      <xs:enumeration value="sparePartsShopping" />
+      <xs:enumeration value="touristInformation" />
+      <xs:enumeration value="truckRepair" />
+      <xs:enumeration value="truckWash" />
+      <xs:enumeration value="tyreRepair" />
+      <xs:enumeration value="vehicleMaintenance" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SquareMetres">
+    <xs:restriction base="com:NonNegativeInteger" />
+  </xs:simpleType>
+  <xs:complexType name="SupplementalEquipment">
+    <xs:complexContent>
+      <xs:extension base="afac:SupplementalFacility">
+        <xs:sequence>
+          <xs:element name="equipmentType" type="afac:_EquipmentTypeEnum" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_supplementalEquipmentExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SupplementalFacility" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="afac:FacilityObject">
+        <xs:sequence>
+          <xs:element name="availability" type="afac:_AvailabilityEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="quantity" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="regularlyCleaned" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+          <xs:element name="applicableForUser" type="afac:_UserTypeEnum" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="nearby" type="com:Boolean" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_supplementalFacilityExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SupplementalFacilityStatus">
+    <xs:complexContent>
+      <xs:extension base="afac:FacilityObjectStatus">
+        <xs:sequence>
+          <xs:element name="quantityOverride" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="numberOfSubitemsOverride" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="vacantSubitems" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="equipmentOperationStatus" type="afac:_OperationStatusEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_supplementalFacilityStatusExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SupplementalServiceFacility">
+    <xs:complexContent>
+      <xs:extension base="afac:SupplementalFacility">
+        <xs:sequence>
+          <xs:element name="serviceFacilityType" type="afac:_ServiceFacilityTypeEnum" minOccurs="1" maxOccurs="1" />
+          <xs:element name="numberOfSubitems" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="distanceFromOriginFacility" type="com:MetresAsNonNegativeInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_supplementalServiceFacilityExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Surcharge">
+    <xs:sequence>
+      <xs:element name="surchargeType" type="afac:_SurchargeTypeEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="value" type="afac:AmountOfMoney" minOccurs="0" maxOccurs="1" />
+      <xs:element name="rate" type="com:Percentage" minOccurs="0" maxOccurs="1" />
+      <xs:element name="trigger" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="refund" type="afac:_RefundTypeEnum" minOccurs="0" maxOccurs="1" />
+      <xs:element name="labelForDisplay" type="com:MultilingualString" minOccurs="0" maxOccurs="1" />
+      <xs:element name="_surchargeExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="SurchargeTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="reservation" />
+      <xs:enumeration value="mobilePayment" />
+      <xs:enumeration value="deposit" />
+      <xs:enumeration value="membershipFee" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="TimesOfDay">
+    <xs:complexContent>
+      <xs:extension base="afac:AssignedRightTimeRelative">
+        <xs:sequence>
+          <xs:element name="earliestStart" type="com:Time" minOccurs="0" maxOccurs="1" />
+          <xs:element name="latestStart" type="com:Time" minOccurs="0" maxOccurs="1" />
+          <xs:element name="earliestEnd" type="com:Time" minOccurs="0" maxOccurs="1" />
+          <xs:element name="latestEnd" type="com:Time" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_timesOfDayExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="TimeZone">
+    <xs:restriction base="com:String">
+      <xs:pattern value="[-+][0-9][0-9]:[0-9][0-9]|Z" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="TypeOfIdentifierEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="UndefinedOperatingHours">
+    <xs:complexContent>
+      <xs:extension base="afac:OperatingHours">
+        <xs:sequence>
+          <xs:element name="_undefinedOperatingHoursExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="UndefinedOrganisation">
+    <xs:complexContent>
+      <xs:extension base="afac:Organisation">
+        <xs:sequence>
+          <xs:element name="_undefinedOrganisationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="UnitOfTimeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="second" />
+      <xs:enumeration value="minute" />
+      <xs:enumeration value="hour" />
+      <xs:enumeration value="day" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="UnknownOperatingHours">
+    <xs:complexContent>
+      <xs:extension base="afac:OperatingHours">
+        <xs:sequence>
+          <xs:element name="_unknownOperatingHoursExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="UnknownOrganisation">
+    <xs:complexContent>
+      <xs:extension base="afac:Organisation">
+        <xs:sequence>
+          <xs:element name="_unknownOrganisationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="UnknownRates">
+    <xs:complexContent>
+      <xs:extension base="afac:Rates">
+        <xs:sequence>
+          <xs:element name="_unknownRatesExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="UnspecifiedRates">
+    <xs:complexContent>
+      <xs:extension base="afac:Rates">
+        <xs:sequence>
+          <xs:element name="_unspecifiedRatesExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="UserQualification">
+    <xs:sequence>
+      <xs:element name="userGroup" type="afac:_UserTypeEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="_userQualificationExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="UserTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="allUsers" />
+      <xs:enumeration value="commuters" />
+      <xs:enumeration value="customers" />
+      <xs:enumeration value="elderlyUsers" />
+      <xs:enumeration value="employees" />
+      <xs:enumeration value="families" />
+      <xs:enumeration value="personsWithDisabilities" />
+      <xs:enumeration value="hearingImpaired" />
+      <xs:enumeration value="hotelGuests" />
+      <xs:enumeration value="longTermParkers" />
+      <xs:enumeration value="members" />
+      <xs:enumeration value="men" />
+      <xs:enumeration value="overnightParkers" />
+      <xs:enumeration value="parkAndCycleUser" />
+      <xs:enumeration value="parkAndRideUsers" />
+      <xs:enumeration value="parkAndWalkUser" />
+      <xs:enumeration value="pensioners" />
+      <xs:enumeration value="pregnantPerson" />
+      <xs:enumeration value="registeredDisabledUsers" />
+      <xs:enumeration value="reservationHolders" />
+      <xs:enumeration value="residents" />
+      <xs:enumeration value="seasonTicketHolders" />
+      <xs:enumeration value="shoppers" />
+      <xs:enumeration value="shortTermParkers" />
+      <xs:enumeration value="sportEventAwaySupporters" />
+      <xs:enumeration value="sportEventHomeSupporters" />
+      <xs:enumeration value="students" />
+      <xs:enumeration value="staff" />
+      <xs:enumeration value="subscribers" />
+      <xs:enumeration value="visitors" />
+      <xs:enumeration value="visuallyImpaired" />
+      <xs:enumeration value="wheelchairUsers" />
+      <xs:enumeration value="women" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

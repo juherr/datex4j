@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:ubx="http://datex2.eu/schema/3/urbanExtensions" version="02-00-00" targetNamespace="http://datex2.eu/schema/3/urbanExtensions" xmlns:sit="http://datex2.eu/schema/3/situation" xmlns:com="http://datex2.eu/schema/3/common" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://datex2.eu/schema/3/common" schemaLocation="DATEXII_3_Common.xsd" />
+  <xs:import namespace="http://datex2.eu/schema/3/situation" schemaLocation="DATEXII_3_Situation.xsd" />
+  <xs:complexType name="_NonVehicularRoadUserTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="ubx:NonVehicularRoadUserTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_StreetWorksTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="ubx:StreetWorksTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="AccidentExtendedUrban">
+    <xs:sequence>
+      <xs:element name="groupOfNonVehicularRoadUsersInvolved" type="ubx:GroupOfNonVehicularRoadUsersInvolved" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ClassifiedDelay">
+    <xs:sequence>
+      <xs:element name="delays" type="sit:Delays" />
+      <xs:element name="vehicleCharacteristics" type="com:VehicleCharacteristics" />
+      <xs:element name="_classifiedDelayExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GroupOfNonVehicularRoadUsersInvolved">
+    <xs:sequence>
+      <xs:element name="numberOfNonVehicularRoadUsers" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1" />
+      <xs:element name="injuryStatusType" type="sit:_InjuryStatusTypeEnum" minOccurs="0" maxOccurs="1" />
+      <xs:element name="nonVehicularRoadUsers" type="ubx:NonVehicularRoadUsers" minOccurs="0" />
+      <xs:element name="_groupOfNonVehicularRoadUsersInvolvedExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ImpactExtendedUrban">
+    <xs:sequence>
+      <xs:element name="classifiedDelay" type="ubx:ClassifiedDelay" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NetworkManagementExtendedUrban">
+    <xs:sequence>
+      <xs:element name="forNonMotorisedRoadUsers" type="ubx:NonVehicularRoadUsers" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NonVehicularRoadUsers">
+    <xs:sequence>
+      <xs:element name="nonVehicularRoadUser" type="ubx:_NonVehicularRoadUserTypeEnum" minOccurs="1" maxOccurs="unbounded" />
+      <xs:element name="_nonVehicularRoadUsersExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="NonVehicularRoadUserTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="pedestrian" />
+      <xs:enumeration value="skater" />
+      <xs:enumeration value="animalUnderGuidance" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="StreetWorks">
+    <xs:sequence>
+      <xs:element name="streetWorksType" type="ubx:_StreetWorksTypeEnum" minOccurs="1" maxOccurs="1" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="StreetWorksTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="buildingWork" />
+      <xs:enumeration value="trenchingWork" />
+      <xs:enumeration value="utilityWork" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

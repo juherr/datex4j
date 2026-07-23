@@ -1,0 +1,6 @@
+# Normalize line endings for deterministic, reproducible checkouts.
+* text=auto eol=lf
+
+# Windows-only scripts must keep CRLF.
+*.cmd text eol=crlf
+*.bat text eol=crlf
