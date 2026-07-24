@@ -14,7 +14,7 @@ under [`afir/`](./afir/README.md) and the committed fixtures under
 A source is worth cataloguing here when it is:
 
 1. **Official** — published by a road authority / National Access Point (NAP), not a scrape.
-2. **DATEX II v3** — the bundled model is **v3.6 / v3.7** (`http://datex2.eu/schema/3/…`,
+2. **DATEX II v3** — the bundled model is the **full v3 family (v3.0–v3.7)** (`http://datex2.eu/schema/3/…`,
    `modelBaseVersion="3"`). v2.x feeds are noted but the v3-only model cannot read them.
 3. **Anonymously reachable** — no account/token, so it can be documented as a reproducible fetch.
 4. **Clearly licensed** — a file may be **committed** as a fixture only under a redistribution-
