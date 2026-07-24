@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Same standard v3.7 message container as message-container-v3_7.xml, but carrying
+  unknown national-extension elements and attributes (mimicking the Dutch NDW
+  nlExtensions). JAXB unmarshalling is lax, so these foreign-namespace nodes must be
+  dropped and the standard payload must still read. Used by DatexMessageContainerTest.
+-->
+<mc:messageContainer xmlns:mc="http://datex2.eu/schema/3/messageContainer"
+                     xmlns:com="http://datex2.eu/schema/3/common"
+                     xmlns:sit="http://datex2.eu/schema/3/situation"
+                     xmlns:ex="http://datex2.eu/schema/3/exchangeInformation"
+                     xmlns:nl="http://ndw.nu/schema/3/nlExtensions"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     modelBaseVersion="3"
+                     nl:feedProfile="ndw-full">
+  <mc:payload xsi:type="sit:SituationPublication" lang="en" modelBaseVersion="3">
+    <com:publicationTime>2026-07-23T10:15:30Z</com:publicationTime>
+    <com:publicationCreator>
+      <com:country>nl</com:country>
+      <com:nationalIdentifier>datex4j</com:nationalIdentifier>
+    </com:publicationCreator>
+    <nl:nlExtension>
+      <nl:originatingApplication>NDW</nl:originatingApplication>
+    </nl:nlExtension>
+  </mc:payload>
+  <mc:exchangeInformation modelBaseVersion="3">
+    <ex:exchangeContext>
+      <ex:codedExchangeProtocol>snapshotPull</ex:codedExchangeProtocol>
+      <ex:exchangeSpecificationVersion>3.0</ex:exchangeSpecificationVersion>
+    </ex:exchangeContext>
+    <ex:dynamicInformation>
+      <ex:exchangeStatus>online</ex:exchangeStatus>
+      <ex:messageGenerationTimestamp>2026-07-23T10:15:30Z</ex:messageGenerationTimestamp>
+    </ex:dynamicInformation>
+    <nl:nlExchangeExtension>
+      <nl:deliveryBreakpoint>42</nl:deliveryBreakpoint>
+    </nl:nlExchangeExtension>
+  </mc:exchangeInformation>
+</mc:messageContainer>

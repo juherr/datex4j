@@ -120,8 +120,9 @@ final class JaxbDatexMarshaller implements DatexMarshaller {
 
     /**
      * Adapts an arbitrary value into something JAXB can marshal: JAXB elements and
-     * {@code @XmlRootElement} types are marshalled as-is, while a bare {@code PayloadPublication} (of
-     * this marshaller's version) is wrapped in the DATEX II {@code payload} root element.
+     * {@code @XmlRootElement} types are marshalled as-is, a bare {@code PayloadPublication} (of this
+     * marshaller's version) is wrapped in the DATEX II {@code payload} root element, and a {@code
+     * MessageContainer} (v3.6/v3.7 only) is wrapped in the {@code messageContainer} root element.
      */
     private Object toMarshallable(Object value) {
         if (value instanceof JAXBElement) {
@@ -133,8 +134,11 @@ final class JaxbDatexMarshaller implements DatexMarshaller {
         if (model.isPayloadPublication(value)) {
             return model.wrapAsPayload(value);
         }
+        if (model.isMessageContainer(value)) {
+            return model.wrapAsMessageContainer(value);
+        }
         throw new IllegalArgumentException("Cannot marshal "
                 + value.getClass().getName()
-                + "; pass a PayloadPublication, an @XmlRootElement type, or a JAXBElement");
+                + "; pass a PayloadPublication, a MessageContainer, an @XmlRootElement type, or a JAXBElement");
     }
 }

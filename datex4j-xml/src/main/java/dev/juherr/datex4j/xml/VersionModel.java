@@ -116,7 +116,7 @@ enum VersionModel {
         }
     },
 
-    /** DATEX II v3.6 model (no AFIR modules). */
+    /** DATEX II v3.6 model (adds the Exchange 2020 MessageContainer family; no AFIR modules). */
     V3_6("v3_6", ModelPackages.V3_6) {
         @Override
         boolean isPayloadPublication(Object value) {
@@ -128,9 +128,20 @@ enum VersionModel {
             return new dev.juherr.datex4j.model.v3_6.d2payload.ObjectFactory()
                     .createPayload((dev.juherr.datex4j.model.v3_6.common.PayloadPublication) value);
         }
+
+        @Override
+        boolean isMessageContainer(Object value) {
+            return value instanceof dev.juherr.datex4j.model.v3_6.messagecontainer.MessageContainer;
+        }
+
+        @Override
+        JAXBElement<?> wrapAsMessageContainer(Object value) {
+            return new dev.juherr.datex4j.model.v3_6.messagecontainer.ObjectFactory()
+                    .createMessageContainer((dev.juherr.datex4j.model.v3_6.messagecontainer.MessageContainer) value);
+        }
     },
 
-    /** DATEX II v3.7 model (adds the AFIR modules). */
+    /** DATEX II v3.7 model (adds the AFIR modules; keeps the Exchange 2020 MessageContainer family). */
     V3_7("v3_7", ModelPackages.V3_7) {
         @Override
         boolean isPayloadPublication(Object value) {
@@ -141,6 +152,17 @@ enum VersionModel {
         JAXBElement<?> wrapAsPayload(Object value) {
             return new dev.juherr.datex4j.model.v3_7.d2payload.ObjectFactory()
                     .createPayload((dev.juherr.datex4j.model.v3_7.common.PayloadPublication) value);
+        }
+
+        @Override
+        boolean isMessageContainer(Object value) {
+            return value instanceof dev.juherr.datex4j.model.v3_7.messagecontainer.MessageContainer;
+        }
+
+        @Override
+        JAXBElement<?> wrapAsMessageContainer(Object value) {
+            return new dev.juherr.datex4j.model.v3_7.messagecontainer.ObjectFactory()
+                    .createMessageContainer((dev.juherr.datex4j.model.v3_7.messagecontainer.MessageContainer) value);
         }
     };
 
@@ -174,6 +196,23 @@ enum VersionModel {
 
     /** Wraps a {@code PayloadPublication} of this version in its {@code payload} root element. */
     abstract JAXBElement<?> wrapAsPayload(Object value);
+
+    /**
+     * Tells whether the value is a {@code MessageContainer} of this version's model. Only DATEX II
+     * v3.6 and v3.7 ship the Exchange 2020 {@code MessageContainer} family; earlier versions return
+     * {@code false}.
+     */
+    boolean isMessageContainer(Object value) {
+        return false;
+    }
+
+    /**
+     * Wraps a {@code MessageContainer} of this version in its {@code messageContainer} root element.
+     * Only supported for DATEX II v3.6 and v3.7.
+     */
+    JAXBElement<?> wrapAsMessageContainer(Object value) {
+        throw new IllegalArgumentException("MessageContainer is not part of the DATEX II " + name() + " model");
+    }
 
     /**
      * Builds JAXB context paths from the generated package layout. Kept in a nested class so its
@@ -245,6 +284,14 @@ enum VersionModel {
         /** Module package suffixes added by DATEX II v3.6. */
         private static final List<String> V3_6_ADDITIONS = List.of("controlledzone", "trafficregulation");
 
+        /**
+         * Exchange 2020 module package suffixes, introduced in DATEX II v3.6. These carry the {@code
+         * MessageContainer} root and its {@code exchangeInformation} envelope; they must be on the
+         * JAXB context path for the {@code messageContainer} root element to be recognized.
+         */
+        private static final List<String> EXCHANGE_2020 =
+                List.of("cisinformation", "exchangeinformation", "informationmanagement", "messagecontainer");
+
         /** Module package suffixes added by DATEX II v3.7 (AFIR). */
         private static final List<String> AFIR = List.of("afirenergyinfrastructure", "afirfacilities");
 
@@ -252,7 +299,7 @@ enum VersionModel {
         static final List<String> V3_5 = BASE;
 
         /** Module set for DATEX II v3.6. */
-        static final List<String> V3_6 = concat(BASE, V3_6_ADDITIONS);
+        static final List<String> V3_6 = concat(concat(BASE, V3_6_ADDITIONS), EXCHANGE_2020);
 
         /** Module set for DATEX II v3.7. */
         static final List<String> V3_7 = concat(V3_6, AFIR);
