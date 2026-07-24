@@ -38,6 +38,15 @@
   </scm>
 
   <modules>
+    <module>datex4j-model-spi</module>
+    <module>datex4j-model-v3_0</module>
+    <module>datex4j-model-v3_1</module>
+    <module>datex4j-model-v3_2</module>
+    <module>datex4j-model-v3_3</module>
+    <module>datex4j-model-v3_4</module>
+    <module>datex4j-model-v3_5</module>
+    <module>datex4j-model-v3_6</module>
+    <module>datex4j-model-v3_7</module>
     <module>datex4j-model</module>
     <module>datex4j-core</module>
     <module>datex4j-xml</module>
@@ -97,6 +106,51 @@
       <dependency>
         <groupId>dev.juherr.datex4j</groupId>
         <artifactId>datex4j-model</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-spi</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v3_0</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v3_1</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v3_2</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v3_3</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v3_4</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v3_5</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v3_6</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v3_7</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
