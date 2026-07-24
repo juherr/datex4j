@@ -25,6 +25,10 @@
       <artifactId>datex4j-model</artifactId>
     </dependency>
     <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-core</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
     </dependency>
