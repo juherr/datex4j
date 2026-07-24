@@ -46,9 +46,11 @@ domains the library models (situations, SRTI, parking, VMS, roadworks).
   excludes images/video, which do not apply to these data files).
 - **Access:** **anonymous**, no login. Files are gzip-compressed (`.xml.gz`) except where noted;
   fetch with e.g. `curl -s http://opendata.ndw.nu/<file>` then `gunzip`.
-- **Format:** DATEX II XML, `http://datex2.eu/schema/3/…` namespaces, `modelBaseVersion="3"`. The
-  situation feeds are wrapped in an Exchange-2020 **`MessageContainer`**; some carry NDW national
-  extensions (`nlExtensions`, `nlxExtensions`, `situationRecordExtension`).
+- **Format:** DATEX II XML, `http://datex2.eu/schema/3/…` namespaces, `modelBaseVersion="3"` (major
+  only; NDW builds each feed on a specific v3 **minor** — its docs cite a **3.0** profile for
+  truck-parking and **3.2** for others — which the instance does not state). The situation feeds are
+  wrapped in an Exchange-2020 **`MessageContainer`**; some carry NDW national extensions
+  (`nlExtensions`, `nlxExtensions`, `situationRecordExtension`).
 
 Verified live at the time of writing:
 
@@ -65,12 +67,14 @@ Verified live at the time of writing:
 | `Truckparking_Parking_Status.xml` (~18 KB, not gzipped) | Truck-parking availability | `ParkingStatusPublication` |
 | `charging_point_locations*.geojson.gz`, `..._ocpi.json.gz` | EV charging (GeoJSON / OCPI, **not** DATEX II) | — |
 
-**Library-compatibility note (verified):** against the bundled v3.6/v3.7 model, the small
-`Truckparking_Parking_Status.xml` **parses** into a `ParkingStatusPublication`, but **strict XSD
-validation fails** on version/prefix drift (e.g. NDW emits `targetClass="par:ParkingTable"` where the
-bundled schema fixes `prk:ParkingTable`), and unmarshalling the situations `MessageContainer` fails
-(national extensions + drift). Treat these as real-world **read/parse** inputs for hardening, not as
-clean round-trip fixtures without accommodating the drift.
+**Library-compatibility note (verified):** the small `Truckparking_Parking_Status.xml` **parses**
+into a `ParkingStatusPublication` (committed as a read-only dataset), but **strict XSD validation
+fails** because it is a DATEX II **3.0** profile — a minor the library does not bundle (3.5/3.6/3.7),
+visible as `targetClass="par:ParkingTable"` vs the bundled schema's fixed `prk:ParkingTable`.
+Unmarshalling the situations `MessageContainer` also fails (national extensions + the XML JAXB
+context not yet exposing `MessageContainer`). Treat these as real-world **read/parse** inputs, not
+clean round-trip fixtures. See the cross-domain catalogue's
+[version coverage & gaps](../../datex-test-data-sources.md#datex-ii-version-coverage--gaps).
 
 ## Notes
 
