@@ -15,6 +15,8 @@
  */
 package dev.juherr.datex4j.json;
 
+import dev.juherr.datex4j.core.DatexVersion;
+
 /**
  * Entry point for creating {@link DatexJsonMapper} instances.
  *
@@ -47,6 +49,7 @@ public final class DatexJson {
     public static final class Builder {
 
         private boolean prettyPrint = true;
+        private DatexVersion version = DatexVersion.current();
 
         private Builder() {}
 
@@ -62,12 +65,24 @@ public final class DatexJson {
         }
 
         /**
+         * Selects the DATEX II model version the mapper reads and writes. Defaults to {@link
+         * DatexVersion#current()}.
+         *
+         * @param version the DATEX II model version
+         * @return this builder
+         */
+        public Builder version(DatexVersion version) {
+            this.version = version;
+            return this;
+        }
+
+        /**
          * Builds the configured mapper.
          *
          * @return a new mapper
          */
         public DatexJsonMapper build() {
-            return new DatexJsonMapper(prettyPrint);
+            return new DatexJsonMapper(prettyPrint, version);
         }
     }
 }

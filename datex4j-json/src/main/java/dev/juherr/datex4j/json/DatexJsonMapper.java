@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationModule;
+import dev.juherr.datex4j.core.DatexVersion;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -39,9 +40,11 @@ public final class DatexJsonMapper {
 
     private final ObjectMapper mapper;
     private final boolean prettyPrint;
+    private final DatexVersion version;
 
-    DatexJsonMapper(boolean prettyPrint) {
+    DatexJsonMapper(boolean prettyPrint, DatexVersion version) {
         this.prettyPrint = prettyPrint;
+        this.version = version;
         this.mapper = new ObjectMapper()
                 .registerModule(new JakartaXmlBindAnnotationModule())
                 .registerModule(new DatexTemporalModule())
@@ -126,6 +129,23 @@ public final class DatexJsonMapper {
         } catch (IOException e) {
             throw new DatexJsonException("Failed to read DATEX II JSON", e);
         }
+    }
+
+    /**
+     * Deserializes a conformant DATEX II JSON message container, restoring namespace-prefixed
+     * fields, flattened multilingual strings, enum {@code {value, _extendedValue}} encodings,
+     * {@code G}-suffixed attributes, and substitution prefix+type markers back into the model.
+     *
+     * <p>Not yet implemented; see the {@code datex4j-json} conformant JSON codec work.
+     *
+     * @param json the conformant JSON document
+     * @param type the expected container type
+     * @param <T> the expected type
+     * @return never returns
+     * @throws UnsupportedOperationException always, until the conformant codec is implemented
+     */
+    public <T> T readContainer(byte[] json, Class<T> type) {
+        throw new UnsupportedOperationException("conformant container read not implemented yet");
     }
 
     private ObjectWriter writer() {
