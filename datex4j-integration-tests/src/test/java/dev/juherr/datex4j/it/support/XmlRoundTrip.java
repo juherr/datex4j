@@ -32,7 +32,8 @@ import org.xmlunit.diff.Diff;
 
 /**
  * Runs the mandatory XML checks for one dataset: well-formed, XSD, parse, model, serialize,
- * re-validate, equivalence.
+ * re-validate, equivalence; then an optional JSON round-trip (skipped when {@code datex4j-json}
+ * cannot map the publication).
  */
 public final class XmlRoundTrip {
 
