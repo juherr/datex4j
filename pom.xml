@@ -52,6 +52,7 @@
     <module>datex4j-validation</module>
     <module>datex4j-ocpi</module>
     <module>examples</module>
+    <module>datex4j-integration-tests</module>
   </modules>
 
   <properties>
@@ -69,6 +70,7 @@
     <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
     <junit-bom.version>6.1.2</junit-bom.version>
     <assertj.version>3.27.7</assertj.version>
+    <xmlunit.version>2.10.0</xmlunit.version>
 
     <!-- Plugin versions -->
     <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
@@ -146,6 +148,11 @@
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
         <version>${assertj.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.xmlunit</groupId>
+        <artifactId>xmlunit-core</artifactId>
+        <version>${xmlunit.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
