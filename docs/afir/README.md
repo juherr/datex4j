@@ -18,7 +18,7 @@ operators of publicly accessible recharging and refuelling points make both **st
 (current availability, occupancy, operating status) available free of charge and without
 discrimination — static data updated within 24 hours of a change, dynamic data within one minute.
 Member States must expose this data through a **National Access Point** (see below), and Article 20
-points implementers to the DATEX II data model for alternative fuels (CEN/TS 16157‑10, "Energy
+points implementers to the DATEX II data model for alternative fuels (CEN/TS 16157-10, "Energy
 infrastructure publications" — see [official-datex-resources.md](./official-datex-resources.md)).
 
 Germany was the first Member State to publish a concrete AFIR DATEX II profile: NOW GmbH's

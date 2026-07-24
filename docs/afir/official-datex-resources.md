@@ -71,7 +71,7 @@ notes, but no sample payloads). To get a validating example in practice:
   confirms profile version `01-00-00`, its availability through Germany's NAP (Mobilithek, run by
   the Federal Ministry of Transport), and that DATEX II use becomes mandatory there from 14 April
   2026.
-- **Underlying standard:** <https://datex2.eu/specifications/> lists **CEN/TS 16157‑10:2022 —
+- **Underlying standard:** <https://datex2.eu/specifications/> lists **CEN/TS 16157-10:2022 —
   "Energy infrastructure publications"**, the DATEX II technical specification part that Article 20
   points implementers toward; it is a paid CEN document, not freely downloadable, but the
   specifications page confirms its scope and part number.
