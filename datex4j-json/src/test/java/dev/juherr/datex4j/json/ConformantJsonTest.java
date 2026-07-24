@@ -21,9 +21,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import dev.juherr.datex4j.core.DatexVersion;
 import dev.juherr.datex4j.model.v3_6.common.MultilingualString;
 import dev.juherr.datex4j.model.v3_6.common.MultilingualStringValue;
+import dev.juherr.datex4j.model.v3_6.energyinfrastructure.Connector;
+import dev.juherr.datex4j.model.v3_6.energyinfrastructure.ElectricChargingPoint;
 import dev.juherr.datex4j.model.v3_6.energyinfrastructure.EnergyInfrastructureSite;
 import dev.juherr.datex4j.model.v3_6.energyinfrastructure.EnergyInfrastructureTable;
 import dev.juherr.datex4j.model.v3_6.energyinfrastructure.EnergyInfrastructureTablePublication;
+import dev.juherr.datex4j.model.v3_6.locationreferencing.PointLocation;
 import dev.juherr.datex4j.model.v3_6.messagecontainer.MessageContainer;
 import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
@@ -73,6 +76,45 @@ class ConformantJsonTest {
         assertThat(publication.getEnergyInfrastructureTable()).isNotEmpty();
         assertThat(publication.getEnergyInfrastructureTable().get(0).getEnergyInfrastructureSite())
                 .isNotEmpty();
+    }
+
+    @Test
+    void realFixtureContentSurvivesRead() throws Exception {
+        DatexJsonMapper mapper = DatexJson.builder().version(DatexVersion.V3_6).build();
+
+        MessageContainer container = mapper.readContainer(fixture(), MessageContainer.class);
+
+        EnergyInfrastructureTablePublication publication =
+                (EnergyInfrastructureTablePublication) container.getPayload().get(0);
+        EnergyInfrastructureSite site = publication
+                .getEnergyInfrastructureTable()
+                .get(0)
+                .getEnergyInfrastructureSite()
+                .get(0);
+
+        // Site identity: the table/site id survives verbatim.
+        assertThat(site.getId()).isEqualTo("FI*911*70d5121e-0308-11f0-9e08-42010aa40043");
+
+        // Site name: the flattened MultilingualString survives.
+        assertThat(site.getName().getValues().getValue()).anySatisfy(entry -> {
+            assertThat(entry.getLang()).isEqualTo("fi");
+            assertThat(entry.getValue()).isEqualTo("Porsche Destination Charging Kalastajantorpan Tennisklubi - AC 2");
+        });
+
+        // Location: locPointLocation coordinates survive (locxFacilityLocation street address is
+        // known to be dropped, see DatexJson's Javadoc and datex-json/README.md).
+        assertThat(site.getLocationReference()).isInstanceOf(PointLocation.class);
+        PointLocation location = (PointLocation) site.getLocationReference();
+        assertThat(location.getPointByCoordinates().getPointCoordinates().getLatitude())
+                .isEqualTo(60.1911f);
+        assertThat(location.getPointByCoordinates().getPointCoordinates().getLongitude())
+                .isEqualTo(24.875f);
+
+        // Connector: the electric charging point's connector standard survives.
+        ElectricChargingPoint chargingPoint = (ElectricChargingPoint)
+                site.getEnergyInfrastructureStation().get(0).getRefillPoint().get(0);
+        Connector connector = chargingPoint.getConnector().get(0);
+        assertThat(connector.getConnectorType().getValue().value()).isEqualTo("iec62196T2");
     }
 
     @Test
