@@ -1,0 +1,14 @@
+OCPI test fixture: real-world charging location from the Netherlands NAP.
+
+Source : http://opendata.ndw.nu/charging_point_locations_ocpi.json.gz
+Provider: NDW (Nationaal Dataportaal Wegverkeer) open data - DOT-NL feed
+Licence : CC0 1.0 (public domain, no attribution required) - https://www.ndw.nu/copyright
+OCPI    : version 2.2.1
+Content : JSON array of OCPI Location objects, trimmed to 1 location
+          (the full feed is a ~168 MB JSON array; not committed).
+Downloaded: 2026-07-24
+
+Values are unmodified real data. The retained location ("Wibauthof",
+'s-Hertogenbosch) has 2 EVSEs, each with 1 connector, plus coordinates,
+operator, energy_mix and opening_times, so the OCPI -> DATEX II conversion
+exercises a meaningful part of the mapper.

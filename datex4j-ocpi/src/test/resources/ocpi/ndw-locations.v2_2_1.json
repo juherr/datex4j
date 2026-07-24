@@ -1,0 +1,115 @@
+[
+  {
+    "id": "af101dc8-3629-40d6-9093-d5e83d9bfc47",
+    "city": "'s-Hertogenbosch",
+    "name": "Wibauthof",
+    "evses": [
+      {
+        "uid": "9382d399-230d-49e5-a219-31fdd424750d",
+        "images": null,
+        "status": "AVAILABLE",
+        "evse_id": "NL*NUO*EALF*0065319*2",
+        "connectors": [
+          {
+            "id": "15e3cfd1-c2a2-4602-a85e-2a6eb728960d",
+            "format": "SOCKET",
+            "standard": "IEC_62196_T2",
+            "power_type": "AC_3_PHASE",
+            "tariff_ids": [
+              "2000025394-2000011292"
+            ],
+            "max_voltage": 230,
+            "last_updated": "2024-11-25T11:55:43Z",
+            "max_amperage": 16,
+            "max_electric_power": 11040,
+            "terms_and_conditions": null
+          }
+        ],
+        "directions": null,
+        "coordinates": null,
+        "floor_level": null,
+        "capabilities": [
+          "REMOTE_START_STOP_CAPABLE",
+          "RFID_READER"
+        ],
+        "last_updated": "2026-07-21T04:12:04Z",
+        "status_schedule": null,
+        "physical_reference": "JR8978",
+        "parking_restrictions": null
+      },
+      {
+        "uid": "d74ec463-fa35-42fb-970e-a774ff7c5387",
+        "images": null,
+        "status": "CHARGING",
+        "evse_id": "NL*NUO*EALF*0065319*1",
+        "connectors": [
+          {
+            "id": "7b57dfe4-4709-4038-904d-a9ad0415cb9a",
+            "format": "SOCKET",
+            "standard": "IEC_62196_T2",
+            "power_type": "AC_3_PHASE",
+            "tariff_ids": [
+              "2000025394-2000011292"
+            ],
+            "max_voltage": 230,
+            "last_updated": "2024-11-25T11:55:43Z",
+            "max_amperage": 16,
+            "max_electric_power": 11040,
+            "terms_and_conditions": null
+          }
+        ],
+        "directions": null,
+        "coordinates": null,
+        "floor_level": null,
+        "capabilities": [
+          "REMOTE_START_STOP_CAPABLE",
+          "RFID_READER"
+        ],
+        "last_updated": "2026-07-24T16:02:36Z",
+        "status_schedule": null,
+        "physical_reference": "MH3978",
+        "parking_restrictions": null
+      }
+    ],
+    "owner": null,
+    "state": null,
+    "images": null,
+    "address": "Wibauthof 20",
+    "country": "NLD",
+    "publish": true,
+    "operator": {
+      "logo": null,
+      "name": "Vattenfall InCharge",
+      "website": "https://vattenfall.nl"
+    },
+    "party_id": "NUO",
+    "time_zone": "Europe/Amsterdam",
+    "directions": null,
+    "energy_mix": {
+      "supplier_name": null,
+      "energy_sources": [],
+      "environ_impact": [],
+      "is_green_energy": true,
+      "energy_product_name": null
+    },
+    "facilities": null,
+    "coordinates": {
+      "latitude": "51.727916",
+      "longitude": "5.298283"
+    },
+    "postal_code": "5237 CS",
+    "suboperator": null,
+    "country_code": "NL",
+    "last_updated": "2026-07-24T16:02:36Z",
+    "parking_type": "ON_STREET",
+    "opening_times": {
+      "regular_hours": null,
+      "twentyfourseven": true,
+      "exceptional_closings": null,
+      "exceptional_openings": null
+    },
+    "related_locations": null,
+    "publish_allowed_to": null,
+    "charging_when_closed": null
+  }
+]
