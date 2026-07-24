@@ -20,7 +20,9 @@ carries no framework dependencies.
 
 | Module            | Description                                                                      |
 |-------------------|----------------------------------------------------------------------------------|
-| `datex4j-model`   | Generated DATEX II model classes (JAXB). No hand-written logic.                   |
+| `datex4j-model`   | Aggregate that pulls in every `datex4j-model-vX_Y` module (v3.0–v3.7) transitively. |
+| `datex4j-model-vX_Y` | One module per DATEX II version (`datex4j-model-v3_0` … `datex4j-model-v3_7`): its own XSDs, JAXB generation and `DatexModelProvider`. Depend on one directly to bundle a single version. |
+| `datex4j-model-spi` | The `DatexModelProvider` SPI the facades discover through `ServiceLoader`.         |
 | `datex4j-core`    | Framework-free utilities: version, namespace and schema-resource constants.       |
 | `datex4j-xml`     | Marshalling, unmarshalling, schema validation and formatting — hides JAXB.         |
 | `datex4j-json`    | JSON (de)serialization of the model (Jackson, honours the JAXB annotations).       |

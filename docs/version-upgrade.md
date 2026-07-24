@@ -1,51 +1,60 @@
 # Adding or upgrading a DATEX II version
 
-datex4j bundles the full DATEX II v3 family at once — **v3.0 through v3.7** — each generated into its
-own version-scoped package tree (`dev.juherr.datex4j.model.v3_0.*` … `...v3_7.*`). Adding a new
-version is additive and mostly mechanical: vendor its schemas, add a bindings file and a generation
-execution, and register the version. Existing hand-written code does not change.
+datex4j ships one Maven module per DATEX II version — `datex4j-model-v3_0` … `datex4j-model-v3_7` —
+each generated into its own version-scoped package tree (`dev.juherr.datex4j.model.v3_0.*` …
+`...v3_7.*`). The `datex4j-model` aggregate depends on all of them and re-exposes them transitively,
+so consumers keep depending on `datex4j-model` and see every version, while a consumer that needs
+just one version can depend on a single `datex4j-model-vX_Y` module. Each version module registers a
+`DatexModelProvider` (from `datex4j-model-spi`) through `ServiceLoader`; the facades discover the
+versions present on the classpath, with no hard-coded per-version references.
+
+Adding a new version is additive: create a new module, generate the model, ship a provider, and
+register the module in the aggregate. Existing hand-written code does not change.
 
 The steps below use a hypothetical `3.8` as the new version.
 
 ## Steps
 
-1. **Vendor the new schemas.** Download every XSD for the target version from
-   <https://docs.datex2.eu/downloads/> into a new version directory:
+1. **Create the version module.** Copy an existing module directory (for example
+   `datex4j-model-v3_7/`) to `datex4j-model-v3_8/` as a template. In its `pom.xml`, set the
+   `<artifactId>` to `datex4j-model-v3_8`, the single `jaxb-maven-plugin` execution id/paths to the
+   `v3.8` directory and `bindings-v3.8.xjb`, and the `Automatic-Module-Name` to
+   `dev.juherr.datex4j.model.v3_8`.
+
+2. **Vendor the new schemas.** Download every XSD for the target version from
+   <https://docs.datex2.eu/downloads/> into the module's schema directory:
 
    ```
-   datex4j-model/src/main/resources/META-INF/datex4j/schema/v3.8/
+   datex4j-model-v3_8/src/main/resources/META-INF/datex4j/schema/v3.8/
    ```
 
-   Keep the existing version directories — they are still supported.
-
-2. **Add a bindings file.** Copy `datex4j-model/src/main/xjb/bindings-v3.7.xjb` to
-   `bindings-v3.8.xjb` and:
+3. **Add a bindings file.** Copy `datex4j-model-v3_7/src/main/xjb/bindings-v3.7.xjb` to
+   `datex4j-model-v3_8/src/main/xjb/bindings-v3.8.xjb` and:
 
    - repoint every `schemaLocation` to `.../schema/v3.8/...`;
    - change every `<jaxb:package>` to `dev.juherr.datex4j.model.v3_8.<module>`;
    - add/remove `<jaxb:bindings>` blocks if the version added or dropped modules;
    - keep the `_namedAreaExtension` rename (and add any new collision workaround the version needs).
 
-3. **Add a generation execution.** In `datex4j-model/pom.xml`, add a `generate-v3.8` execution of
-   `jaxb-maven-plugin` mirroring the existing ones: `schemaDirectory` = `.../schema/v3.8`,
-   `bindingIncludes` = `bindings-v3.8.xjb`, `generateDirectory` =
-   `${project.build.directory}/generated-sources/xjc-v3.8`.
-
 4. **Register the version.**
 
    - Add the constant to `DatexVersion` (`V3_8("3.8")` in `datex4j-core`); update
      `DatexVersion.current()` if it becomes the default.
-   - Add a `V3_8` constant to `VersionModel` (`datex4j-xml`) with its `packageSegment`, module set,
-     and the version-specific `PayloadPublication` / `ObjectFactory` references, and a `case` in
-     `VersionModel.of(...)`.
+   - Add a `DatexModelProviderV38` under `datex4j-model-v3_8/src/main/java/.../v3_8/spi/`,
+     implementing `DatexModelProvider` with this version's module set (the colon-separated
+     `contextPath`) and its `PayloadPublication` / `d2payload.ObjectFactory` references (plus the
+     `messagecontainer` overrides if the version bundles the Exchange 2020 family). Register it in
+     `datex4j-model-v3_8/src/main/resources/META-INF/services/dev.juherr.datex4j.model.spi.DatexModelProvider`.
+   - Add the `<module>datex4j-model-v3_8</module>` to the reactor `pom.xml`, a `dependencyManagement`
+     entry for it, and a `<dependency>` on it in the `datex4j-model` aggregate `pom.xml`.
    - Adjust `Namespaces` only if the base namespace scheme changed (stable at
      `http://datex2.eu/schema/3/<module>`).
 
 5. **Regenerate, test, document.**
 
    ```bash
-   ./mvnw -pl datex4j-model clean generate-sources   # inspect the new v3_8 packages
-   ./mvnw verify                                      # full build, formatting, tests
+   ./mvnw -pl datex4j-model-v3_8 clean generate-sources   # inspect the new v3_8 packages
+   ./mvnw verify                                           # full build, formatting, tests
    ```
 
    Add a round-trip test for the new version (see `DatexMultiVersionTest`) and update the README's
@@ -61,9 +70,8 @@ schemas — it predates `ControlledZone`, `TrafficRegulation` and the MessageCon
 the AFIR modules. The set is not even monotonic across minors: the `Parking` module first appears in
 v3.3, and `TrafficRegulation` appears in v3.2/v3.3, is dropped in v3.4/v3.5, then returns in v3.6.
 When a version drops modules, remove their `<jaxb:bindings>` blocks and leave them out of that
-version's `VersionModel` module set (see how `VersionModel.ModelPackages` layers the v3.6 and AFIR
-additions onto the v3.5 base, and how the v3.0–v3.4 sets are listed explicitly because they predate
-that base).
+version's provider `contextPath` (each `DatexModelProviderV3X` lists exactly the module packages its
+own version publishes).
 
 ### v3.0 schemaLocation rewrite
 
@@ -85,6 +93,7 @@ generation.) This is the only content edit made to any vendored schema.
 
 ## Dropping a version
 
-Delete its schema directory, bindings file and `jaxb-maven-plugin` execution, remove its
-`DatexVersion` and `VersionModel` constants, and update any tests. Because versions live in separate
-packages, removing one never affects the others.
+Delete its `datex4j-model-vX_Y` module (schemas, bindings, provider and service file all live
+inside it), drop it from the reactor `pom.xml`, the `dependencyManagement` block and the
+`datex4j-model` aggregate, and remove its `DatexVersion` constant. Because versions live in separate
+modules and packages, removing one never affects the others.
