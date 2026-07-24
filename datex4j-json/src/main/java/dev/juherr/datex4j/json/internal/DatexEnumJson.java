@@ -16,21 +16,13 @@
 package dev.juherr.datex4j.json.internal;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.BeanProperty;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.deser.ContextualDeserializer;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
- * Jackson (de)serializers for the generated DATEX II {@code _XxxEnum} wrapper shape.
+ * Jackson serializer for the generated DATEX II {@code _XxxEnum} wrapper shape.
  *
  * <p>Every DATEX II enumeration is modelled by JAXB as two generated types: a plain Java {@code
  * enum} (say {@code AddressLineTypeEnum}, with instance method {@code value()} returning the XML
@@ -45,11 +37,10 @@ import java.lang.reflect.Method;
  *
  * <pre>{@code {"value":"_extended","_extendedValue":"myCustom"}}</pre>
  *
- * <p>Both (de)serializers operate purely through reflection over the {@code getValue}/{@code
- * setValue}/{@code get_ExtendedValue}/{@code set_ExtendedValue} methods, so a single pair of
- * instances covers every {@code _XxxEnum} wrapper type in the generated model; callers register
- * them per wrapper type (directly, or via a {@code BeanSerializerModifier}/{@code
- * BeanDeserializerModifier} that detects the wrapper shape).
+ * <p>The serializer operates purely through reflection over the {@code getValue}/{@code
+ * get_ExtendedValue} methods, so a single instance covers every {@code _XxxEnum} wrapper type in
+ * the generated model; callers register it per wrapper type. The corresponding deserialization
+ * direction is handled by {@link DatexJsonModule}'s own contextual deserializer.
  */
 public final class DatexEnumJson {
 
@@ -82,59 +73,6 @@ public final class DatexEnumJson {
                 generator.writeEndObject();
             } catch (ReflectiveOperationException e) {
                 throw new IOException("Failed to serialize DATEX II enum wrapper " + wrapper.getClass(), unwrap(e));
-            }
-        }
-    }
-
-    /**
-     * Deserializes the flat {@code {value,_extendedValue?}} shape back into any {@code _XxxEnum}
-     * wrapper type, discovered contextually from the target property/type being deserialized.
-     */
-    public static final class Deserializer extends JsonDeserializer<Object> implements ContextualDeserializer {
-        private final Class<?> wrapperType;
-
-        public Deserializer() {
-            this(null);
-        }
-
-        private Deserializer(Class<?> wrapperType) {
-            this.wrapperType = wrapperType;
-        }
-
-        @Override
-        public JsonDeserializer<?> createContextual(DeserializationContext context, BeanProperty property) {
-            JavaType type = property != null ? property.getType() : context.getContextualType();
-            return new Deserializer(type != null ? type.getRawClass() : null);
-        }
-
-        @Override
-        public Object deserialize(JsonParser parser, DeserializationContext context) throws IOException {
-            if (wrapperType == null) {
-                throw new IOException("DatexEnumJson.Deserializer needs a contextual target type; "
-                        + "register it via a module that resolves the _XxxEnum wrapper class first");
-            }
-            JsonNode root = parser.getCodec().readTree(parser);
-            try {
-                Object wrapper = wrapperType.getDeclaredConstructor().newInstance();
-                Method getValue = wrapperType.getMethod("getValue");
-                Class<?> enumType = getValue.getReturnType();
-                Method setValue = wrapperType.getMethod("setValue", enumType);
-                Method fromValue = enumType.getMethod("fromValue", String.class);
-
-                JsonNode valueNode = root.get("value");
-                if (valueNode != null && !valueNode.isNull()) {
-                    setValue.invoke(wrapper, fromValue.invoke(null, valueNode.asText()));
-                }
-
-                JsonNode extendedValueNode = root.get("_extendedValue");
-                if (extendedValueNode != null && !extendedValueNode.isNull()) {
-                    Method setExtendedValue = wrapperType.getMethod("set_ExtendedValue", String.class);
-                    setExtendedValue.invoke(wrapper, extendedValueNode.asText());
-                }
-
-                return wrapper;
-            } catch (ReflectiveOperationException e) {
-                throw new IOException("Failed to deserialize DATEX II enum wrapper " + wrapperType, unwrap(e));
             }
         }
     }

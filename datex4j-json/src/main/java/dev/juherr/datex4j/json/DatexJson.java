@@ -29,9 +29,11 @@ import dev.juherr.datex4j.core.DatexVersion;
  *
  * <p>The mapping is <strong>best-effort and lossy</strong>: it targets everyday integration use,
  * not bit-for-bit archival fidelity. Some XML constructs with no natural JSON model slot are
- * dropped on the round trip. Within a single mapper configuration, reads and writes are
- * deterministic and idempotent (the same input always produces the same output, and re-encoding a
- * decoded value reproduces the same bytes).
+ * dropped on the round trip; for example, a {@code locationReference} carrying both a {@code
+ * FacilityLocation} (street address/postcode) and a point location keeps only the point location,
+ * because {@code FacilityLocation} is not a {@code LocationReference} subtype. Within a single
+ * mapper configuration, reads and writes are deterministic and idempotent (the same input always
+ * produces the same output, and re-encoding a decoded value reproduces the same bytes).
  *
  * <p>DATEX II JSON is <strong>not yet officially standardised</strong> by the DATEX II
  * specification. This codec targets the de-facto mapping used by DATEX II wizard tooling and
