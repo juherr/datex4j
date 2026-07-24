@@ -17,6 +17,9 @@ package dev.juherr.datex4j.it.support;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import dev.juherr.datex4j.json.DatexJson;
+import dev.juherr.datex4j.json.DatexJsonException;
+import dev.juherr.datex4j.json.DatexJsonMapper;
 import dev.juherr.datex4j.validation.DatexValidator;
 import dev.juherr.datex4j.xml.DatexMarshaller;
 import dev.juherr.datex4j.xml.DatexXml;
@@ -35,6 +38,7 @@ public final class XmlRoundTrip {
 
     private final DatexMarshaller marshaller = DatexXml.createMarshaller();
     private final DatexValidator validator = DatexValidator.create();
+    private final DatexJsonMapper jsonMapper = DatexJson.createMapper();
 
     public void verify(Dataset dataset) throws Exception {
         byte[] original = readResource(dataset.resourcePath());
@@ -73,6 +77,30 @@ public final class XmlRoundTrip {
                 .build();
         assertThat(diff.hasDifferences())
                 .as("round-trip differences for %s: %s", dataset, diff)
+                .isFalse();
+
+        // 8. optional JSON round-trip (skipped when datex4j-json cannot map this publication)
+        verifyJsonRoundTrip(model, serialized, dataset);
+    }
+
+    private void verifyJsonRoundTrip(Object model, byte[] xmlSerialized, Dataset dataset) {
+        byte[] json;
+        Object fromJson;
+        try {
+            json = jsonMapper.write(model);
+            fromJson = jsonMapper.read(json, dataset.rootType());
+        } catch (DatexJsonException unsupported) {
+            return; // JSON conversion is optional; skip when unsupported for this type
+        }
+        byte[] reserialized = marshaller.write(fromJson);
+        Diff diff = DiffBuilder.compare(xmlSerialized)
+                .withTest(reserialized)
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .build();
+        assertThat(diff.hasDifferences())
+                .as("JSON round-trip differences for %s: %s", dataset, diff)
                 .isFalse();
     }
 
