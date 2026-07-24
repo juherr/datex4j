@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Synthetic, standard (extension-free) DATEX II v3.7 Exchange 2020 message container.
+  It wraps a single minimal SituationPublication payload plus the required
+  exchangeInformation envelope. Used by DatexMessageContainerTest to prove that the
+  XML facade reads and round-trips a MessageContainer rooted document.
+-->
+<mc:messageContainer xmlns:mc="http://datex2.eu/schema/3/messageContainer"
+                     xmlns:com="http://datex2.eu/schema/3/common"
+                     xmlns:sit="http://datex2.eu/schema/3/situation"
+                     xmlns:ex="http://datex2.eu/schema/3/exchangeInformation"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     modelBaseVersion="3">
+  <mc:payload xsi:type="sit:SituationPublication" lang="en" modelBaseVersion="3">
+    <com:publicationTime>2026-07-23T10:15:30Z</com:publicationTime>
+    <com:publicationCreator>
+      <com:country>gb</com:country>
+      <com:nationalIdentifier>datex4j</com:nationalIdentifier>
+    </com:publicationCreator>
+  </mc:payload>
+  <mc:exchangeInformation modelBaseVersion="3">
+    <ex:exchangeContext>
+      <ex:codedExchangeProtocol>snapshotPull</ex:codedExchangeProtocol>
+      <ex:exchangeSpecificationVersion>3.0</ex:exchangeSpecificationVersion>
+    </ex:exchangeContext>
+    <ex:dynamicInformation>
+      <ex:exchangeStatus>online</ex:exchangeStatus>
+      <ex:messageGenerationTimestamp>2026-07-23T10:15:30Z</ex:messageGenerationTimestamp>
+    </ex:dynamicInformation>
+  </mc:exchangeInformation>
+</mc:messageContainer>
