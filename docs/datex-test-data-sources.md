@@ -42,7 +42,7 @@ minor mismatch) · **❌** not usable as-is (DATEX II v2 model or access-gated).
 
 | Source (country) | Feed types / domain | DATEX II version | Access | Licence | Library support |
 |---|---|---|---|---|---|
-| [NDW](#ndw-netherlands--cc0--all-domains) (NL) | situations, SRTI, roadworks, **parking**, VMS, measurement, emission zones | **v3** — mixed minors per NDW profiles | anonymous | **CC0** | ⚠️ parses; truck-parking strict XSD fails on a producer `targetClass` prefix error (`par:` vs fixed `prk:`) on every bundled minor |
+| [NDW](#ndw-netherlands--cc0--all-domains) (NL) | situations, SRTI, roadworks, **parking**, VMS, measurement, emission zones | **v3** — mixed minors per NDW profiles | anonymous | **CC0** | ✅ situations & SRTI (`mc:messageContainer`) validate clean against v3.7; ⚠️ emission-zones drops `urbanVehicleAccessRegulation`; truck-parking strict XSD fails on a producer `targetClass` prefix error (`par:` vs fixed `prk:`) |
 | [Fintraffic AFIR](#fintraffic-finland--cc-by-40) (FI) | EV charging (AFIR) | **v3.6** (conformant JSON, MessageContainer) | anonymous¹ | CC BY 4.0 | ✅ committed dataset |
 | [Fintraffic traffic](#fintraffic-finland--cc-by-40) (FI) | situations, SRTI, roadworks, TMS measurement | **v3.5** (XML) | anonymous¹ | CC BY 4.0 | ✅ validates (real feed has producer data errors) |
 | Fintraffic legacy twins (FI) | same | **v2.2.3** (XML) | anonymous¹ | CC BY 4.0 | ❌ v2 model |
@@ -124,9 +124,14 @@ resolves but the feed emits `targetClass="par:ParkingTable"` where the schema fi
 `prk:ParkingTable` (`cvc-complex-type.3.1`) — a producer data error, not a version gap. Bundling v3.0
 did **not** change this; the dataset stays read-only. See
 [`TruckParkingV30ValidationTest`](../datex4j-integration-tests/src/test/java/dev/juherr/datex4j/it/TruckParkingV30ValidationTest.java).
-The situations `MessageContainer` **fails to unmarshal**
-(national extensions + the XML JAXB context not yet exposing `MessageContainer`). See the
-[Netherlands NAP page](./afir/nap/netherlands.md#other-ndw-datex-ii-feeds-open-data-portal) and
+The situations and SRTI `mc:messageContainer` feeds now **read and validate cleanly** against v3.7
+(zero errors): the validator compiles the `mc:messageContainer` root together with `d2:payload` for
+v3.6/v3.7, so the earlier spurious "element `mc:messageContainer` not declared" root error is gone.
+The `emissiezones` feed reads only its table envelope and **stays invalid**, because its zone records
+use `<cz:urbanVehicleAccessRegulation>` — an element absent from every bundled v3.x schema. These
+per-feed outcomes are asserted by
+[`Datex3TrafficFeedReadValidateTest`](../datex4j-integration-tests/src/test/java/dev/juherr/datex4j/it/Datex3TrafficFeedReadValidateTest.java).
+See the [Netherlands NAP page](./afir/nap/netherlands.md#other-ndw-datex-ii-feeds-open-data-portal) and
 [version coverage & gaps](#datex-ii-version-coverage--gaps).
 
 ## Fintraffic (Finland) — CC BY 4.0

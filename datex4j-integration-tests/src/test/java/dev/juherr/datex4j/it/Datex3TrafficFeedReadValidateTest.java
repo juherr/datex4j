@@ -44,26 +44,30 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * <p>For every feed the test proves the {@code datex4j-xml} codec <strong>reads</strong> the feed
  * into the expected publication type and that real content survives (a stable identifier from the
- * source reappears when the parsed model is re-serialized), then runs the bundled XSD validator and
+ * source reappears when the parsed model is re-serialized), then runs the bundled XSD validator,
  * <strong>reports</strong> the outcome (valid / error-count / first errors) through {@link
- * TestReporter}. It deliberately asserts only that the parse succeeds — real feeds routinely carry
- * producer data-quality errors, national extensions (dropped on the lax read) or cross-minor drift,
- * so XSD validity is reported honestly rather than asserted.
+ * TestReporter} and asserts the now-known validity verdict. Because the validator compiles both the
+ * {@code d2:payload} and the Exchange-2020 {@code mc:messageContainer} root schemas (v3.6/v3.7),
+ * {@code mc:messageContainer}-rooted feeds are validated on the same footing as bare payloads.
  *
- * <p>Two honest, verified caveats are baked into the fixtures below:
+ * <p>Per-feed validity, honestly recorded:
  *
  * <ul>
- *   <li><strong>Feed minor version.</strong> The NDW feeds are Exchange-2020 {@code
- *       mc:messageContainer} documents read into the v3.7 model; FR DiaLog is a bare {@code
- *       d2:payload} authored against an older DATEX II minor (it uses {@code
- *       xsi:type="ValidityCondition"}, a {@code TrafficRegulation} {@code Condition} subtype that
- *       exists only in v3.2/v3.3 and was removed in v3.4+), so it is read and validated against
- *       <strong>v3.3</strong>. It does not read into v3.7 at all.
- *   <li><strong>messageContainer validation.</strong> The bundled validator's root schema is {@code
- *       DATEXII_3_D2Payload.xsd}, which declares the {@code d2:payload} root but not the Exchange
- *       {@code mc:messageContainer} root; container feeds therefore always report at least a {@code
- *       cvc-elt.1.a} "element mc:messageContainer not declared" error even when their payload is
- *       otherwise sound. This is reported, not asserted.
+ *   <li><strong>NDW situations and SRTI</strong> ({@code mc:messageContainer} into v3.7) validate
+ *       <strong>cleanly</strong>. Removing the former container-root limitation exposed that these
+ *       payloads are schema-valid; the previously reported {@code mc:messageContainer} "not declared"
+ *       root error was spurious and is now gone.
+ *   <li><strong>NDW emission zones / UVAR</strong> ({@code mc:messageContainer} into v3.7) remains
+ *       <strong>invalid</strong>: its zone records use {@code <cz:urbanVehicleAccessRegulation>}, an
+ *       element absent from every bundled v3.x schema (dropped on the lax read), so validation of the
+ *       raw bytes reports genuine producer/extension errors. Only the table envelope survives the
+ *       read; the asserted token is the (surviving) tableVersionTime.
+ *   <li><strong>FR DiaLog</strong> is a bare {@code d2:payload} authored against an older DATEX II
+ *       minor (it uses {@code xsi:type="ValidityCondition"}, a {@code TrafficRegulation} {@code
+ *       Condition} subtype that exists only in v3.2/v3.3 and was removed in v3.4+), so it is read and
+ *       validated against <strong>v3.3</strong> and does not read into v3.7 at all. It remains
+ *       <strong>invalid</strong> against v3.3 for producer reasons (a non-enumerated {@code
+ *       commercial} vehicle type and a national {@code otherVehicleType} extension element).
  * </ul>
  */
 class Datex3TrafficFeedReadValidateTest {
@@ -87,6 +91,8 @@ class Datex3TrafficFeedReadValidateTest {
      * @param publicationType the expected publication type carried by the feed
      * @param contentToken a verbatim, standard-field substring from the real feed that must survive
      *     the read and reappear in the re-serialized publication
+     * @param expectedValid whether the raw feed bytes validate cleanly against the bundled XSDs for
+     *     {@code version}
      */
     private record Feed(
             String country,
@@ -95,7 +101,8 @@ class Datex3TrafficFeedReadValidateTest {
             Root root,
             DatexVersion version,
             Class<?> publicationType,
-            String contentToken) {
+            String contentToken,
+            boolean expectedValid) {
         @Override
         public String toString() {
             return country + "/" + name;
@@ -104,7 +111,7 @@ class Datex3TrafficFeedReadValidateTest {
 
     static List<Feed> feeds() {
         return List.of(
-                // NDW situations (CC0): mc:messageContainer -> SituationPublication, v3.7.
+                // NDW situations (CC0): mc:messageContainer -> SituationPublication, v3.7. Validates cleanly.
                 new Feed(
                         "netherlands",
                         "situations",
@@ -112,8 +119,10 @@ class Datex3TrafficFeedReadValidateTest {
                         Root.MESSAGE_CONTAINER,
                         DatexVersion.V3_7,
                         SituationPublication.class,
-                        "RWS01_SM1162215_D2_WWA"),
+                        "RWS01_SM1162215_D2_WWA",
+                        true),
                 // NDW SRTI safety-related messages (CC0): mc:messageContainer -> SituationPublication, v3.7.
+                // Validates cleanly.
                 new Feed(
                         "netherlands",
                         "srti",
@@ -121,11 +130,13 @@ class Datex3TrafficFeedReadValidateTest {
                         Root.MESSAGE_CONTAINER,
                         DatexVersion.V3_7,
                         SituationPublication.class,
-                        "NDW08_9d8afcc1-fd11-44f5-9653-0efae246856a_SIT"),
+                        "NDW08_9d8afcc1-fd11-44f5-9653-0efae246856a_SIT",
+                        true),
                 // NDW emission zones / UVAR (CC0): mc:messageContainer -> ControlledZoneTablePublication,
                 // v3.7. NOTE: the feed's zone records use <cz:urbanVehicleAccessRegulation>, an element
                 // absent from every bundled v3.x schema, so the zones are dropped on the lax read and only
                 // the table envelope survives. The asserted token is the (surviving) tableVersionTime.
+                // Raw-byte validation still fails on the unknown element and related producer errors.
                 new Feed(
                         "netherlands",
                         "emission-zones",
@@ -133,9 +144,11 @@ class Datex3TrafficFeedReadValidateTest {
                         Root.MESSAGE_CONTAINER,
                         DatexVersion.V3_7,
                         ControlledZoneTablePublication.class,
-                        "2026-07-23T06:00:00.771432340Z"),
+                        "2026-07-23T06:00:00.771432340Z",
+                        false),
                 // FR DiaLog (Licence Ouverte 2.0): bare d2:payload -> TrafficRegulationPublication, v3.3
-                // (uses xsi:type="ValidityCondition", removed after v3.3).
+                // (uses xsi:type="ValidityCondition", removed after v3.3). Invalid against v3.3 for producer
+                // reasons (non-enumerated 'commercial' vehicleType and an otherVehicleType extension).
                 new Feed(
                         "france",
                         "dialog-regulations",
@@ -143,7 +156,8 @@ class Datex3TrafficFeedReadValidateTest {
                         Root.BARE_PAYLOAD,
                         DatexVersion.V3_3,
                         dev.juherr.datex4j.model.v3_3.trafficregulation.TrafficRegulationPublication.class,
-                        "018a45df-58c3-740c-b712-37d3d2ca25f8"));
+                        "018a45df-58c3-740c-b712-37d3d2ca25f8",
+                        false));
     }
 
     @ParameterizedTest(name = "{0}")
@@ -179,6 +193,12 @@ class Datex3TrafficFeedReadValidateTest {
         entry.put("error-count", Integer.toString(validation.errors().size()));
         entry.put("first-errors", firstErrors(validation));
         reporter.publishEntry(entry);
+
+        // Now that both root schemas are compiled, container-rooted feeds validate on the same footing
+        // as bare payloads; assert the honest, verified verdict for each feed.
+        assertThat(validation.isValid())
+                .as("XSD validity for %s (errors: %s)", feed, firstErrors(validation))
+                .isEqualTo(feed.expectedValid());
     }
 
     private static Object read(DatexMarshaller marshaller, Feed feed, byte[] bytes) {

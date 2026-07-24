@@ -21,6 +21,9 @@ import dev.juherr.datex4j.core.DatexVersion;
 import dev.juherr.datex4j.model.v3_7.common.InternationalIdentifier;
 import dev.juherr.datex4j.model.v3_7.situation.SituationPublication;
 import dev.juherr.datex4j.xml.DatexXml;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -49,6 +52,25 @@ class DatexValidatorTest {
         assertThat(result.isValid()).isFalse();
         assertThat(result.errors()).isNotEmpty();
         assertThat(result.errors().get(0).lineNumber()).isPositive();
+    }
+
+    @Test
+    void acceptsAValidMessageContainerDocument() {
+        byte[] xml = resource("/messagecontainer/message-container-v3_7.xml");
+
+        ValidationResult result = validator.validate(xml);
+
+        assertThat(result.isValid()).isTrue();
+        assertThat(result.errors()).isEmpty();
+    }
+
+    @Test
+    void stillAcceptsAPayloadRootedDocument() {
+        // The message container roots must not regress plain payload-rooted validation.
+        ValidationResult result = validator.validate(validPublication());
+
+        assertThat(result.isValid()).isTrue();
+        assertThat(result.errors()).isEmpty();
     }
 
     @Test
@@ -83,6 +105,17 @@ class DatexValidatorTest {
         creator.setNationalIdentifier("datex4j");
         publication.setPublicationCreator(creator);
         return publication;
+    }
+
+    private static byte[] resource(String path) {
+        try (InputStream in = DatexValidatorTest.class.getResourceAsStream(path)) {
+            if (in == null) {
+                throw new IllegalStateException("Missing test resource: " + path);
+            }
+            return in.readAllBytes();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     private static javax.xml.datatype.XMLGregorianCalendar dateTime() {
