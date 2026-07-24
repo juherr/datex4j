@@ -21,6 +21,7 @@ import dev.juherr.datex4j.model.v3_7.common.MultilingualString;
 import dev.juherr.datex4j.model.v3_7.common.MultilingualStringValue;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricChargingPoint;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureSite;
+import dev.juherr.datex4j.model.v3_7.facilities.OrganisationSpecification;
 import dev.juherr.datex4j.model.v3_7.locationextension.FacilityLocation;
 import dev.juherr.datex4j.ocpi.mapping.internal.FacilityLocations;
 import dev.juherr.datex4j.ocpi.mapping.internal.MultilingualStrings;
@@ -325,5 +326,59 @@ class LocationMapperTest {
         EnergyInfrastructureSite site = mapper.toDatex(location);
 
         assertThat(site.getLocationReference()).isNull();
+    }
+
+    private static Location operatorDetailedLocation() {
+        Location location = sampleLocation();
+        location.setCountryCode("NL");
+        location.setPartyId("TNM");
+        BusinessDetails suboperator = new BusinessDetails();
+        suboperator.setName("Sub Inc");
+        location.setSuboperator(suboperator);
+        return location;
+    }
+
+    @Test
+    void toDatexMapsOperatorCodeAndSuboperator() {
+        EnergyInfrastructureSite site = mapper.toDatex(operatorDetailedLocation());
+
+        OrganisationSpecification operator = (OrganisationSpecification) site.getOperator();
+        assertThat(operator.getNationalOrganisationNumber()).isEqualTo("NL*TNM");
+        assertThat(operator.getSubOrganisation()).hasSize(1);
+        OrganisationSpecification sub =
+                (OrganisationSpecification) operator.getSubOrganisation().get(0);
+        assertThat(MultilingualStrings.firstValue(sub.getName())).isEqualTo("Sub Inc");
+    }
+
+    @Test
+    void roundTripsOperatorCodeAndSuboperator() {
+        Location roundTrip = mapper.toOcpi(mapper.toDatex(operatorDetailedLocation()));
+
+        assertThat(roundTrip.getCountryCode()).isEqualTo("NL");
+        assertThat(roundTrip.getPartyId()).isEqualTo("TNM");
+        assertThat(roundTrip.getSuboperator()).isNotNull();
+        assertThat(roundTrip.getSuboperator().getName()).isEqualTo("Sub Inc");
+    }
+
+    @Test
+    void toDatexCarriesOperatorCodeWithoutOperatorBusinessDetails() {
+        Location location = operatorDetailedLocation();
+        location.setOperator(null);
+        location.setSuboperator(null);
+
+        EnergyInfrastructureSite site = mapper.toDatex(location);
+
+        OrganisationSpecification operator = (OrganisationSpecification) site.getOperator();
+        assertThat(operator.getNationalOrganisationNumber()).isEqualTo("NL*TNM");
+        assertThat(operator.getName()).isNull();
+    }
+
+    @Test
+    void toDatexLeavesOperatorUntouchedWithoutCodeOrSuboperator() {
+        EnergyInfrastructureSite site = mapper.toDatex(sampleLocation());
+
+        OrganisationSpecification operator = (OrganisationSpecification) site.getOperator();
+        assertThat(operator.getNationalOrganisationNumber()).isNull();
+        assertThat(operator.getSubOrganisation()).isEmpty();
     }
 }
