@@ -4,6 +4,10 @@ Curated, direct links to the official DATEX II and AFIR sources this knowledge b
 Every URL below was checked (fetched or resolved) while writing this page; where an official,
 citable link could not be confirmed, that is stated explicitly instead of guessing one.
 
+> This page is AFIR-focused. For a cross-domain catalogue of open DATEX II data sources usable to
+> test the whole library (situations, SRTI, parking, VMS, roadworks, …), see
+> [`../datex-test-data-sources.md`](../datex-test-data-sources.md).
+
 ## DATEX II documentation portal
 
 - **URL:** <https://docs.datex2.eu>

@@ -5,6 +5,10 @@ validates, re-serializes and diffs (see the module's own README for how the harn
 holds, per country, a `README.md` describing how to obtain that country's real AFIR dataset even
 where the file itself is not committed here.
 
+> For a catalogue of open DATEX II data sources across **all** domains (situations, SRTI, parking,
+> VMS, roadworks, EV charging) — not only AFIR — see
+> [`docs/datex-test-data-sources.md`](../../../../../docs/datex-test-data-sources.md).
+
 Fixtures come in two on-the-wire formats, dispatched by the harness on the `Dataset.Format` recorded
 in the catalog:
 
