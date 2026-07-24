@@ -21,6 +21,8 @@ import dev.juherr.datex4j.model.v3_7.common.MultilingualString;
 import dev.juherr.datex4j.model.v3_7.common.MultilingualStringValue;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricChargingPoint;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureSite;
+import dev.juherr.datex4j.model.v3_7.locationextension.FacilityLocation;
+import dev.juherr.datex4j.ocpi.mapping.internal.FacilityLocations;
 import dev.juherr.datex4j.ocpi.mapping.internal.MultilingualStrings;
 import dev.juherr.datex4j.ocpi.model.v2_3.BusinessDetails;
 import dev.juherr.datex4j.ocpi.model.v2_3.DisplayText;
@@ -282,5 +284,46 @@ class LocationMapperTest {
         Location roundTrip = mapper.toOcpi(mapper.toDatex(sampleLocation()));
 
         assertThat(roundTrip.getOpeningTimes()).isNull();
+    }
+
+    private static Location addressedLocation() {
+        Location location = sampleLocation();
+        location.setAddress("Main Street 1");
+        location.setCity("Springfield");
+        location.setPostalCode("12345");
+        location.setCountry("USA");
+        location.setTimeZone("Europe/Amsterdam");
+        return location;
+    }
+
+    @Test
+    void toDatexAnchorsAddressAndTimeZoneOnLocationReference() {
+        EnergyInfrastructureSite site = mapper.toDatex(addressedLocation());
+
+        FacilityLocation facility = FacilityLocations.of(site.getLocationReference());
+        assertThat(facility).isNotNull();
+        assertThat(facility.getTimeZone()).isEqualTo("Europe/Amsterdam");
+        assertThat(facility.getAddress().getPostcode()).isEqualTo("12345");
+    }
+
+    @Test
+    void roundTripsAddressAndTimeZone() {
+        Location roundTrip = mapper.toOcpi(mapper.toDatex(addressedLocation()));
+
+        assertThat(roundTrip.getAddress()).isEqualTo("Main Street 1");
+        assertThat(roundTrip.getCity()).isEqualTo("Springfield");
+        assertThat(roundTrip.getPostalCode()).isEqualTo("12345");
+        assertThat(roundTrip.getCountry()).isEqualTo("USA");
+        assertThat(roundTrip.getTimeZone()).isEqualTo("Europe/Amsterdam");
+    }
+
+    @Test
+    void toDatexDropsAddressWhenLocationHasNoCoordinates() {
+        Location location = addressedLocation();
+        location.setCoordinates(null);
+
+        EnergyInfrastructureSite site = mapper.toDatex(location);
+
+        assertThat(site.getLocationReference()).isNull();
     }
 }

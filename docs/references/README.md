@@ -82,15 +82,20 @@ EnergyInfrastructureSite            (= OCPI Location)
 | Opening hours (24/7 + regular weekly subset) | ✅ conform (documented subset; exceptional openings not mapped) |
 | Availability status (`RefillPointStatus.currentStatus`) | ✅ conform |
 | Ad-hoc price (`EnergyPricingPolicy`) | ✅ conform |
-| **Address (street/postcode/city/country)** | ❌ **not mapped** — reachable and prescribed; see gap below |
-| **Timezone** | ❌ **not mapped** — reachable and prescribed; see gap below |
+| **Address (street/postcode/city/country)** | ✅ conform — `FacilityLocation → Address`, via `AddressMapper` |
+| **Timezone** | ✅ conform — `FacilityLocation → timeZone`, via `AddressMapper` |
 | Telephone, suboperator, operator code | ⚠️ not mapped (documented) — the deliverable prescribes these |
 | Operator website | ⚠️ mapped to `linkToWebform` (deliverable uses `linkToGeneralInformation`) |
 
-**Gap — address & timezone.** `LocationMapper` currently documents `address` and `time_zone`
-as *unmappable* ("reachable solely through the generic `_extension` (xs:any) mechanism").
-This is **incorrect**: in the generated v3.7 model, `FacilityLocation` (carrying `timeZone`
-and `Address`) is reachable through a **fully typed** chain —
-`LocationReference.get_LocationReferenceExtension().getFacilityLocation()` — and the IDACS
-deliverable explicitly prescribes this mapping. Mapping OCPI `address` / `time_zone` here
-would raise conformance to the deliverable's mandatory static dataset. Tracked as follow-up.
+**Address & time zone anchoring.** `FacilityLocation` (carrying `timeZone` and `Address`) is
+reachable through a **fully typed** chain —
+`LocationReference.get_LocationReferenceExtension().getFacilityLocation()` — not only through the
+generic `xs:any` extension. `AddressMapper` maps the OCPI `address` / `city` / `postal_code` /
+`country` / `time_zone` scalars onto it and anchors it on the site's location reference. Because
+that anchor is the location reference, a location with no coordinates has nowhere to carry the
+facility location, so address and time zone are dropped in that case (documented limitation).
+
+**Remaining follow-ups (deliverable-prescribed, not yet mapped):** operator telephone
+(`OrganisationSpecification.organisationUnit.contactInformation.telephoneNumber`), suboperator
+name, operator code (`nationalOrganisationNumber`); and operator website currently uses
+`linkToWebform` where the deliverable uses `linkToGeneralInformation`.
