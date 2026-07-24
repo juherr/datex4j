@@ -30,15 +30,18 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Reads and writes DATEX II model objects as JSON, hiding Jackson.
+ * Reads and writes DATEX II model objects as conformant DATEX II JSON, hiding Jackson. See {@link
+ * DatexJson} for an overview of the conformant format, its best-effort/lossy guarantees, and its
+ * standardisation status.
  *
  * <p>The mapper honours the model's Jakarta XML Binding annotations so property names match the
  * DATEX II model, and maps the XML temporal types via {@link DatexTemporalModule}. Instances are
  * immutable and thread-safe and may be shared across an application.
  *
- * <p>Unlike XML, JSON has no single root element, so objects are serialized directly (no {@code
- * payload} wrapper). Any DATEX II object of any bundled version can be written; {@code read} returns
- * the requested type.
+ * <p>Any DATEX II object of any bundled version can be written; {@link #read} returns the
+ * requested type. A {@code MessageContainer} value is the one exception: {@link #write} and {@link
+ * #writeToString} emit the conformant {@code payload}/{@code exchangeInformation} envelope for it
+ * (see {@link #readContainer}), while every other type is serialized directly with no wrapper.
  */
 public final class DatexJsonMapper {
 
@@ -151,8 +154,6 @@ public final class DatexJsonMapper {
      * Deserializes a conformant DATEX II JSON message container, restoring namespace-prefixed
      * fields, flattened multilingual strings, enum {@code {value, _extendedValue}} encodings,
      * {@code G}-suffixed attributes, and substitution prefix+type markers back into the model.
-     *
-     * <p>Not yet implemented; see the {@code datex4j-json} conformant JSON codec work.
      *
      * @param json the conformant JSON document
      * @param type the expected container type

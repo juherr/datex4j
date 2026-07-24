@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Reads and writes the DATEX II conformant JSON root: {@code {"payload":[...],
@@ -43,7 +42,7 @@ import java.util.Set;
  */
 public final class MessageContainerJson {
 
-    private static final Set<String> HOISTED_ATTRIBUTES = Set.of("idG", "versionG", "modelBaseVersionG");
+    private static final List<String> HOISTED_ATTRIBUTES = List.of("idG", "versionG", "modelBaseVersionG");
 
     private MessageContainerJson() {}
 
@@ -125,6 +124,11 @@ public final class MessageContainerJson {
             return container;
         } catch (ReflectiveOperationException e) {
             throw new IOException("Failed to read DATEX II message container", unwrap(e));
+        } catch (IllegalArgumentException | ClassCastException e) {
+            throw new IOException(
+                    "Failed to read DATEX II message container: malformed or unknown payload member (" + e.getMessage()
+                            + ")",
+                    e);
         }
     }
 
