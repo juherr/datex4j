@@ -10,25 +10,17 @@
     <version>0.1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>datex4j-xml</artifactId>
+  <artifactId>datex4j-model-spi</artifactId>
   <packaging>jar</packaging>
 
-  <name>datex4j-xml</name>
+  <name>datex4j-model-spi</name>
   <description>
-    Small, JAXB-hiding API for reading, writing, validating and pretty-printing DATEX II XML.
+    Service Provider Interface consumed by the datex4j facades to discover the generated DATEX II
+    model of a given version at runtime. Each datex4j-model-vX_Y module ships one implementation,
+    registered through java.util.ServiceLoader.
   </description>
 
   <dependencies>
-    <!-- SPI consumed by the ServiceLoader-based VersionModel registry (main code). -->
-    <dependency>
-      <groupId>dev.juherr.datex4j</groupId>
-      <artifactId>datex4j-model-spi</artifactId>
-    </dependency>
-    <!-- Aggregate of every generated model: provides the DatexModelProvider services + XSDs. -->
-    <dependency>
-      <groupId>dev.juherr.datex4j</groupId>
-      <artifactId>datex4j-model</artifactId>
-    </dependency>
     <dependency>
       <groupId>dev.juherr.datex4j</groupId>
       <artifactId>datex4j-core</artifactId>
@@ -36,11 +28,6 @@
     <dependency>
       <groupId>jakarta.xml.bind</groupId>
       <artifactId>jakarta.xml.bind-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jaxb</groupId>
-      <artifactId>jaxb-runtime</artifactId>
-      <scope>runtime</scope>
     </dependency>
 
     <dependency>
@@ -52,18 +39,13 @@
 
   <build>
     <plugins>
-      <!--
-        Consumable as a JPMS automatic module. A full module-info is intentionally deferred:
-        this module depends on the generated automatic module datex4j-model and drives JAXB
-        reflection, which a named module makes fragile under `mvn test`. See docs/architecture.md.
-      -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
           <archive>
             <manifestEntries>
-              <Automatic-Module-Name>dev.juherr.datex4j.xml</Automatic-Module-Name>
+              <Automatic-Module-Name>dev.juherr.datex4j.model.spi</Automatic-Module-Name>
             </manifestEntries>
           </archive>
         </configuration>

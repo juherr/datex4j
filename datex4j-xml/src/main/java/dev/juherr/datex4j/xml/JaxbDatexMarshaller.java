@@ -16,6 +16,7 @@
 package dev.juherr.datex4j.xml;
 
 import dev.juherr.datex4j.core.DatexVersion;
+import dev.juherr.datex4j.model.spi.DatexModelProvider;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
@@ -38,7 +39,7 @@ import javax.xml.validation.Schema;
  */
 final class JaxbDatexMarshaller implements DatexMarshaller {
 
-    private final VersionModel model;
+    private final DatexModelProvider model;
     private final JAXBContext context;
     private final Schema schema;
     private final boolean prettyPrint;

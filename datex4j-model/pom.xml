@@ -15,14 +15,45 @@
 
   <name>datex4j-model</name>
   <description>
-    Generated DATEX II model classes (JAXB), produced from the official DATEX II XML Schemas.
-    This module contains no hand-written logic: every class is generated from the vendored XSDs.
+    Aggregate of every generated DATEX II model version. Depending on this artifact pulls in all
+    datex4j-model-vX_Y modules (v3.0 through v3.7) transitively, together with their bundled XSD
+    resources and ServiceLoader-registered DatexModelProvider implementations. Consumers that only
+    need a single version may depend on the matching datex4j-model-vX_Y module directly instead.
   </description>
 
   <dependencies>
+    <!-- Re-expose every per-version model (and, transitively, datex4j-model-spi + datex4j-core). -->
     <dependency>
-      <groupId>jakarta.xml.bind</groupId>
-      <artifactId>jakarta.xml.bind-api</artifactId>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-model-v3_0</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-model-v3_1</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-model-v3_2</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-model-v3_3</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-model-v3_4</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-model-v3_5</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-model-v3_6</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-model-v3_7</artifactId>
     </dependency>
 
     <dependency>
@@ -34,131 +65,7 @@
 
   <build>
     <plugins>
-      <!--
-        Generate the DATEX II model from the vendored XSDs.
-        Output goes to target/generated-sources/xjc and is never committed.
-      -->
-      <plugin>
-        <groupId>org.jvnet.jaxb</groupId>
-        <artifactId>jaxb-maven-plugin</artifactId>
-        <configuration>
-          <bindingDirectory>${project.basedir}/src/main/xjb</bindingDirectory>
-          <schemaIncludes>
-            <include>*.xsd</include>
-          </schemaIncludes>
-          <locale>en</locale>
-          <verbose>false</verbose>
-        </configuration>
-        <executions>
-          <!-- One execution per supported DATEX II version; each targets a version-scoped package. -->
-          <execution>
-            <id>generate-v3.0</id>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <schemaDirectory>${project.basedir}/src/main/resources/META-INF/datex4j/schema/v3.0</schemaDirectory>
-              <bindingIncludes>
-                <include>bindings-v3.0.xjb</include>
-              </bindingIncludes>
-              <generateDirectory>${project.build.directory}/generated-sources/xjc-v3.0</generateDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>generate-v3.1</id>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <schemaDirectory>${project.basedir}/src/main/resources/META-INF/datex4j/schema/v3.1</schemaDirectory>
-              <bindingIncludes>
-                <include>bindings-v3.1.xjb</include>
-              </bindingIncludes>
-              <generateDirectory>${project.build.directory}/generated-sources/xjc-v3.1</generateDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>generate-v3.2</id>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <schemaDirectory>${project.basedir}/src/main/resources/META-INF/datex4j/schema/v3.2</schemaDirectory>
-              <bindingIncludes>
-                <include>bindings-v3.2.xjb</include>
-              </bindingIncludes>
-              <generateDirectory>${project.build.directory}/generated-sources/xjc-v3.2</generateDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>generate-v3.3</id>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <schemaDirectory>${project.basedir}/src/main/resources/META-INF/datex4j/schema/v3.3</schemaDirectory>
-              <bindingIncludes>
-                <include>bindings-v3.3.xjb</include>
-              </bindingIncludes>
-              <generateDirectory>${project.build.directory}/generated-sources/xjc-v3.3</generateDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>generate-v3.4</id>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <schemaDirectory>${project.basedir}/src/main/resources/META-INF/datex4j/schema/v3.4</schemaDirectory>
-              <bindingIncludes>
-                <include>bindings-v3.4.xjb</include>
-              </bindingIncludes>
-              <generateDirectory>${project.build.directory}/generated-sources/xjc-v3.4</generateDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>generate-v3.5</id>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <schemaDirectory>${project.basedir}/src/main/resources/META-INF/datex4j/schema/v3.5</schemaDirectory>
-              <bindingIncludes>
-                <include>bindings-v3.5.xjb</include>
-              </bindingIncludes>
-              <generateDirectory>${project.build.directory}/generated-sources/xjc-v3.5</generateDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>generate-v3.6</id>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <schemaDirectory>${project.basedir}/src/main/resources/META-INF/datex4j/schema/v3.6</schemaDirectory>
-              <bindingIncludes>
-                <include>bindings-v3.6.xjb</include>
-              </bindingIncludes>
-              <generateDirectory>${project.build.directory}/generated-sources/xjc-v3.6</generateDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>generate-v3.7</id>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <schemaDirectory>${project.basedir}/src/main/resources/META-INF/datex4j/schema/v3.7</schemaDirectory>
-              <bindingIncludes>
-                <include>bindings-v3.7.xjb</include>
-              </bindingIncludes>
-              <generateDirectory>${project.build.directory}/generated-sources/xjc-v3.7</generateDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- Generated model is JPMS-consumable as an automatic module. -->
+      <!-- Keep the historical automatic-module name for the aggregate jar (no classes of its own). -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -171,7 +78,7 @@
         </configuration>
       </plugin>
 
-      <!-- No hand-written code to cover here; generated model is excluded from coverage. -->
+      <!-- No hand-written code to cover here; the generated models live in the per-version modules. -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>

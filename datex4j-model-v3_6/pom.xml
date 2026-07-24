@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>dev.juherr.datex4j</groupId>
+    <artifactId>datex4j</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>datex4j-model-v3_6</artifactId>
+  <packaging>jar</packaging>
+
+  <name>datex4j-model-v3_6</name>
+  <description>
+    Generated DATEX II v3.6 model classes (JAXB), produced from the official DATEX II XML Schemas,
+    plus the hand-written DatexModelProvider that exposes this version to the datex4j facades.
+  </description>
+
+  <dependencies>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-model-spi</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!--
+        Generate the DATEX II v3.6 model from the vendored XSDs into the version-scoped package
+        dev.juherr.datex4j.model.v3_6.*. Output goes to target/generated-sources and is never committed.
+      -->
+      <plugin>
+        <groupId>org.jvnet.jaxb</groupId>
+        <artifactId>jaxb-maven-plugin</artifactId>
+        <configuration>
+          <bindingDirectory>${project.basedir}/src/main/xjb</bindingDirectory>
+          <schemaIncludes>
+            <include>*.xsd</include>
+          </schemaIncludes>
+          <locale>en</locale>
+          <verbose>false</verbose>
+        </configuration>
+        <executions>
+          <execution>
+            <id>generate-v3.6</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <schemaDirectory>${project.basedir}/src/main/resources/META-INF/datex4j/schema/v3.6</schemaDirectory>
+              <bindingIncludes>
+                <include>bindings-v3.6.xjb</include>
+              </bindingIncludes>
+              <generateDirectory>${project.build.directory}/generated-sources/xjc-v3.6</generateDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Generated model is JPMS-consumable as an automatic module. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Automatic-Module-Name>dev.juherr.datex4j.model.v3_6</Automatic-Module-Name>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <!-- Generated model carries no hand-written logic beyond the provider; keep coverage off. -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
