@@ -18,6 +18,7 @@ package dev.juherr.datex4j.it.support;
 import dev.juherr.datex4j.core.DatexVersion;
 import dev.juherr.datex4j.model.v3_6.messagecontainer.MessageContainer;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureTablePublication;
+import dev.juherr.datex4j.model.v3_7.parking.ParkingStatusPublication;
 import java.util.List;
 
 /** The explicit registry of committed dataset fixtures exercised by the round-trip suite. */
@@ -42,7 +43,17 @@ public final class DatasetCatalog {
                         Dataset.Format.JSON,
                         DatexVersion.V3_6,
                         "/datasets/finland/afir-messagecontainer.v3_6.json",
-                        MessageContainer.class));
+                        MessageContainer.class),
+                // Real-world NDW truck-parking status feed (CC0): DATEX II v3 XML that parses into
+                // the model but fails strict XSD validation (targetClass prefix drift), so it is
+                // exercised read-only. See the dataset README.
+                new Dataset(
+                        "truckparking-status",
+                        "netherlands",
+                        Dataset.Format.XML_READ_ONLY,
+                        DatexVersion.V3_7,
+                        "/datasets/netherlands/truckparking-status.xml",
+                        ParkingStatusPublication.class));
         // Register committed official/country datasets here as they are added.
     }
 }
