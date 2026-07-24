@@ -10,9 +10,12 @@
   Digitraffic as Finland's open-data access point for road, rail, and marine traffic data — including
   the AFIR recharging-network endpoints covered here.
 - **AFIR status:** Digitraffic already publishes a **DATEX II v3.6** endpoint for AFIR
-  recharging-network data alongside a GeoJSON one, ahead of the EU-wide 14 April 2026 mandatory-use
-  date (see [`../README.md#afir`](../README.md#afir)) — Finland is, together with Germany, one of the
-  countries with a concretely citable DATEX II AFIR endpoint at the time of writing.
+  recharging-network data alongside a GeoJSON one, ahead of the EU-wide date from which DATEX II
+  becomes the mandatory format for the AFIR Article 20(2) charging-point data — 14 April 2026, under
+  [Commission Implementing Regulation (EU) 2025/655](https://transport.ec.europa.eu/news-events/news/commission-enhances-interoperability-and-transparency-alternative-fuels-infrastructure-data-2025-04-11_en)
+  (the underlying AFIR Article 20 data-via-NAP obligation has applied since 14 April 2025; see
+  [`../README.md#afir`](../README.md#afir)) — Finland is, together with Germany, one of the countries
+  with a concretely citable DATEX II AFIR endpoint at the time of writing.
 
 ## Useful links
 

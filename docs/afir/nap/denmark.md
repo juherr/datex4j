@@ -10,10 +10,13 @@
   (Klimadatastyrelsen) is separately developing a national overview of publicly accessible charging
   points, in collaboration with Vejdirektoratet — see
   [its page on the initiative](https://www.eng.klimadatastyrelsen.dk/green-transition-and-climate-adaptation/national-mapping-of-charging-point-data).
-- **AFIR status:** Denmark is reported as one of the EU's operational NAPs, with the EU-wide DATEX II
-  mandate applying from 14 April 2026 (see [`../README.md#afir`](../README.md#afir)). **Neither a
-  public dataset URL, a confirmed format, nor a licence could be confirmed** for Denmark's AFIR
-  recharging data at the time of writing — see "Available datasets" below.
+- **AFIR status:** Denmark is reported as one of the EU's operational NAPs. DATEX II becomes the
+  mandatory EU-wide format for the AFIR Article 20(2) charging-point data from 14 April 2026 under
+  [Commission Implementing Regulation (EU) 2025/655](https://transport.ec.europa.eu/news-events/news/commission-enhances-interoperability-and-transparency-alternative-fuels-infrastructure-data-2025-04-11_en);
+  the underlying AFIR Article 20 data-via-NAP obligation has applied since 14 April 2025 (see
+  [`../README.md#afir`](../README.md#afir)). **Neither a public dataset URL, a confirmed format, nor a
+  licence could be confirmed** for Denmark's AFIR recharging data at the time of writing — see
+  "Available datasets" below.
 
 ## Useful links
 

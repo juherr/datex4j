@@ -10,10 +10,12 @@
   European Climate, Infrastructure and Environment Executive Agency (CINEA) — per the platform's
   ["About" page](https://mobilitaetsdaten.gv.at/en/about-mobilitydatagvat).
 - **AFIR status:** the platform's data catalogue lists a "Filling and charging stations" category
-  covering location and availability of charging points, mandatory in DATEX II across the EU from 14
-  April 2026 (see [`../README.md#afir`](../README.md#afir)). **No dataset in that category was
-  confirmed to already be published in DATEX II format** at the time of writing — see "Available
-  datasets" below.
+  covering location and availability of charging points. DATEX II becomes the mandatory EU-wide
+  format for the AFIR Article 20(2) charging-point data from 14 April 2026 under [Commission
+  Implementing Regulation (EU) 2025/655](https://transport.ec.europa.eu/news-events/news/commission-enhances-interoperability-and-transparency-alternative-fuels-infrastructure-data-2025-04-11_en);
+  the underlying AFIR Article 20 data-via-NAP obligation has applied since 14 April 2025 (see
+  [`../README.md#afir`](../README.md#afir)). **No dataset in that category was confirmed to already
+  be published in DATEX II format** at the time of writing — see "Available datasets" below.
 
 ## Useful links
 
