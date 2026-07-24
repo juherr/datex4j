@@ -1,7 +1,83 @@
 # Dataset: netherlands
 
-This directory holds one committed real-world DATEX II dataset (**truck-parking status**, below) and
-documents a second Netherlands source (**AFIR charging points**) that is not committed yet.
+This directory holds committed real-world DATEX II v3 datasets from the Dutch National Data Warehouse
+for Traffic Information (NDW, <http://opendata.ndw.nu>, all **CC0**): **traffic situations**, **SRTI
+safety-related messages**, **emission zones (UVAR)** and **truck-parking status**. It also documents
+an opt-in, never-committed source (**roadworks/events planning feed**, ~171 MB) and a second
+Netherlands AFIR source (**AFIR charging points**) that is not committed yet.
+
+The situations / SRTI / emission-zones / roadworks feeds are all Exchange-2020 `mc:messageContainer`
+documents (`modelBaseVersion="3"`). They are read into the v3.7 `MessageContainer` model and their
+outcome is reported by
+[`Datex3TrafficFeedReadValidateTest`](../../../../java/dev/juherr/datex4j/it/Datex3TrafficFeedReadValidateTest.java)
+(offline) and [`NdwRoadworksReadTest`](../../../../java/dev/juherr/datex4j/it/NdwRoadworksReadTest.java)
+(opt-in). Note the bundled validator's root schema is `DATEXII_3_D2Payload.xsd`, which declares the
+`d2:payload` root but **not** the Exchange `mc:messageContainer` root, so every container feed reports
+at least a `cvc-elt.1.a` "element `mc:messageContainer` not declared" error even when its payload is
+otherwise sound. This is reported, not asserted.
+
+## Committed dataset: situations
+
+- **Source URL:** <http://opendata.ndw.nu/actueel_beeld.xml.gz>
+- **Licence:** CC0 (public domain; redistribute freely, no attribution required)
+- **Download date:** 2026-07-24
+- **DATEX version:** v3, MessageContainer (`mc:messageContainer` → `sit:SituationPublication`)
+- **Profile / publication:** `SituationPublication`
+- **Country:** Netherlands
+- **Remarks:** The full feed (~3 MB gzipped, 397 situations) is **trimmed to the first 2 situations**;
+  the `mc:messageContainer` envelope, both `mc:payload` and `mc:exchangeInformation`, and all
+  namespaces are preserved and values are unmodified. Reads cleanly into a `SituationPublication`
+  (national `nle:`/`nlxe:`/`srx:` extensions are dropped on the lax read); the stable situation id
+  `RWS01_SM1162215_D2_WWA` survives re-serialization. v3.7 validation reports it invalid with a
+  **single** error — the `mc:messageContainer` root not being declared by the payload-rooted schema
+  (the situation payload itself is otherwise clean).
+
+## Committed dataset: srti
+
+- **Source URL:** <http://opendata.ndw.nu/veiligheidsgerelateerde_berichten_srti.xml.gz>
+- **Licence:** CC0
+- **Download date:** 2026-07-24
+- **DATEX version:** v3, MessageContainer (`mc:messageContainer` → `sit:SituationPublication`)
+- **Profile / publication:** `SituationPublication` (Safety-Related Traffic Information)
+- **Country:** Netherlands
+- **Remarks:** Trimmed to a single `sit:situation` (the source snapshot carried one situation with 159
+  records). Envelope and namespaces preserved, values unmodified. Reads into a `SituationPublication`;
+  the situation id `NDW08_9d8afcc1-fd11-44f5-9653-0efae246856a_SIT` survives re-serialization. v3.7
+  validation reports the single `mc:messageContainer` root error only.
+
+## Committed dataset: emission-zones
+
+- **Source URL:** <http://opendata.ndw.nu/emissiezones.xml.gz>
+- **Licence:** CC0
+- **Download date:** 2026-07-24
+- **DATEX version:** v3, MessageContainer (`mc:messageContainer` → `cz:ControlledZoneTablePublication`)
+- **Profile / publication:** `ControlledZoneTablePublication` (UVAR / low-emission zones)
+- **Country:** Netherlands
+- **Remarks:** Trimmed from 43 zones to the first 2. Envelope/namespaces preserved, values unmodified.
+- **Known quirks:** The feed's zone records are `<cz:urbanVehicleAccessRegulation>` elements, a name
+  that is **absent from every bundled DATEX II v3.0–v3.7 schema** (the released model uses
+  `cz:controlledZone` / `cz:uvarZone`). The `ControlledZoneTablePublication` envelope therefore reads,
+  but the UVAR zone records are **dropped** on the lax read — only the `controlledZoneTable` shell (with
+  its `tableVersionTime`) survives, which is the token the test asserts. v3.7 validation reports it
+  invalid (~146 errors), dominated by the `mc:messageContainer` root plus `cvc-complex-type.2.4.a` on
+  the unknown `urbanVehicleAccessRegulation` element. This is cross-minor / national drift, not a
+  vendoring defect.
+
+## Opt-in (never committed): roadworks / events planning
+
+- **Source URL:** <http://opendata.ndw.nu/planningsfeed_wegwerkzaamheden_en_evenementen.xml.gz>
+- **Licence:** CC0
+- **DATEX version:** v3, MessageContainer (`mc:messageContainer` → `sit:SituationPublication`)
+- **Size:** ~15 MB gzipped, **~171 MB uncompressed** — far too large to commit.
+- **How to obtain and run:** see
+  [`NdwRoadworksReadTest`](../../../../java/dev/juherr/datex4j/it/NdwRoadworksReadTest.java). It is
+  skipped unless `-Ddatex4j.it.ndw.roadworks=<path>` points at a downloaded, gunzipped copy; run it
+  with a generous heap (`MAVEN_OPTS=-Xmx6g`).
+- **Observed (2026-07-24):** reads **13 793 situations** in one `SituationPublication`; v3.7 validation
+  reports it invalid with ~10 766 errors, dominated by the `mc:messageContainer` root and NDW's
+  `sit:roadworksExtension` national-extension elements.
+
+## Committed dataset: truckparking-status
 
 ## Committed dataset: truckparking-status
 
