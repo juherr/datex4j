@@ -32,6 +32,76 @@ import java.util.stream.Collectors;
  */
 enum VersionModel {
 
+    /** DATEX II v3.0 model (Common, LocationReferencing, Situation only). */
+    V3_0("v3_0", ModelPackages.V3_0) {
+        @Override
+        boolean isPayloadPublication(Object value) {
+            return value instanceof dev.juherr.datex4j.model.v3_0.common.PayloadPublication;
+        }
+
+        @Override
+        JAXBElement<?> wrapAsPayload(Object value) {
+            return new dev.juherr.datex4j.model.v3_0.d2payload.ObjectFactory()
+                    .createPayload((dev.juherr.datex4j.model.v3_0.common.PayloadPublication) value);
+        }
+    },
+
+    /** DATEX II v3.1 model (adds RoadTrafficData and Vms). */
+    V3_1("v3_1", ModelPackages.V3_1) {
+        @Override
+        boolean isPayloadPublication(Object value) {
+            return value instanceof dev.juherr.datex4j.model.v3_1.common.PayloadPublication;
+        }
+
+        @Override
+        JAXBElement<?> wrapAsPayload(Object value) {
+            return new dev.juherr.datex4j.model.v3_1.d2payload.ObjectFactory()
+                    .createPayload((dev.juherr.datex4j.model.v3_1.common.PayloadPublication) value);
+        }
+    },
+
+    /** DATEX II v3.2 model (adds CommonExtension, Location/EnergyInfrastructure, Facilities, TrafficRegulation). */
+    V3_2("v3_2", ModelPackages.V3_2) {
+        @Override
+        boolean isPayloadPublication(Object value) {
+            return value instanceof dev.juherr.datex4j.model.v3_2.common.PayloadPublication;
+        }
+
+        @Override
+        JAXBElement<?> wrapAsPayload(Object value) {
+            return new dev.juherr.datex4j.model.v3_2.d2payload.ObjectFactory()
+                    .createPayload((dev.juherr.datex4j.model.v3_2.common.PayloadPublication) value);
+        }
+    },
+
+    /** DATEX II v3.3 model (adds Parking). */
+    V3_3("v3_3", ModelPackages.V3_3) {
+        @Override
+        boolean isPayloadPublication(Object value) {
+            return value instanceof dev.juherr.datex4j.model.v3_3.common.PayloadPublication;
+        }
+
+        @Override
+        JAXBElement<?> wrapAsPayload(Object value) {
+            return new dev.juherr.datex4j.model.v3_3.d2payload.ObjectFactory()
+                    .createPayload((dev.juherr.datex4j.model.v3_3.common.PayloadPublication) value);
+        }
+    },
+
+    /** DATEX II v3.4 model (drops TrafficRegulation relative to v3.3). */
+    V3_4("v3_4", ModelPackages.V3_4) {
+        @Override
+        boolean isPayloadPublication(Object value) {
+            return value instanceof dev.juherr.datex4j.model.v3_4.common.PayloadPublication;
+        }
+
+        @Override
+        JAXBElement<?> wrapAsPayload(Object value) {
+            return new dev.juherr.datex4j.model.v3_4.d2payload.ObjectFactory()
+                    .createPayload((dev.juherr.datex4j.model.v3_4.common.PayloadPublication) value);
+        }
+    },
+
     /** DATEX II v3.5 model (no ControlledZone, TrafficRegulation, MessageContainer family or AFIR). */
     V3_5("v3_5", ModelPackages.V3_5) {
         @Override
@@ -83,6 +153,11 @@ enum VersionModel {
     /** Returns the enum constant that backs the given public {@link DatexVersion}. */
     static VersionModel of(DatexVersion version) {
         return switch (version) {
+            case V3_0 -> V3_0;
+            case V3_1 -> V3_1;
+            case V3_2 -> V3_2;
+            case V3_3 -> V3_3;
+            case V3_4 -> V3_4;
             case V3_5 -> V3_5;
             case V3_6 -> V3_6;
             case V3_7 -> V3_7;
@@ -122,6 +197,49 @@ enum VersionModel {
                 "reroutingmanagementenhanced",
                 "trafficmanagementplan",
                 "urbanextensions",
+                "d2payload");
+
+        /**
+         * Module sets for DATEX II v3.0 through v3.4. These predate the v3.5 BASE set and do not
+         * layer cleanly onto it (for example {@code trafficregulation} appears in v3.2/v3.3, is
+         * dropped in v3.4/v3.5, then reappears in v3.6), so each is derived directly from the
+         * xs:include/xs:import graph of that version's root DATEXII_3_D2Payload.xsd.
+         */
+        static final List<String> V3_0 = List.of("common", "locationreferencing", "situation", "d2payload");
+
+        /** Module set for DATEX II v3.1. */
+        static final List<String> V3_1 =
+                List.of("common", "locationreferencing", "situation", "roadtrafficdata", "vms", "d2payload");
+
+        /** Module set for DATEX II v3.2. */
+        static final List<String> V3_2 = List.of(
+                "common",
+                "commonextension",
+                "locationreferencing",
+                "locationextension",
+                "situation",
+                "facilities",
+                "energyinfrastructure",
+                "roadtrafficdata",
+                "vms",
+                "trafficregulation",
+                "d2payload");
+
+        /** Module set for DATEX II v3.3 (adds parking to v3.2). */
+        static final List<String> V3_3 = concat(V3_2, List.of("parking"));
+
+        /** Module set for DATEX II v3.4 (v3.3 without trafficregulation). */
+        static final List<String> V3_4 = List.of(
+                "common",
+                "commonextension",
+                "locationreferencing",
+                "locationextension",
+                "situation",
+                "facilities",
+                "energyinfrastructure",
+                "parking",
+                "roadtrafficdata",
+                "vms",
                 "d2payload");
 
         /** Module package suffixes added by DATEX II v3.6. */

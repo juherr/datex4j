@@ -52,6 +52,71 @@
         <executions>
           <!-- One execution per supported DATEX II version; each targets a version-scoped package. -->
           <execution>
+            <id>generate-v3.0</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <schemaDirectory>${project.basedir}/src/main/resources/META-INF/datex4j/schema/v3.0</schemaDirectory>
+              <bindingIncludes>
+                <include>bindings-v3.0.xjb</include>
+              </bindingIncludes>
+              <generateDirectory>${project.build.directory}/generated-sources/xjc-v3.0</generateDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-v3.1</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <schemaDirectory>${project.basedir}/src/main/resources/META-INF/datex4j/schema/v3.1</schemaDirectory>
+              <bindingIncludes>
+                <include>bindings-v3.1.xjb</include>
+              </bindingIncludes>
+              <generateDirectory>${project.build.directory}/generated-sources/xjc-v3.1</generateDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-v3.2</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <schemaDirectory>${project.basedir}/src/main/resources/META-INF/datex4j/schema/v3.2</schemaDirectory>
+              <bindingIncludes>
+                <include>bindings-v3.2.xjb</include>
+              </bindingIncludes>
+              <generateDirectory>${project.build.directory}/generated-sources/xjc-v3.2</generateDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-v3.3</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <schemaDirectory>${project.basedir}/src/main/resources/META-INF/datex4j/schema/v3.3</schemaDirectory>
+              <bindingIncludes>
+                <include>bindings-v3.3.xjb</include>
+              </bindingIncludes>
+              <generateDirectory>${project.build.directory}/generated-sources/xjc-v3.3</generateDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-v3.4</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <schemaDirectory>${project.basedir}/src/main/resources/META-INF/datex4j/schema/v3.4</schemaDirectory>
+              <bindingIncludes>
+                <include>bindings-v3.4.xjb</include>
+              </bindingIncludes>
+              <generateDirectory>${project.build.directory}/generated-sources/xjc-v3.4</generateDirectory>
+            </configuration>
+          </execution>
+          <execution>
             <id>generate-v3.5</id>
             <goals>
               <goal>generate</goal>
