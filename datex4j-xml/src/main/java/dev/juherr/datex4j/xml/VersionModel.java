@@ -32,8 +32,22 @@ import java.util.stream.Collectors;
  */
 enum VersionModel {
 
+    /** DATEX II v3.5 model (no ControlledZone, TrafficRegulation, MessageContainer family or AFIR). */
+    V3_5("v3_5", ModelPackages.V3_5) {
+        @Override
+        boolean isPayloadPublication(Object value) {
+            return value instanceof dev.juherr.datex4j.model.v3_5.common.PayloadPublication;
+        }
+
+        @Override
+        JAXBElement<?> wrapAsPayload(Object value) {
+            return new dev.juherr.datex4j.model.v3_5.d2payload.ObjectFactory()
+                    .createPayload((dev.juherr.datex4j.model.v3_5.common.PayloadPublication) value);
+        }
+    },
+
     /** DATEX II v3.6 model (no AFIR modules). */
-    V3_6("v3_6", false) {
+    V3_6("v3_6", ModelPackages.V3_6) {
         @Override
         boolean isPayloadPublication(Object value) {
             return value instanceof dev.juherr.datex4j.model.v3_6.common.PayloadPublication;
@@ -47,7 +61,7 @@ enum VersionModel {
     },
 
     /** DATEX II v3.7 model (adds the AFIR modules). */
-    V3_7("v3_7", true) {
+    V3_7("v3_7", ModelPackages.V3_7) {
         @Override
         boolean isPayloadPublication(Object value) {
             return value instanceof dev.juherr.datex4j.model.v3_7.common.PayloadPublication;
@@ -62,13 +76,14 @@ enum VersionModel {
 
     private final String contextPath;
 
-    VersionModel(String packageSegment, boolean includeAfir) {
-        this.contextPath = ModelPackages.contextPath(packageSegment, includeAfir);
+    VersionModel(String packageSegment, List<String> modules) {
+        this.contextPath = ModelPackages.contextPath(packageSegment, modules);
     }
 
     /** Returns the enum constant that backs the given public {@link DatexVersion}. */
     static VersionModel of(DatexVersion version) {
         return switch (version) {
+            case V3_5 -> V3_5;
             case V3_6 -> V3_6;
             case V3_7 -> V3_7;
         };
@@ -91,8 +106,8 @@ enum VersionModel {
      */
     private static final class ModelPackages {
 
-        /** Module package suffixes shared by every supported DATEX II v3 version. */
-        private static final List<String> COMMON = List.of(
+        /** Module package suffixes published by DATEX II v3.5, the oldest supported version. */
+        private static final List<String> BASE = List.of(
                 "common",
                 "commonextension",
                 "locationreferencing",
@@ -103,24 +118,36 @@ enum VersionModel {
                 "parking",
                 "roadtrafficdata",
                 "vms",
-                "controlledzone",
                 "faultandstatus",
                 "reroutingmanagementenhanced",
                 "trafficmanagementplan",
-                "trafficregulation",
                 "urbanextensions",
                 "d2payload");
+
+        /** Module package suffixes added by DATEX II v3.6. */
+        private static final List<String> V3_6_ADDITIONS = List.of("controlledzone", "trafficregulation");
 
         /** Module package suffixes added by DATEX II v3.7 (AFIR). */
         private static final List<String> AFIR = List.of("afirenergyinfrastructure", "afirfacilities");
 
+        /** Module set for DATEX II v3.5. */
+        static final List<String> V3_5 = BASE;
+
+        /** Module set for DATEX II v3.6. */
+        static final List<String> V3_6 = concat(BASE, V3_6_ADDITIONS);
+
+        /** Module set for DATEX II v3.7. */
+        static final List<String> V3_7 = concat(V3_6, AFIR);
+
         private ModelPackages() {}
 
-        static String contextPath(String packageSegment, boolean includeAfir) {
-            List<String> modules = new ArrayList<>(COMMON);
-            if (includeAfir) {
-                modules.addAll(AFIR);
-            }
+        private static List<String> concat(List<String> base, List<String> additions) {
+            List<String> modules = new ArrayList<>(base);
+            modules.addAll(additions);
+            return List.copyOf(modules);
+        }
+
+        static String contextPath(String packageSegment, List<String> modules) {
             return modules.stream()
                     .map(module -> "dev.juherr.datex4j.model." + packageSegment + "." + module)
                     .collect(Collectors.joining(":"));

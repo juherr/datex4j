@@ -24,6 +24,9 @@ package dev.juherr.datex4j.core;
  */
 public enum DatexVersion {
 
+    /** DATEX II version 3.5. */
+    V3_5("3.5"),
+
     /** DATEX II version 3.6. */
     V3_6("3.6"),
 

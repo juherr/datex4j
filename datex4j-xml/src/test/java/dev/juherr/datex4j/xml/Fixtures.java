@@ -43,6 +43,21 @@ final class Fixtures {
         return publication;
     }
 
+    /** Builds the equivalent minimal, schema-valid v3.5 situation publication. */
+    static dev.juherr.datex4j.model.v3_5.situation.SituationPublication situationPublicationV35() {
+        var publication = new dev.juherr.datex4j.model.v3_5.situation.SituationPublication();
+        publication.setLang("en");
+        publication.setModelBaseVersion("3");
+        publication.setPublicationTime(dateTime());
+
+        var creator = new dev.juherr.datex4j.model.v3_5.common.InternationalIdentifier();
+        creator.setCountry("gb");
+        creator.setNationalIdentifier("datex4j");
+        publication.setPublicationCreator(creator);
+
+        return publication;
+    }
+
     /** Builds the equivalent minimal, schema-valid v3.6 situation publication. */
     static dev.juherr.datex4j.model.v3_6.situation.SituationPublication situationPublicationV36() {
         var publication = new dev.juherr.datex4j.model.v3_6.situation.SituationPublication();

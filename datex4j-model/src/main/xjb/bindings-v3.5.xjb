@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  JAXB (Jakarta XML Binding 4.x) binding customization for the DATEX II v3.5 schemas.
+
+  DATEX II v3.5 predates several modules that v3.6/v3.7 add. Following the imports of its root
+  DATEXII_3_D2Payload.xsd, v3.5 publishes 15 schemas: it lacks ControlledZone, TrafficRegulation and
+  the MessageContainer family (MessageContainer, ExchangeInformation, CISInformation,
+  InformationManagement), as well as the AFIR modules. It is generated into the version-scoped
+  package tree dev.juherr.datex4j.model.v3_5.*, alongside v3.6 and v3.7. See bindings-v3.7.xjb for
+  the rationale and the shared DATEX II JAXB workarounds.
+  schemaLocation paths are relative to this file.
+-->
+<jaxb:bindings xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               version="3.0">
+
+  <jaxb:globalBindings underscoreBinding="asCharInWord" />
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.5/DATEXII_3_Common.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_5.common" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.5/DATEXII_3_CommonExtension.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_5.commonextension" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.5/DATEXII_3_LocationReferencing.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_5.locationreferencing" />
+    </jaxb:schemaBindings>
+    <jaxb:bindings node="//xs:element[@name='_namedAreaExtension']">
+      <jaxb:property name="_locNamedAreaExtension" />
+    </jaxb:bindings>
+  </jaxb:bindings>
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.5/DATEXII_3_LocationExtension.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_5.locationextension" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.5/DATEXII_3_Situation.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_5.situation" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.5/DATEXII_3_Facilities.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_5.facilities" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.5/DATEXII_3_EnergyInfrastructure.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_5.energyinfrastructure" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.5/DATEXII_3_Parking.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_5.parking" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.5/DATEXII_3_RoadTrafficData.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_5.roadtrafficdata" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.5/DATEXII_3_Vms.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_5.vms" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.5/DATEXII_3_FaultAndStatus.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_5.faultandstatus" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.5/DATEXII_3_ReroutingManagementEnhanced.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_5.reroutingmanagementenhanced" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.5/DATEXII_3_TrafficManagementPlan.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_5.trafficmanagementplan" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.5/DATEXII_3_UrbanExtensions.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_5.urbanextensions" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.5/DATEXII_3_D2Payload.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_5.d2payload" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+
+</jaxb:bindings>
