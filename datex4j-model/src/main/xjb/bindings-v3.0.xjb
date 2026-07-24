@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  JAXB (Jakarta XML Binding 4.x) binding customization for the DATEX II v3.0 schemas.
+
+  DATEX II v3.0 publishes a subset of the modules that later versions add. The module set is
+  derived by following the xs:include/xs:import graph from the root DATEXII_3_D2Payload.xsd. It is
+  generated into the version-scoped package tree dev.juherr.datex4j.model.v3_0.*, alongside the
+  other bundled versions. See bindings-v3.7.xjb for the rationale and the shared DATEX II JAXB
+  workarounds; the _namedAreaExtension rename avoids a property-name collision in LocationReferencing.
+  schemaLocation paths are relative to this file.
+-->
+<jaxb:bindings xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               version="3.0">
+
+  <jaxb:globalBindings underscoreBinding="asCharInWord" />
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.0/DATEXII_3_Common.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_0.common" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.0/DATEXII_3_LocationReferencing.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_0.locationreferencing" />
+    </jaxb:schemaBindings>
+    <jaxb:bindings node="//xs:element[@name='_namedAreaExtension']">
+      <jaxb:property name="_locNamedAreaExtension" />
+    </jaxb:bindings>
+  </jaxb:bindings>
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.0/DATEXII_3_Situation.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_0.situation" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.0/DATEXII_3_D2Payload.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v3_0.d2payload" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+
+</jaxb:bindings>

@@ -1,9 +1,9 @@
 # Adding or upgrading a DATEX II version
 
-datex4j bundles several DATEX II versions at once, each generated into its own version-scoped package
-tree (`dev.juherr.datex4j.model.v3_6.*`, `...v3_7.*`). Adding a new version is additive and mostly
-mechanical: vendor its schemas, add a bindings file and a generation execution, and register the
-version. Existing hand-written code does not change.
+datex4j bundles the full DATEX II v3 family at once — **v3.0 through v3.7** — each generated into its
+own version-scoped package tree (`dev.juherr.datex4j.model.v3_0.*` … `...v3_7.*`). Adding a new
+version is additive and mostly mechanical: vendor its schemas, add a bindings file and a generation
+execution, and register the version. Existing hand-written code does not change.
 
 The steps below use a hypothetical `3.8` as the new version.
 
@@ -58,9 +58,23 @@ changes between versions. Always derive the file list by following the `<xs:incl
 graph from the root rather than copying another version's directory. For example v3.5 has 15
 schemas — it predates `ControlledZone`, `TrafficRegulation` and the MessageContainer family
 (`MessageContainer`, `ExchangeInformation`, `CISInformation`, `InformationManagement`) as well as
-the AFIR modules. When a version drops modules, remove their `<jaxb:bindings>` blocks and leave them
-out of that version's `VersionModel` module set (see how `VersionModel.ModelPackages` layers the
-v3.6 and AFIR additions onto the v3.5 base).
+the AFIR modules. The set is not even monotonic across minors: the `Parking` module first appears in
+v3.3, and `TrafficRegulation` appears in v3.2/v3.3, is dropped in v3.4/v3.5, then returns in v3.6.
+When a version drops modules, remove their `<jaxb:bindings>` blocks and leave them out of that
+version's `VersionModel` module set (see how `VersionModel.ModelPackages` layers the v3.6 and AFIR
+additions onto the v3.5 base, and how the v3.0–v3.4 sets are listed explicitly because they predate
+that base).
+
+### v3.0 schemaLocation rewrite
+
+From v3.1 onward the published module schemas reference each other with bare relative file names
+(`schemaLocation="DATEXII_3_Common.xsd"`), which resolve directly against the vendored directory. The
+**v3.0** schemas are the exception: their `<xs:import>`s use absolute URLs
+(`http://datex2.eu/schema/3/Common/3_0/DATEXII_3_Common.xsd`). Those were rewritten to bare file
+names when vendoring so that XJC generation resolves offline against the local files, exactly as the
+consortium itself did from v3.1 on. (The runtime schema resolver already strips imports to their file
+name, so validation is unaffected either way; the rewrite is only needed for offline code
+generation.) This is the only content edit made to any vendored schema.
 
 ## What should *not* change
 

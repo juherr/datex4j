@@ -43,6 +43,81 @@ final class Fixtures {
         return publication;
     }
 
+    /** Builds the equivalent minimal, schema-valid v3.0 situation publication. */
+    static dev.juherr.datex4j.model.v3_0.situation.SituationPublication situationPublicationV30() {
+        var publication = new dev.juherr.datex4j.model.v3_0.situation.SituationPublication();
+        publication.setLang("en");
+        publication.setModelBaseVersion("3");
+        publication.setPublicationTime(dateTime());
+
+        var creator = new dev.juherr.datex4j.model.v3_0.common.InternationalIdentifier();
+        creator.setCountry("gb");
+        creator.setNationalIdentifier("datex4j");
+        publication.setPublicationCreator(creator);
+
+        return publication;
+    }
+
+    /** Builds the equivalent minimal, schema-valid v3.1 situation publication. */
+    static dev.juherr.datex4j.model.v3_1.situation.SituationPublication situationPublicationV31() {
+        var publication = new dev.juherr.datex4j.model.v3_1.situation.SituationPublication();
+        publication.setLang("en");
+        publication.setModelBaseVersion("3");
+        publication.setPublicationTime(dateTime());
+
+        var creator = new dev.juherr.datex4j.model.v3_1.common.InternationalIdentifier();
+        creator.setCountry("gb");
+        creator.setNationalIdentifier("datex4j");
+        publication.setPublicationCreator(creator);
+
+        return publication;
+    }
+
+    /** Builds the equivalent minimal, schema-valid v3.2 situation publication. */
+    static dev.juherr.datex4j.model.v3_2.situation.SituationPublication situationPublicationV32() {
+        var publication = new dev.juherr.datex4j.model.v3_2.situation.SituationPublication();
+        publication.setLang("en");
+        publication.setModelBaseVersion("3");
+        publication.setPublicationTime(dateTime());
+
+        var creator = new dev.juherr.datex4j.model.v3_2.common.InternationalIdentifier();
+        creator.setCountry("gb");
+        creator.setNationalIdentifier("datex4j");
+        publication.setPublicationCreator(creator);
+
+        return publication;
+    }
+
+    /** Builds the equivalent minimal, schema-valid v3.3 situation publication. */
+    static dev.juherr.datex4j.model.v3_3.situation.SituationPublication situationPublicationV33() {
+        var publication = new dev.juherr.datex4j.model.v3_3.situation.SituationPublication();
+        publication.setLang("en");
+        publication.setModelBaseVersion("3");
+        publication.setPublicationTime(dateTime());
+
+        var creator = new dev.juherr.datex4j.model.v3_3.common.InternationalIdentifier();
+        creator.setCountry("gb");
+        creator.setNationalIdentifier("datex4j");
+        publication.setPublicationCreator(creator);
+
+        return publication;
+    }
+
+    /** Builds the equivalent minimal, schema-valid v3.4 situation publication. */
+    static dev.juherr.datex4j.model.v3_4.situation.SituationPublication situationPublicationV34() {
+        var publication = new dev.juherr.datex4j.model.v3_4.situation.SituationPublication();
+        publication.setLang("en");
+        publication.setModelBaseVersion("3");
+        publication.setPublicationTime(dateTime());
+
+        var creator = new dev.juherr.datex4j.model.v3_4.common.InternationalIdentifier();
+        creator.setCountry("gb");
+        creator.setNationalIdentifier("datex4j");
+        publication.setPublicationCreator(creator);
+
+        return publication;
+    }
+
     /** Builds the equivalent minimal, schema-valid v3.5 situation publication. */
     static dev.juherr.datex4j.model.v3_5.situation.SituationPublication situationPublicationV35() {
         var publication = new dev.juherr.datex4j.model.v3_5.situation.SituationPublication();

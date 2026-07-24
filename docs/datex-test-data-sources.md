@@ -25,9 +25,9 @@ A source is worth cataloguing here when it is:
 > (`modelBaseVersion="3"`); the exact **minor** (3.0 … 3.7) is the producer's schema/profile choice
 > and is normally **not present in the document**. Parsing is cross-minor tolerant — a v3.5 feed
 > parses into the v3.7 model (verified) — but **strict XSD validation needs the producer's exact
-> minor**. Real feeds also carry national extensions and may target minors this library does not
-> bundle (e.g. NDW documents its truck-parking feed as a DATEX II **3.0** profile, which predates
-> the bundled 3.5 and so fails strict validation against it). Treat cross-minor feeds as real-world
+> minor**. Real feeds also carry national extensions and producer data errors: even with the whole
+> v3 family (3.0–3.7) now bundled, NDW's truck-parking feed still fails strict validation — see the
+> [NDW note](#ndw-netherlands--cc0--all-domains) for the two distinct, verified reasons. Treat cross-minor feeds as real-world
 > **read/parse** inputs rather than clean round-trip fixtures; for an exact-version, extension-free
 > validating example, generate one with the DATEX II wizard (below). See
 > [DATEX II version coverage & gaps](#datex-ii-version-coverage--gaps) for what this means for the
@@ -37,19 +37,19 @@ A source is worth cataloguing here when it is:
 
 One row per source: the feed types it publishes, the DATEX II version, how you reach it, and whether
 this library can use it today. Library support: **✅** bundled version, parses **and** validates ·
-**⚠️** parses (major v3) but strict XSD needs the producer's exact minor · **❌** not usable as-is
-(DATEX II v2 model, an unbundled v3 minor, or access-gated).
+**⚠️** parses (major v3) but strict XSD fails (producer data error, national extensions, or a
+minor mismatch) · **❌** not usable as-is (DATEX II v2 model or access-gated).
 
 | Source (country) | Feed types / domain | DATEX II version | Access | Licence | Library support |
 |---|---|---|---|---|---|
-| [NDW](#ndw-netherlands--cc0--all-domains) (NL) | situations, SRTI, roadworks, **parking**, VMS, measurement, emission zones | **v3** — mixed minors per NDW profiles (truck-parking = **3.0**, others **3.2**) | anonymous | **CC0** | ⚠️ parses; strict XSD fails (parking is a 3.0 profile, unbundled) |
+| [NDW](#ndw-netherlands--cc0--all-domains) (NL) | situations, SRTI, roadworks, **parking**, VMS, measurement, emission zones | **v3** — mixed minors per NDW profiles | anonymous | **CC0** | ⚠️ parses; truck-parking strict XSD fails on a producer `targetClass` prefix error (`par:` vs fixed `prk:`) on every bundled minor |
 | [Fintraffic AFIR](#fintraffic-finland--cc-by-40) (FI) | EV charging (AFIR) | **v3.6** (conformant JSON, MessageContainer) | anonymous¹ | CC BY 4.0 | ✅ committed dataset |
 | [Fintraffic traffic](#fintraffic-finland--cc-by-40) (FI) | situations, SRTI, roadworks, TMS measurement | **v3.5** (XML) | anonymous¹ | CC BY 4.0 | ✅ validates (real feed has producer data errors) |
 | Fintraffic legacy twins (FI) | same | **v2.2.3** (XML) | anonymous¹ | CC BY 4.0 | ❌ v2 model |
 | [Verkeerscentrum Vlaanderen](#verkeerscentrum-vlaanderen-belgium--open-data) (BE) | situations, roadworks, events | **v3** (minor not declared) | anonymous | open data² | ⚠️ parses (v3.5–3.7) |
 | [DiaLog](#dialog-france--licence-ouverte-20) (FR) | traffic regulation (TRO) | **v3** (minor not declared) | anonymous | Licence Ouverte 2.0 | ⚠️ parses (v3.5–3.7) |
 | TIPI / Bison Futé (FR) | speeds, road events, TRAFICOLOR | **v2.2.2** (XML) | anonymous | Licence Ouverte | ❌ v2 model |
-| [Statens vegvesen](#statens-vegvesen-norway--registration-gated) (NO) | situations, measurement, travel time, CCTV, weather | **v3.1** (+ v2.3 legacy) | **registration** (401) | NLOD | ❌ v3.1 unbundled **and** gated |
+| [Statens vegvesen](#statens-vegvesen-norway--registration-gated) (NO) | situations, measurement, travel time, CCTV, weather | **v3.1** (+ v2.3 legacy) | **registration** (401) | NLOD | ❌ gated (v3.1 is now bundled, but access is registration-only) |
 | [Mobilithek / Autobahn](#other-naps--registration-gated) (DE) | roadworks, traffic-data (Autobahn REST = JSON) | v3 | **registration** (mTLS) | mixed | ❌ gated |
 | [Vejdirektoratet](#other-naps--registration-gated) (DK) | situations, etc. | v3 | **registration** | — | ❌ gated |
 | [ASFINAG](#other-naps--registration-gated) (AT) | events, roadworks, VMS, travel times | v3 (ASFINAG profile) | **registration** | CC BY 4.0 (variant) | ❌ gated |
@@ -61,31 +61,36 @@ this library can use it today. Library support: **✅** bundled version, parses 
 
 ## DATEX II version coverage & gaps
 
-**Bundled today:** DATEX II **v3.5, v3.6, v3.7** (default 3.7), each generated into its own
-version-scoped package. This covers the two committed real datasets (FI AFIR v3.6 JSON, and the FI
-v3.5 traffic feed, which validates) and lets every *major-v3* feed above **parse**.
+**Bundled today:** the full DATEX II v3 family **v3.0, v3.1, v3.2, v3.3, v3.4, v3.5, v3.6, v3.7**
+(default 3.7), each generated into its own version-scoped package. This covers the two committed real
+datasets (FI AFIR v3.6 JSON, and the FI v3.5 traffic feed, which validates), lets every *major-v3*
+feed above **parse**, and gives an exact schema set for every v3 minor a producer might profile to
+(NDW, Norway v3.1, etc.).
 
-**What is missing to actually validate / round-trip _every_ documented feed:**
+**What is still missing to actually validate / round-trip _every_ documented feed:**
 
-1. **Older DATEX II v3 minors — v3.0 through v3.4.** Real anonymous feeds use them: NDW documents its
-   **truck-parking** feed as a **3.0** profile and other feeds on **3.2**; Norway is **3.1**. Because
-   a v3 instance never states its minor, you cannot pick the right schema from the document alone —
-   you must know the producer's profile. Adding a minor is **additive and mechanical** (same recipe
-   as v3.5 — see [`version-upgrade.md`](./version-upgrade.md)). Highest value / lowest effort:
-   **v3.0** (would let the committed NDW truck-parking dataset validate instead of parse-only).
-2. **DATEX II v2 — v2.2.2 / v2.2.3 / v2.3.** A **different major model** (different namespaces and
+1. **DATEX II v2 — v2.2.2 / v2.2.3 / v2.3.** A **different major model** (different namespaces and
    class tree), so the current v3-only model cannot read it at all. Needed for the FR real-time feeds
    (TIPI/Bison Futé, v2.2.2), the Fintraffic legacy twins (v2.2.3), and Norway's legacy set (v2.3) —
    and likely several gated NAPs' legacy feeds. This is a **large, separate effort** (a parallel v2
    model tree + façade wiring), not a mechanical version bump.
+2. **Access gating (not a version problem).** Germany, Denmark, Austria, Sweden and Norway are
+   **registration-gated** (account, mTLS, or a signed interchange agreement). Bundling their version
+   does not make them testable offline; they stay *document-only* until credentials are provided.
 
-**Not a version problem — access.** Germany, Denmark, Austria, Sweden and Norway are
-**registration-gated** (account, mTLS, or a signed interchange agreement). Bundling their version
-would not make them testable offline; they stay *document-only* until credentials are provided.
+> **Note on NDW truck-parking.** Adding v3.0 did *not* make the committed NDW truck-parking dataset
+> validate, contrary to the earlier expectation. Two independently verified reasons: (a) DATEX II
+> **did not publish a Parking module until v3.3**, so a `ParkingStatusPublication` is not even
+> expressible in v3.0–v3.2; and (b) on every minor that *does* have Parking (v3.3–v3.7, including the
+> default), the feed emits `targetClass="par:ParkingTable"` while the schema fixes that attribute to
+> `prk:ParkingTable` — a producer data error, not a version gap. The dataset therefore stays
+> `XML_READ_ONLY`. See [`TruckParkingV30ValidationTest`](../datex4j-integration-tests/src/test/java/dev/juherr/datex4j/it/TruckParkingV30ValidationTest.java),
+> which pins both errors.
 
-**Bottom line:** to validate all *anonymous* feeds we would add v3 minors **3.0–3.4** (cheap,
-additive; 3.0 is the concrete unblocker for NDW parking). To read the *v2* feeds at all would require
-a **v2 model** — a much bigger, separate project. Everything else is gated by access, not version.
+**Bottom line:** the full v3 family (3.0–3.7) is now bundled, so every *anonymous v3* feed has its
+exact schema available (subject to producer data errors like NDW's). To read the *v2* feeds at all
+would require a **v2 model** — a much bigger, separate project. Everything else is gated by access,
+not version.
 
 ## NDW (Netherlands) — CC0 — all domains
 
@@ -112,9 +117,14 @@ curl -s http://opendata.ndw.nu/actueel_beeld.xml.gz | gunzip > situations.xml   
 ```
 
 **Verified compatibility.** `Truckparking_Parking_Status.xml` **parses** into a
-`ParkingStatusPublication`, but strict XSD validation **fails**: NDW documents this feed as a DATEX II
-**3.0** profile, which predates the bundled 3.5 (visible as `targetClass="par:ParkingTable"` vs the
-bundled schema's fixed `prk:ParkingTable`). The situations `MessageContainer` **fails to unmarshal**
+`ParkingStatusPublication`, but strict XSD validation **fails against every bundled v3 minor**, for
+two distinct, verified reasons: (a) DATEX II did not publish a Parking module until **v3.3**, so the
+payload type is unresolvable in v3.0–v3.2 (`cvc-elt.4.2`); and (b) from v3.3 onward the payload type
+resolves but the feed emits `targetClass="par:ParkingTable"` where the schema fixes that attribute to
+`prk:ParkingTable` (`cvc-complex-type.3.1`) — a producer data error, not a version gap. Bundling v3.0
+did **not** change this; the dataset stays read-only. See
+[`TruckParkingV30ValidationTest`](../datex4j-integration-tests/src/test/java/dev/juherr/datex4j/it/TruckParkingV30ValidationTest.java).
+The situations `MessageContainer` **fails to unmarshal**
 (national extensions + the XML JAXB context not yet exposing `MessageContainer`). See the
 [Netherlands NAP page](./afir/nap/netherlands.md#other-ndw-datex-ii-feeds-open-data-portal) and
 [version coverage & gaps](#datex-ii-version-coverage--gaps).
@@ -184,7 +194,9 @@ curl -sS --compressed https://dialog.beta.gouv.fr/api/regulations.xml -o fr-dial
 
 Norwegian Public Roads Administration DATEX node. Data under the **Norwegian Licence for Open
 Government Data (NLOD)**, but access **requires registration** — the v3.1 pull endpoints answer
-`401` anonymously, so this is a **document-only** source (not fetchable in an offline test).
+`401` anonymously, so this is a **document-only** source (not fetchable in an offline test). The
+v3.1 schema set is now bundled, so a Norwegian feed would validate once credentials are provided;
+the blocker is access, not version.
 
 - **Overview / access:** <https://www.vegvesen.no/en/about-us/about-us/open-data/datex/>
 - **v3.1 base (auth required):** `https://datex-server-get-v3-1.atlas.vegvesen.no/datexapi/…`

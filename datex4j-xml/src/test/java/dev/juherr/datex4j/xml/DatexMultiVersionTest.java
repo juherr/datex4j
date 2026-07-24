@@ -22,8 +22,73 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import dev.juherr.datex4j.core.DatexVersion;
 import org.junit.jupiter.api.Test;
 
-/** Verifies that both bundled DATEX II versions can be marshalled with a version-specific facade. */
+/** Verifies that every bundled DATEX II version can be marshalled with a version-specific facade. */
 class DatexMultiVersionTest {
+
+    @Test
+    void v30MarshallerRoundtripsAv30Publication() {
+        DatexMarshaller marshaller =
+                DatexXml.builder().version(DatexVersion.V3_0).validating(true).build();
+
+        var original = Fixtures.situationPublicationV30();
+        byte[] xml = marshaller.write(original);
+        var restored = marshaller.read(xml, dev.juherr.datex4j.model.v3_0.situation.SituationPublication.class);
+
+        assertThat(restored.getPublicationCreator().getNationalIdentifier())
+                .isEqualTo(original.getPublicationCreator().getNationalIdentifier());
+    }
+
+    @Test
+    void v31MarshallerRoundtripsAv31Publication() {
+        DatexMarshaller marshaller =
+                DatexXml.builder().version(DatexVersion.V3_1).validating(true).build();
+
+        var original = Fixtures.situationPublicationV31();
+        byte[] xml = marshaller.write(original);
+        var restored = marshaller.read(xml, dev.juherr.datex4j.model.v3_1.situation.SituationPublication.class);
+
+        assertThat(restored.getPublicationCreator().getNationalIdentifier())
+                .isEqualTo(original.getPublicationCreator().getNationalIdentifier());
+    }
+
+    @Test
+    void v32MarshallerRoundtripsAv32Publication() {
+        DatexMarshaller marshaller =
+                DatexXml.builder().version(DatexVersion.V3_2).validating(true).build();
+
+        var original = Fixtures.situationPublicationV32();
+        byte[] xml = marshaller.write(original);
+        var restored = marshaller.read(xml, dev.juherr.datex4j.model.v3_2.situation.SituationPublication.class);
+
+        assertThat(restored.getPublicationCreator().getNationalIdentifier())
+                .isEqualTo(original.getPublicationCreator().getNationalIdentifier());
+    }
+
+    @Test
+    void v33MarshallerRoundtripsAv33Publication() {
+        DatexMarshaller marshaller =
+                DatexXml.builder().version(DatexVersion.V3_3).validating(true).build();
+
+        var original = Fixtures.situationPublicationV33();
+        byte[] xml = marshaller.write(original);
+        var restored = marshaller.read(xml, dev.juherr.datex4j.model.v3_3.situation.SituationPublication.class);
+
+        assertThat(restored.getPublicationCreator().getNationalIdentifier())
+                .isEqualTo(original.getPublicationCreator().getNationalIdentifier());
+    }
+
+    @Test
+    void v34MarshallerRoundtripsAv34Publication() {
+        DatexMarshaller marshaller =
+                DatexXml.builder().version(DatexVersion.V3_4).validating(true).build();
+
+        var original = Fixtures.situationPublicationV34();
+        byte[] xml = marshaller.write(original);
+        var restored = marshaller.read(xml, dev.juherr.datex4j.model.v3_4.situation.SituationPublication.class);
+
+        assertThat(restored.getPublicationCreator().getNationalIdentifier())
+                .isEqualTo(original.getPublicationCreator().getNationalIdentifier());
+    }
 
     @Test
     void v35MarshallerRoundtripsAv35Publication() {
