@@ -20,6 +20,28 @@ import dev.juherr.datex4j.core.DatexVersion;
 /**
  * Entry point for creating {@link DatexJsonMapper} instances.
  *
+ * <p>{@code datex4j-json} reads and writes the <strong>conformant DATEX II JSON</strong>
+ * representation: namespace-prefixed substitution members (for example {@code
+ * "locxFacilityLocation"}), {@code G}-suffixed versioning attributes ({@code idG}, {@code
+ * versionG}, {@code modelBaseVersionG}), flattened multilingual strings, and {@code {value,
+ * _extendedValue}}-shaped enums, rooted at the DATEX II {@code MessageContainer} (see {@link
+ * DatexJsonMapper#readContainer}).
+ *
+ * <p>The mapping is <strong>best-effort and lossy</strong>: it targets everyday integration use,
+ * not bit-for-bit archival fidelity. Some XML constructs with no natural JSON model slot are
+ * dropped on the round trip. Within a single mapper configuration, reads and writes are
+ * deterministic and idempotent (the same input always produces the same output, and re-encoding a
+ * decoded value reproduces the same bytes).
+ *
+ * <p>DATEX II JSON is <strong>not yet officially standardised</strong> by the DATEX II
+ * specification. This codec targets the de-facto mapping used by DATEX II wizard tooling and
+ * National Access Points (NAPs), anchored against a real-world Fintraffic AFIR fixture; it may
+ * need to adapt once an official JSON binding is published.
+ *
+ * <p>Both bundled DATEX II model versions are supported via {@link
+ * Builder#version(DatexVersion)}: pass {@link DatexVersion#V3_6} or {@link DatexVersion#V3_7} (the
+ * default is {@link DatexVersion#current()}).
+ *
  * <p>Use {@link #createMapper()} for the default configuration (pretty-printed) or {@link
  * #builder()} to customize it.
  */

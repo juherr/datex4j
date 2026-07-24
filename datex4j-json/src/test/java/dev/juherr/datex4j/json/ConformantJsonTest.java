@@ -16,6 +16,7 @@
 package dev.juherr.datex4j.json;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import dev.juherr.datex4j.core.DatexVersion;
 import dev.juherr.datex4j.model.v3_6.common.MultilingualString;
@@ -86,6 +87,15 @@ class ConformantJsonTest {
         byte[] out2 = mapper.write(reparsed);
 
         assertThat(new String(out2, StandardCharsets.UTF_8)).isEqualTo(new String(out, StandardCharsets.UTF_8));
+    }
+
+    @Test
+    void readContainerWithUnknownMemberKeyThrowsDatexJsonException() {
+        DatexJsonMapper mapper = DatexJson.builder().version(DatexVersion.V3_6).build();
+        byte[] malformed = "{\"payload\":[{\"unknownXyzMember\":{\"foo\":\"bar\"}}]}".getBytes(StandardCharsets.UTF_8);
+
+        assertThatThrownBy(() -> mapper.readContainer(malformed, MessageContainer.class))
+                .isInstanceOf(DatexJsonException.class);
     }
 
     private static EnergyInfrastructureTablePublication syntheticPublication() {
