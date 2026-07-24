@@ -51,10 +51,46 @@
   endpoint, URL, or schema reference was found to cite here — this page will be updated once one is
   confirmed rather than guessing at a URL.
 
+## Other DATEX II feeds (road traffic, beyond AFIR)
+
+Although no AFIR/EV-charging DATEX II feed is confirmed yet, transport.data.gouv.fr does publish
+**road-traffic** data as DATEX II, all under **Licence Ouverte 2.0**, most of it anonymously
+downloadable. The single **DATEX II v3** source (the only one the library's v3-only model can read)
+is the DiaLog traffic-regulation database; the Bison Futé / TIPI real-time feeds are still DATEX II
+**v2.2.2**.
+
+| Feed | URL (verified live) | DATEX II | Root / notes |
+|---|---|---|---|
+| **DiaLog traffic regulations (TRO)** | `https://dialog.beta.gouv.fr/api/regulations.xml` | **v3** XML | `TrafficRegulationPublication` (`modelBaseVersion="3"`, `http://datex2.eu/schema/3/trafficRegulation`), ~10.7 MB |
+| Real-time speeds & flows | `https://transport.data.gouv.fr/resources/79165/download` | **v2.2.2** XML | `MeasuredDataPublication` (supplier `TIPI`) |
+| Road events (RRN) | `https://transport.data.gouv.fr/resources/79173/download` | v2.2.2 XML | `SituationPublication`; hourly aggregate also at `http://tipi.bison-fute.gouv.fr/bison-fute-ouvert/publicationsDIR/Evenementiel-DIR/grt/RRN/content.xml` |
+| Traffic status ("TRAFICOLOR") per DIR | `http://tipi.bison-fute.gouv.fr/bison-fute-ouvert/publicationsDIR/TRAFICOLOR-DIR/` | v2.x XML | open Apache directory, one sub-folder per Direction Interdépartementale des Routes |
+
+- **DiaLog** (`https://dialog.beta.gouv.fr`) is the "Base de données nationale de la réglementation
+  de circulation" (DiaLog, MTES/MCT), verified live returning a DATEX II **v3**
+  `TrafficRegulationPublication` — a genuine openly-licensed v3 source for the traffic-regulation
+  domain (it adds a national extension namespace under `github.com/MTES-MCT/dialog`). Note DiaLog
+  itself states the published restrictions have no legal value (only the municipal ordinances do).
+- The **Bison Futé / TIPI** publication tree at
+  `http://tipi.bison-fute.gouv.fr/bison-fute-ouvert/publicationsDIR/` is browsable **anonymously**;
+  its sub-trees (`TRAFICOLOR-DIR`, `Evenementiel-DIR`, `QTV-DIR`, `TP-DIR`) hold per-operator (DIR)
+  DATEX II **v2** publications and HTML summaries.
+
+```bash
+curl -sS --compressed https://dialog.beta.gouv.fr/api/regulations.xml -o fr-dialog-tro.xml   # v3
+curl -sS --compressed https://transport.data.gouv.fr/resources/79165/download -o fr-speed.xml # v2
+```
+
+**Version note:** only DiaLog is DATEX II **v3** (readable by the bundled v3.6/v3.7 model, subject to
+version-drift/extension differences under strict XSD validation). The TIPI speed/event feeds are
+DATEX II **v2.2.2**, which the library's v3-only model does not read; they are listed for
+completeness and as documentation of the French NAP's current publication state.
+
 ## Notes
 
 No further country-specific DATEX II/AFIR implementation details (e.g. extensions, national
-identifiers) could be confirmed from official sources at the time of writing.
+identifiers) could be confirmed from official sources at the time of writing beyond the DiaLog
+national extension noted above.
 
 ## See also
 

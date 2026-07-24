@@ -40,10 +40,45 @@
 - **No dataset confirmed as a DATEX II AFIR recharging publication** was found in Austria's catalogue
   at the time of writing.
 
+## Other DATEX II feeds (road traffic, beyond AFIR)
+
+Unlike its AFIR/charging catalogue, Austria's road-traffic side **does** publish DATEX II —
+**ASFINAG** (the motorway/expressway operator) runs a single access point for its real-time traffic
+data in DATEX II format, surfaced through mobilitaetsdaten.gv.at and delivered from ASFINAG's own
+content portal.
+
+- **Publisher / access point:** ASFINAG, via
+  [contentportal.asfinag.at](https://contentportal.asfinag.at/) (data endpoint
+  `https://contentportal.asfinag.at/data`), catalogued on mobilitaetsdaten.gv.at.
+- **Domains (per the mobilitaetsdaten.gv.at catalogue):** traffic events ("Verkehrsmeldungen zu
+  ungeplanten und sicherheitsrelevanten Ereignissen", modelled as DATEX II `Situation` /
+  `SituationRecord`), planned events / roadworks, variable message signs
+  ("Wechselverkehrszeichen"), section travel times, and toll information — spanning the
+  situations, VMS, roadworks and measurement sides of the library. There is also an
+  [Austrian SRTI reference profile](https://repo.datex2.eu/implementations/profile_directory/austrian-reference-profile-srti).
+- **Format / version:** DATEX II XML (ASFINAG's own profile; `datex2` documentation at
+  [contentportal.asfinag.at/about/datex2](https://contentportal.asfinag.at/about/datex2)). The
+  mobilitaetsdaten catalogue also links a reduced sample (`en_asfinag_plannedevents_v4_0_reduced.xml`).
+- **Licence (verified from the mobilitaetsdaten DCAT):** an ASFINAG **CC BY 4.0** variant
+  (`contentportal.asfinag.at/assets/licenses/cc-by-40-asf/…`).
+- **Update frequency:** 1 minute (pull, HTTP/HTTPS).
+- **Access:** **registration-gated.** The ASFINAG content portal requires a (single) registration /
+  contract before the DATEX II endpoint can be consumed; probing `https://contentportal.asfinag.at/`
+  and its `…/data` path returns only the portal's SPA shell, and **no anonymous DATEX II endpoint
+  was confirmed**. The mobilitaetsdaten.gv.at catalogue metadata itself (e.g.
+  `https://www.mobilitydata.gv.at/api/mobility_dcat/de?organisation=ASFINAG`) is reachable
+  anonymously, but it only points back to the gated content-portal endpoint.
+
+**How to obtain:** register at [contentportal.asfinag.at](https://contentportal.asfinag.at/) to
+obtain access to the DATEX II data interface, then pull the desired publication from
+`https://contentportal.asfinag.at/data`. Nothing is committed to
+[`datasets/austria/`](../../../datex4j-integration-tests/src/test/resources/datasets/austria) because
+no anonymous, reproducible fetch was found.
+
 ## Notes
 
 No further country-specific DATEX II extensions or national-identifier conventions could be
-confirmed from official sources at the time of writing.
+confirmed from official sources at the time of writing beyond the ASFINAG profile noted above.
 
 ## See also
 

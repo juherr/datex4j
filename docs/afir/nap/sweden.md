@@ -41,6 +41,27 @@
   - **Coverage:** location and conditions of charging points, and availability of charging points for
     electric vehicles, for Sweden.
 
+## Other DATEX II feeds (road traffic, beyond AFIR)
+
+For road-traffic data (situations, roadworks, measurement), Trafikverket offers two routes, **both
+gated** — no anonymous DATEX II endpoint was found.
+
+- **Open API** — `https://api.trafikinfo.trafikverket.se/v2/data.{xml,json}`. A POST-based query API
+  covering situations, roadworks, weather stations, travel times, etc. It is **not** DATEX II (it
+  uses Trafikverket's own XML/JSON schema), and it **requires a free API key**: probing it without a
+  key returns `HTTP 401` with `<MESSAGE>Invalid authentication</MESSAGE>`. Keys are obtained by
+  registering on Trafikverket's data portal (see the
+  [open-API page](https://www.trafikverket.se/en/startpage/operations/Operations-road/Traffic-information/Real-time-traffic-information/)).
+- **DATEX II node** — Trafikverket delivers traffic information in **DATEX II XML** via a separate
+  data-exchange node. Access is **free of charge but requires a signed interchange agreement** with
+  Trafikverket before credentials are issued (both companies and private persons may apply); this is
+  described on the same real-time-traffic-information pages. No anonymous URL is published.
+
+**How to obtain:** for the DATEX II feed, apply for the interchange agreement via Trafikverket's Data
+Exchange portal ("Get started"); for the (non-DATEX) open API, register for an API key. Because both
+are gated, nothing is committed to
+[`datasets/sweden/`](../../../datex4j-integration-tests/src/test/resources/datasets/sweden).
+
 ## Notes
 
 - Sweden's identification codes for charging points are reported (by Energimyndigheten, in the
