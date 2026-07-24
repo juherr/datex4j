@@ -20,6 +20,7 @@ import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricChargingPoint;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricEnergyMix;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureSite;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureStation;
+import dev.juherr.datex4j.ocpi.mapping.internal.FacilityLocations;
 import dev.juherr.datex4j.ocpi.mapping.internal.Images;
 import dev.juherr.datex4j.ocpi.mapping.internal.Lists;
 import dev.juherr.datex4j.ocpi.mapping.internal.MultilingualStrings;
@@ -33,17 +34,19 @@ import java.util.List;
 /**
  * Maps an OCPI {@link Location} to a DATEX II {@link EnergyInfrastructureSite} and back.
  *
- * <p><b>Unmapped fields.</b> OCPI {@code country_code}, {@code party_id}, {@code city}, {@code
- * postal_code}, {@code suboperator} are not mapped in this iteration (DATEX II {@code
- * EnergyInfrastructureSite} has only {@code operator} and {@code owner} organisation slots, no
- * third one); DATEX II {@code typeOfSite}, {@code brand} have no OCPI equivalent.
+ * <p><b>Unmapped fields.</b> OCPI {@code country_code}, {@code party_id}, {@code suboperator} are
+ * not mapped in this iteration (DATEX II {@code EnergyInfrastructureSite} has only {@code operator}
+ * and {@code owner} organisation slots, no third one); DATEX II {@code typeOfSite}, {@code brand}
+ * have no OCPI equivalent.
  *
- * <p><b>Address and time zone.</b> OCPI {@code address} and {@code time_zone} are deliberately left
- * unmapped: DATEX II only models a street-address/time-zone concept via the
- * {@link dev.juherr.datex4j.model.v3_7.locationextension.FacilityLocation} location-extension type,
- * which is reachable solely through the generic {@code _extension} ({@code xs:any}) mechanism, not
- * through any typed property of {@link EnergyInfrastructureSite}. Mapping them is deferred to a
- * future profile/extension mechanism.
+ * <p><b>Address and time zone.</b> OCPI {@code address}, {@code city}, {@code postal_code}, {@code
+ * country} and {@code time_zone} map to a
+ * {@link dev.juherr.datex4j.model.v3_7.locationextension.FacilityLocation} (carrying {@code Address}
+ * and {@code timeZone}) via {@link AddressMapper}, following the IDACS deliverable 2.2.1 static
+ * dataset. The facility location is anchored on the site's {@code locationReference} through its
+ * typed extension slot ({@code _locationReferenceExtension / facilityLocation}); consequently, if
+ * the OCPI location has no coordinates (hence no location reference to anchor onto), address and
+ * time zone are dropped.
  *
  * <p><b>Opening hours.</b> OCPI {@code opening_times} maps to DATEX II {@code operatingHours} via
  * {@link HoursMapper}, covering only the basic subset: 24/7 and regular weekly hours. Exceptional
@@ -77,6 +80,7 @@ public final class LocationMapper {
     private final OrganisationMapper organisationMapper = new OrganisationMapper();
     private final EnergyMixMapper energyMixMapper = new EnergyMixMapper();
     private final HoursMapper hoursMapper = new HoursMapper();
+    private final AddressMapper addressMapper = new AddressMapper();
 
     /** Builds a DATEX II site from {@code location}, or {@code null} if {@code location} is null. */
     public EnergyInfrastructureSite toDatex(Location location) {
@@ -87,6 +91,7 @@ public final class LocationMapper {
         site.setId(location.getId());
         site.setName(MultilingualStrings.of(DEFAULT_LANG, location.getName()));
         site.setLocationReference(geoLocationMapper.toDatex(location.getCoordinates()));
+        FacilityLocations.attach(site.getLocationReference(), addressMapper.toDatex(location));
         site.setLastUpdated(Temporals.toXmlDateTime(location.getLastUpdated()));
         site.setOperator(organisationMapper.toDatex(location.getOperator()));
         site.setOwner(organisationMapper.toDatex(location.getOwner()));
@@ -146,6 +151,7 @@ public final class LocationMapper {
         location.setId(site.getId());
         location.setName(MultilingualStrings.firstValue(site.getName()));
         location.setCoordinates(geoLocationMapper.toOcpi(site.getLocationReference()));
+        addressMapper.toOcpi(FacilityLocations.of(site.getLocationReference()), location);
         location.setLastUpdated(Temporals.toIso(site.getLastUpdated()));
         location.setOperator(organisationMapper.toOcpi(site.getOperator()));
         location.setOwner(organisationMapper.toOcpi(site.getOwner()));
