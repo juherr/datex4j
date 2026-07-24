@@ -67,14 +67,20 @@ Verified live at the time of writing:
 | `Truckparking_Parking_Status.xml` (~18 KB, not gzipped) | Truck-parking availability | `ParkingStatusPublication` |
 | `charging_point_locations*.geojson.gz`, `..._ocpi.json.gz` | EV charging (GeoJSON / OCPI, **not** DATEX II) | — |
 
-**Library-compatibility note (verified):** the small `Truckparking_Parking_Status.xml` **parses**
-into a `ParkingStatusPublication` (committed as a read-only dataset), but **strict XSD validation
-fails** because it is a DATEX II **3.0** profile — a minor the library does not bundle (3.5/3.6/3.7),
-visible as `targetClass="par:ParkingTable"` vs the bundled schema's fixed `prk:ParkingTable`.
-Unmarshalling the situations `MessageContainer` also fails (national extensions + the XML JAXB
-context not yet exposing `MessageContainer`). Treat these as real-world **read/parse** inputs, not
-clean round-trip fixtures. See the cross-domain catalogue's
-[version coverage & gaps](../../datex-test-data-sources.md#datex-ii-version-coverage--gaps).
+**Library-compatibility note (verified).** The Exchange-2020 `MessageContainer` feeds now both
+**read and validate**: trimmed CC0 excerpts of the situations (`actueel_beeld`) and SRTI feeds are
+committed and the validator — which compiles the `mc:messageContainer` root alongside `d2:payload`
+for v3.6/v3.7 — reports them **valid against v3.7 with zero errors** (the earlier
+`mc:messageContainer` "not declared" root error was a validator limitation, now removed). The
+`emissiezones` feed reads only its table envelope and **does not validate**: its zone records use
+`<cz:urbanVehicleAccessRegulation>`, an element absent from every bundled v3.x schema, so those
+records are dropped on the lax read and raw-byte validation reports genuine producer/extension
+errors. The small `Truckparking_Parking_Status.xml` **parses** into a `ParkingStatusPublication`
+(committed as a read-only dataset) but **strict XSD validation fails** because it is a DATEX II
+**3.0** profile with a producer `targetClass="par:ParkingTable"` vs the schema's fixed
+`prk:ParkingTable`. See the cross-domain catalogue's
+[version coverage & gaps](../../datex-test-data-sources.md#datex-ii-version-coverage--gaps) and
+[`Datex3TrafficFeedReadValidateTest`](../../../datex4j-integration-tests/src/test/java/dev/juherr/datex4j/it/Datex3TrafficFeedReadValidateTest.java).
 
 ## Notes
 

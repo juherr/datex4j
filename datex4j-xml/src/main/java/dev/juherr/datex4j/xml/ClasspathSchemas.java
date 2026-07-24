@@ -19,7 +19,10 @@ import dev.juherr.datex4j.core.DatexSchemas;
 import dev.juherr.datex4j.core.DatexVersion;
 import java.io.InputStream;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.XMLConstants;
+import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -31,8 +34,10 @@ import org.xml.sax.SAXException;
  * Loads the DATEX II XML Schema set from the classpath.
  *
  * <p>The schemas are bundled by {@code datex4j-model} under {@code META-INF/datex4j/schema/vX.Y}.
- * Loading starts from the {@linkplain DatexSchemas#ROOT_SCHEMA root schema}, which imports every
- * module schema; imports (relative file names) are resolved back onto the classpath by {@link
+ * Loading compiles every {@linkplain DatexSchemas#rootSchemas(DatexVersion) root schema} for the
+ * version together (the payload root, plus the message container schema where bundled), so the
+ * resulting {@link Schema} recognises both payload-rooted and {@code messageContainer}-rooted
+ * documents; imports (relative file names) are resolved back onto the classpath by {@link
  * ClasspathResourceResolver}.
  */
 final class ClasspathSchemas {
@@ -48,7 +53,7 @@ final class ClasspathSchemas {
      */
     static Schema load(DatexVersion version) {
         String directory = DatexSchemas.resourceDirectory(version);
-        String rootResource = DatexSchemas.rootSchema(version);
+        List<String> rootResources = DatexSchemas.rootSchemas(version);
         ClassLoader loader = ClasspathSchemas.class.getClassLoader();
 
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -60,17 +65,35 @@ final class ClasspathSchemas {
         }
         factory.setResourceResolver(new ClasspathResourceResolver(directory, loader));
 
-        try (InputStream in = loader.getResourceAsStream(rootResource)) {
-            if (in == null) {
-                throw new DatexXmlException("DATEX II root schema not found on classpath: " + rootResource);
+        List<InputStream> streams = new ArrayList<>(rootResources.size());
+        try {
+            Source[] sources = new Source[rootResources.size()];
+            for (int i = 0; i < rootResources.size(); i++) {
+                String rootResource = rootResources.get(i);
+                InputStream in = loader.getResourceAsStream(rootResource);
+                if (in == null) {
+                    throw new DatexXmlException("DATEX II root schema not found on classpath: " + rootResource);
+                }
+                streams.add(in);
+                StreamSource source = new StreamSource(in);
+                source.setSystemId(rootResource);
+                sources[i] = source;
             }
-            StreamSource source = new StreamSource(in);
-            source.setSystemId(rootResource);
-            return factory.newSchema(source);
+            return factory.newSchema(sources);
         } catch (SAXException e) {
             throw new DatexXmlException("Failed to compile DATEX II schemas for version " + version, e);
-        } catch (java.io.IOException e) {
-            throw new DatexXmlException("Failed to read DATEX II root schema: " + rootResource, e);
+        } finally {
+            closeQuietly(streams);
+        }
+    }
+
+    private static void closeQuietly(List<InputStream> streams) {
+        for (InputStream stream : streams) {
+            try {
+                stream.close();
+            } catch (java.io.IOException ignored) {
+                // Best effort; the schema is already compiled.
+            }
         }
     }
 
