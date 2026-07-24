@@ -19,7 +19,6 @@ import dev.juherr.datex4j.model.v3_7.common.UrlLink;
 import dev.juherr.datex4j.model.v3_7.common.UrlLinkTypeEnum;
 import dev.juherr.datex4j.model.v3_7.common._UrlLinkTypeEnum;
 import dev.juherr.datex4j.ocpi.model.v2_3.Image;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,18 +66,16 @@ public final class Images {
             return images;
         }
         for (UrlLink urlLink : urlLinks) {
-            if (urlLink == null
-                    || urlLink.getUrlLinkAddress() == null
-                    || urlLink.getUrlLinkAddress().isBlank()) {
+            if (urlLink == null) {
                 continue;
             }
-            try {
-                Image image = new Image();
-                image.setUrl(URI.create(urlLink.getUrlLinkAddress()));
-                images.add(image);
-            } catch (IllegalArgumentException e) {
-                // Not a valid URI: skip this image rather than failing the whole mapping.
+            var url = Uris.parse(urlLink.getUrlLinkAddress());
+            if (url == null) {
+                continue;
             }
+            Image image = new Image();
+            image.setUrl(url);
+            images.add(image);
         }
         return images;
     }

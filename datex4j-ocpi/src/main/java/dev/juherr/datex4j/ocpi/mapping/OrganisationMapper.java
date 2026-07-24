@@ -18,6 +18,8 @@ package dev.juherr.datex4j.ocpi.mapping;
 import dev.juherr.datex4j.model.v3_7.facilities.Organisation;
 import dev.juherr.datex4j.model.v3_7.facilities.OrganisationSpecification;
 import dev.juherr.datex4j.ocpi.mapping.internal.MultilingualStrings;
+import dev.juherr.datex4j.ocpi.mapping.internal.Organisations;
+import dev.juherr.datex4j.ocpi.mapping.internal.Uris;
 import dev.juherr.datex4j.ocpi.model.v2_3.BusinessDetails;
 import dev.juherr.datex4j.ocpi.model.v2_3.Image;
 import java.net.URI;
@@ -64,25 +66,14 @@ public final class OrganisationMapper {
             return null;
         }
         BusinessDetails details = new BusinessDetails();
-        details.setName(MultilingualStrings.firstValue(spec.getName()));
-        details.setWebsite(toUri(spec.getLinkToWebform()));
-        URI logoUri = toUri(spec.getLinkToLogo());
+        details.setName(Organisations.nameOf(organisation));
+        details.setWebsite(Uris.parse(spec.getLinkToWebform()));
+        URI logoUri = Uris.parse(spec.getLinkToLogo());
         if (logoUri != null) {
             Image logo = new Image();
             logo.setUrl(logoUri);
             details.setLogo(logo);
         }
         return details;
-    }
-
-    private static URI toUri(String value) {
-        if (value == null) {
-            return null;
-        }
-        try {
-            return URI.create(value);
-        } catch (IllegalArgumentException e) {
-            return null;
-        }
     }
 }

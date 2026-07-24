@@ -19,10 +19,9 @@ import dev.juherr.datex4j.model.v3_7.common.PercentageValue;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricEnergyMix;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricEnergySourceRatio;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure._ElectricEnergySourceTypeEnum;
-import dev.juherr.datex4j.model.v3_7.facilities.Organisation;
-import dev.juherr.datex4j.model.v3_7.facilities.OrganisationSpecification;
 import dev.juherr.datex4j.ocpi.mapping.internal.EnergySources;
 import dev.juherr.datex4j.ocpi.mapping.internal.MultilingualStrings;
+import dev.juherr.datex4j.ocpi.mapping.internal.Organisations;
 import dev.juherr.datex4j.ocpi.model.v2_3.EnergyMix;
 import dev.juherr.datex4j.ocpi.model.v2_3.EnergySource;
 import dev.juherr.datex4j.ocpi.model.v2_3.EnergySourceCategory;
@@ -57,7 +56,7 @@ public final class EnergyMixMapper {
         ElectricEnergyMix datex = new ElectricEnergyMix();
         datex.setIsGreenEnergy(ocpi.getIsGreenEnergy());
         datex.setEnergyProductName(MultilingualStrings.of(DEFAULT_LANG, ocpi.getEnergyProductName()));
-        datex.setEnergyProvider(toProvider(ocpi.getSupplierName()));
+        datex.setEnergyProvider(Organisations.named(ocpi.getSupplierName()));
         if (ocpi.getEnergySources() != null) {
             for (EnergySource source : ocpi.getEnergySources()) {
                 if (source == null) {
@@ -88,7 +87,7 @@ public final class EnergyMixMapper {
         EnergyMix ocpi = new EnergyMix();
         ocpi.setIsGreenEnergy(datex.isIsGreenEnergy());
         ocpi.setEnergyProductName(MultilingualStrings.firstValue(datex.getEnergyProductName()));
-        ocpi.setSupplierName(toSupplierName(datex.getEnergyProvider()));
+        ocpi.setSupplierName(Organisations.nameOf(datex.getEnergyProvider()));
         for (ElectricEnergySourceRatio ratio : datex.getElectricEnergySourceRatio()) {
             if (ratio == null) {
                 continue;
@@ -109,22 +108,6 @@ public final class EnergyMixMapper {
             ocpi.addEnvironImpactItem(toEnvironmentalImpact(NUCLEAR_WASTE, datex.getNuclearWasteImpact()));
         }
         return ocpi;
-    }
-
-    private static Organisation toProvider(String supplierName) {
-        if (supplierName == null) {
-            return null;
-        }
-        OrganisationSpecification provider = new OrganisationSpecification();
-        provider.setName(MultilingualStrings.of(DEFAULT_LANG, supplierName));
-        return provider;
-    }
-
-    private static String toSupplierName(Organisation organisation) {
-        if (!(organisation instanceof OrganisationSpecification spec)) {
-            return null;
-        }
-        return MultilingualStrings.firstValue(spec.getName());
     }
 
     private static void applyEnvironmentalImpact(ElectricEnergyMix datex, EnvironmentalImpact impact) {
