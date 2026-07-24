@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns19:payload xmlns="http://datex2.eu/schema/3/common" xmlns:ns2="http://datex2.eu/schema/3/commonExtension" xmlns:ns3="http://datex2.eu/schema/3/facilities" xmlns:ns4="http://datex2.eu/schema/3/afirFacilities" xmlns:ns5="http://datex2.eu/schema/3/parking" xmlns:ns6="http://datex2.eu/schema/3/roadTrafficData" xmlns:ns7="http://datex2.eu/schema/3/trafficRegulation" xmlns:ns8="http://datex2.eu/schema/3/locationExtension" xmlns:ns9="http://datex2.eu/schema/3/locationReferencing" xmlns:ns10="http://datex2.eu/schema/3/controlledZone" xmlns:ns11="http://datex2.eu/schema/3/energyInfrastructure" xmlns:ns12="http://datex2.eu/schema/3/vms" xmlns:ns13="http://datex2.eu/schema/3/faultAndStatus" xmlns:ns14="http://datex2.eu/schema/3/reroutingManagementEnhanced" xmlns:ns15="http://datex2.eu/schema/3/afirEnergyInfrastructure" xmlns:ns16="http://datex2.eu/schema/3/trafficManagementPlan" xmlns:ns17="http://datex2.eu/schema/3/situation" xmlns:ns18="http://datex2.eu/schema/3/urbanExtensions" xmlns:ns19="http://datex2.eu/schema/3/d2Payload" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns11:EnergyInfrastructureTablePublication" lang="en" modelBaseVersion="3">
+    <publicationTime>2026-01-01T00:00:00.000+01:00</publicationTime>
+    <publicationCreator>
+        <country>fr</country>
+        <nationalIdentifier>datex4j-synthetic</nationalIdentifier>
+    </publicationCreator>
+    <ns11:energyInfrastructureTable id="synthetic-table-1" version="1">
+        <ns11:tableName>Synthetic AFIR recharging table</ns11:tableName>
+        <ns11:energyInfrastructureSite id="synthetic-site-1" version="1">
+            <ns3:name>
+                <values>
+                    <value lang="en">Synthetic recharging site</value>
+                </values>
+            </ns3:name>
+        </ns11:energyInfrastructureSite>
+    </ns11:energyInfrastructureTable>
+</ns19:payload>
