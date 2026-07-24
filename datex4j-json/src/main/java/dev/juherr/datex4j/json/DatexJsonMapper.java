@@ -15,15 +15,19 @@
  */
 package dev.juherr.datex4j.json;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationModule;
 import dev.juherr.datex4j.core.DatexVersion;
+import dev.juherr.datex4j.json.internal.DatexJsonModule;
+import dev.juherr.datex4j.json.internal.MessageContainerJson;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Reads and writes DATEX II model objects as JSON, hiding Jackson.
@@ -48,6 +52,8 @@ public final class DatexJsonMapper {
         this.mapper = new ObjectMapper()
                 .registerModule(new JakartaXmlBindAnnotationModule())
                 .registerModule(new DatexTemporalModule())
+                .registerModule(new DatexJsonModule(version))
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
     }
@@ -61,6 +67,9 @@ public final class DatexJsonMapper {
      */
     public byte[] write(Object value) {
         try {
+            if (isMessageContainer(value)) {
+                return MessageContainerJson.write(value, mapper, prettyPrint);
+            }
             return writer().writeValueAsBytes(value);
         } catch (IOException e) {
             throw new DatexJsonException("Failed to write DATEX II JSON", e);
@@ -76,6 +85,9 @@ public final class DatexJsonMapper {
      */
     public String writeToString(Object value) {
         try {
+            if (isMessageContainer(value)) {
+                return new String(MessageContainerJson.write(value, mapper, prettyPrint), StandardCharsets.UTF_8);
+            }
             return writer().writeValueAsString(value);
         } catch (IOException e) {
             throw new DatexJsonException("Failed to write DATEX II JSON", e);
@@ -91,6 +103,10 @@ public final class DatexJsonMapper {
      */
     public void write(Object value, OutputStream out) {
         try {
+            if (isMessageContainer(value)) {
+                out.write(MessageContainerJson.write(value, mapper, prettyPrint));
+                return;
+            }
             writer().writeValue(out, value);
         } catch (IOException e) {
             throw new DatexJsonException("Failed to write DATEX II JSON", e);
@@ -141,11 +157,24 @@ public final class DatexJsonMapper {
      * @param json the conformant JSON document
      * @param type the expected container type
      * @param <T> the expected type
-     * @return never returns
-     * @throws UnsupportedOperationException always, until the conformant codec is implemented
+     * @return the deserialized message container
+     * @throws DatexJsonException if parsing fails
      */
     public <T> T readContainer(byte[] json, Class<T> type) {
-        throw new UnsupportedOperationException("conformant container read not implemented yet");
+        try {
+            return type.cast(MessageContainerJson.read(json, mapper, version.packageSegment()));
+        } catch (IOException e) {
+            throw new DatexJsonException("Failed to read DATEX II JSON", e);
+        }
+    }
+
+    private boolean isMessageContainer(Object value) {
+        if (value == null) {
+            return false;
+        }
+        Class<?> type = value.getClass();
+        return "MessageContainer".equals(type.getSimpleName())
+                && type.getName().startsWith("dev.juherr.datex4j.model.");
     }
 
     private ObjectWriter writer() {
