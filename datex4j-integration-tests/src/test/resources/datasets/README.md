@@ -5,6 +5,15 @@ validates, re-serializes and diffs (see the module's own README for how the harn
 holds, per country, a `README.md` describing how to obtain that country's real AFIR dataset even
 where the file itself is not committed here.
 
+Fixtures come in two on-the-wire formats, dispatched by the harness on the `Dataset.Format` recorded
+in the catalog:
+
+- **XML** — validated against the official DATEX II XSDs and round-tripped through `datex4j-xml`
+  (the seven mandatory checks).
+- **JSON** — conformant DATEX II JSON rooted at a `MessageContainer` (the shape real National Access
+  Points such as Fintraffic publish), round-tripped through `datex4j-json` for idempotency and
+  content fidelity. Used by the committed **Finland** real-world dataset.
+
 ## Layout
 
 - [`synthetic/afir-recharging/`](./synthetic/afir-recharging) — a hand-authored, XSD-valid AFIR
@@ -15,11 +24,15 @@ where the file itself is not committed here.
   [`../../../../../docs/afir/official-datex-resources.md`](../../../../../docs/afir/official-datex-resources.md#official-examples)
   for the search done so far). **Empty today** — no official example with a clear licence has been
   located; do not add files here without first confirming redistribution rights.
-- `germany/`, `france/`, `netherlands/`, `denmark/`, `finland/`, `belgium/`, `austria/`, `sweden/` —
-  one directory per country covered by [`docs/afir/nap/`](../../../../../docs/afir/nap). Each
-  holds a `README.md` with download instructions for that country's public AFIR/DATEX II dataset(s)
-  and, once a file's licence is confirmed suitable, the dataset file(s) themselves alongside their
-  own metadata `README.md`.
+- [`finland/`](./finland) — **a committed real-world dataset**: `afir-messagecontainer.v3_6.json`,
+  a trimmed excerpt of Fintraffic's live AFIR feed (CC BY 4.0, conformant DATEX II JSON v3.6). Its
+  `README.md` is the filled-in metadata record; the same real values are the `datex4j-json` codec's
+  Fintraffic oracle.
+- `germany/`, `france/`, `netherlands/`, `denmark/`, `belgium/`, `austria/`, `sweden/` —
+  one directory per remaining country covered by [`docs/afir/nap/`](../../../../../docs/afir/nap).
+  Each holds a `README.md` with download instructions for that country's public AFIR/DATEX II
+  dataset(s) and, once a file's licence is confirmed suitable, the dataset file(s) themselves
+  alongside their own metadata `README.md`.
 
 ## Policy: what gets committed
 
