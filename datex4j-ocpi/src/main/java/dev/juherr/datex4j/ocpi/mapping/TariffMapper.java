@@ -15,7 +15,6 @@
  */
 package dev.juherr.datex4j.ocpi.mapping;
 
-import dev.juherr.datex4j.model.v3_7.common.MultilingualString;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyPricingPolicy;
 import dev.juherr.datex4j.ocpi.mapping.internal.MultilingualStrings;
 import dev.juherr.datex4j.ocpi.model.v2_3.DisplayText;
@@ -56,7 +55,7 @@ public final class TariffMapper {
         String info = MultilingualStrings.firstValue(policy.getAdditionalInformation());
         if (info != null) {
             DisplayText text = new DisplayText();
-            text.setLanguage(firstLang(policy.getAdditionalInformation()));
+            text.setLanguage(MultilingualStrings.firstLang(policy.getAdditionalInformation(), DEFAULT_LANG));
             text.setText(info);
             tariff.setTariffAltText(List.of(text));
         }
@@ -68,15 +67,5 @@ public final class TariffMapper {
             return null;
         }
         return texts.get(0);
-    }
-
-    private static String firstLang(MultilingualString string) {
-        if (string == null
-                || string.getValues() == null
-                || string.getValues().getValue().isEmpty()) {
-            return DEFAULT_LANG;
-        }
-        String lang = string.getValues().getValue().get(0).getLang();
-        return lang != null ? lang : DEFAULT_LANG;
     }
 }

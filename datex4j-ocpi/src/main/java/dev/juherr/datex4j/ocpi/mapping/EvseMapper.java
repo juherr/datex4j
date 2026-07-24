@@ -19,10 +19,9 @@ import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricChargingPoint;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureStation;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.RefillPoint;
 import dev.juherr.datex4j.ocpi.mapping.internal.Images;
+import dev.juherr.datex4j.ocpi.mapping.internal.Lists;
 import dev.juherr.datex4j.ocpi.mapping.internal.Temporals;
 import dev.juherr.datex4j.ocpi.model.v2_3.EVSE;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Maps an OCPI {@link EVSE} to a DATEX II {@link EnergyInfrastructureStation} holding a single
@@ -47,14 +46,7 @@ public final class EvseMapper {
             return null;
         }
         ElectricChargingPoint point = new ElectricChargingPoint();
-        if (evse.getConnectors() != null) {
-            for (var connector : evse.getConnectors()) {
-                var mapped = connectorMapper.toDatex(connector);
-                if (mapped != null) {
-                    point.getConnector().add(mapped);
-                }
-            }
-        }
+        point.getConnector().addAll(Lists.mapEach(evse.getConnectors(), connectorMapper::toDatex));
 
         EnergyInfrastructureStation station = new EnergyInfrastructureStation();
         station.setId(evse.getUid());
@@ -82,14 +74,7 @@ public final class EvseMapper {
                 ? null
                 : station.getRefillPoint().get(0);
         if (first instanceof ElectricChargingPoint point) {
-            List<dev.juherr.datex4j.ocpi.model.v2_3.Connector> connectors = new ArrayList<>();
-            for (var connector : point.getConnector()) {
-                var mapped = connectorMapper.toOcpi(connector);
-                if (mapped != null) {
-                    connectors.add(mapped);
-                }
-            }
-            evse.setConnectors(connectors);
+            evse.setConnectors(Lists.mapEach(point.getConnector(), connectorMapper::toOcpi));
         }
         return evse;
     }

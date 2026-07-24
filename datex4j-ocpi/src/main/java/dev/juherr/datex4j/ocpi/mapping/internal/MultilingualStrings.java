@@ -47,4 +47,15 @@ public final class MultilingualStrings {
         }
         return string.getValues().getValue().get(0).getValue();
     }
+
+    /** Returns the first value's language, or {@code defaultLang} if absent. */
+    public static String firstLang(MultilingualString string, String defaultLang) {
+        if (string == null
+                || string.getValues() == null
+                || string.getValues().getValue().isEmpty()) {
+            return defaultLang;
+        }
+        String lang = string.getValues().getValue().get(0).getLang();
+        return lang != null ? lang : defaultLang;
+    }
 }

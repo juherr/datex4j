@@ -22,9 +22,15 @@ import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureTa
 import dev.juherr.datex4j.ocpi.model.v2_3.Location;
 
 /**
- * Public entry point for converting EV-charging infrastructure between OCPI 2.3.0 and DATEX II v3.7.
- * Stateless and thread-safe. Delegates to the per-entity mappers and can wrap the result in a ready
- * to marshal {@link EnergyInfrastructureTablePublication}.
+ * Public entry point converting the OCPI {@link Location} &harr; DATEX II {@link
+ * EnergyInfrastructureSite} object graph. Stateless and thread-safe. Delegates to {@link
+ * LocationMapper} and, transitively, the EVSE/connector/geo-location/organisation/energy-mix/hours
+ * mappers it composes. Can also wrap the result in a ready-to-marshal {@link
+ * EnergyInfrastructureTablePublication}.
+ *
+ * <p>{@link StatusMapper} and {@link TariffMapper} are independent, directly-instantiated mappers
+ * for the separate OCPI {@code Status} and {@code Tariff} resources; they are not reachable
+ * through this facade.
  */
 public final class OcpiDatexMapping {
 

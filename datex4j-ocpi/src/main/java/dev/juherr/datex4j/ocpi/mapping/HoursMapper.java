@@ -24,10 +24,10 @@ import dev.juherr.datex4j.model.v3_7.facilities.OpenAllHours;
 import dev.juherr.datex4j.model.v3_7.facilities.OperatingHours;
 import dev.juherr.datex4j.model.v3_7.facilities.OperatingHoursSpecification;
 import dev.juherr.datex4j.ocpi.mapping.internal.Days;
+import dev.juherr.datex4j.ocpi.mapping.internal.Lists;
 import dev.juherr.datex4j.ocpi.mapping.internal.Temporals;
 import dev.juherr.datex4j.ocpi.model.v2_3.Hours;
 import dev.juherr.datex4j.ocpi.model.v2_3.RegularHours;
-import java.util.ArrayList;
 import java.util.List;
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -66,13 +66,7 @@ public final class HoursMapper {
         if (regularHours == null || regularHours.isEmpty()) {
             return null;
         }
-        List<Period> periods = new ArrayList<>();
-        for (RegularHours regular : regularHours) {
-            Period period = toPeriod(regular);
-            if (period != null) {
-                periods.add(period);
-            }
-        }
+        List<Period> periods = Lists.mapEach(regularHours, this::toPeriod);
         if (periods.isEmpty()) {
             return null;
         }
@@ -132,13 +126,7 @@ public final class HoursMapper {
         if (overallPeriod == null || overallPeriod.getValidPeriod().isEmpty()) {
             return null;
         }
-        List<RegularHours> regularHours = new ArrayList<>();
-        for (Period period : overallPeriod.getValidPeriod()) {
-            RegularHours regular = toRegularHours(period);
-            if (regular != null) {
-                regularHours.add(regular);
-            }
-        }
+        List<RegularHours> regularHours = Lists.mapEach(overallPeriod.getValidPeriod(), this::toRegularHours);
         if (regularHours.isEmpty()) {
             return null;
         }

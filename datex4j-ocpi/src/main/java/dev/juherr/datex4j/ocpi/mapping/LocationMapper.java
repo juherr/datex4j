@@ -21,10 +21,10 @@ import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricEnergyMix;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureSite;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureStation;
 import dev.juherr.datex4j.ocpi.mapping.internal.Images;
+import dev.juherr.datex4j.ocpi.mapping.internal.Lists;
 import dev.juherr.datex4j.ocpi.mapping.internal.MultilingualStrings;
 import dev.juherr.datex4j.ocpi.mapping.internal.Temporals;
 import dev.juherr.datex4j.ocpi.model.v2_3.DisplayText;
-import dev.juherr.datex4j.ocpi.model.v2_3.EVSE;
 import dev.juherr.datex4j.ocpi.model.v2_3.EnergyMix;
 import dev.juherr.datex4j.ocpi.model.v2_3.Location;
 import java.util.ArrayList;
@@ -92,14 +92,7 @@ public final class LocationMapper {
         site.setOwner(organisationMapper.toDatex(location.getOwner()));
         site.setOperatingHours(hoursMapper.toDatex(location.getOpeningTimes()));
         site.getPhotoUrl().addAll(Images.toDatex(location.getImages()));
-        if (location.getEvses() != null) {
-            for (var evse : location.getEvses()) {
-                var station = evseMapper.toDatex(evse);
-                if (station != null) {
-                    site.getEnergyInfrastructureStation().add(station);
-                }
-            }
-        }
+        site.getEnergyInfrastructureStation().addAll(Lists.mapEach(location.getEvses(), evseMapper::toDatex));
         if (location.getEnergyMix() != null) {
             applyEnergyMix(site, location.getEnergyMix());
         }
@@ -123,16 +116,25 @@ public final class LocationMapper {
     }
 
     private void applyEnergyMix(EnergyInfrastructureSite site, EnergyMix energyMix) {
+        ElectricEnergyMix mix = energyMixMapper.toDatex(energyMix);
+        for (ElectricChargingPoint point : chargingPoints(site)) {
+            point.getElectricEnergyMix().add(mix);
+        }
+    }
+
+    private static List<ElectricChargingPoint> chargingPoints(EnergyInfrastructureSite site) {
+        List<ElectricChargingPoint> points = new ArrayList<>();
         for (EnergyInfrastructureStation station : site.getEnergyInfrastructureStation()) {
             if (station == null) {
                 continue;
             }
             for (var refillPoint : station.getRefillPoint()) {
                 if (refillPoint instanceof ElectricChargingPoint point) {
-                    point.getElectricEnergyMix().add(energyMixMapper.toDatex(energyMix));
+                    points.add(point);
                 }
             }
         }
+        return points;
     }
 
     /** Builds an OCPI location from {@code site}, or {@code null} if {@code site} is null. */
@@ -149,14 +151,7 @@ public final class LocationMapper {
         location.setOwner(organisationMapper.toOcpi(site.getOwner()));
         location.setOpeningTimes(hoursMapper.toOcpi(site.getOperatingHours()));
         location.setImages(Images.toOcpi(site.getPhotoUrl()));
-        List<EVSE> evses = new ArrayList<>();
-        for (EnergyInfrastructureStation station : site.getEnergyInfrastructureStation()) {
-            EVSE mapped = evseMapper.toOcpi(station);
-            if (mapped != null) {
-                evses.add(mapped);
-            }
-        }
-        location.setEvses(evses);
+        location.setEvses(Lists.mapEach(site.getEnergyInfrastructureStation(), evseMapper::toOcpi));
         location.setEnergyMix(energyMixMapper.toOcpi(findFirstEnergyMix(site)));
         location.setDirections(firstDirection(site.getAdditionalInformation()));
         return location;
@@ -171,8 +166,7 @@ public final class LocationMapper {
         if (text == null) {
             return null;
         }
-        String rawLang = info.getValues().getValue().get(0).getLang();
-        String lang = rawLang != null ? rawLang : DEFAULT_LANG;
+        String lang = MultilingualStrings.firstLang(info, DEFAULT_LANG);
         DisplayText direction = new DisplayText();
         direction.setLanguage(lang);
         direction.setText(text);
@@ -180,15 +174,9 @@ public final class LocationMapper {
     }
 
     private static ElectricEnergyMix findFirstEnergyMix(EnergyInfrastructureSite site) {
-        for (EnergyInfrastructureStation station : site.getEnergyInfrastructureStation()) {
-            if (station == null) {
-                continue;
-            }
-            for (var refillPoint : station.getRefillPoint()) {
-                if (refillPoint instanceof ElectricChargingPoint point
-                        && !point.getElectricEnergyMix().isEmpty()) {
-                    return point.getElectricEnergyMix().get(0);
-                }
+        for (ElectricChargingPoint point : chargingPoints(site)) {
+            if (!point.getElectricEnergyMix().isEmpty()) {
+                return point.getElectricEnergyMix().get(0);
             }
         }
         return null;
