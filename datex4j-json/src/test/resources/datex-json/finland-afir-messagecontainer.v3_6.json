@@ -1,0 +1,231 @@
+{
+  "payload": [
+    {
+      "modelBaseVersionG": "3",
+      "versionG": "3.6",
+      "egiEnergyInfrastructureTablePublication": {
+        "lang": "en",
+        "publicationTime": "2026-07-24T15:34:27.447Z",
+        "publicationCreator": {
+          "country": "FI",
+          "nationalIdentifier": "NAP"
+        },
+        "energyInfrastructureTable": [
+          {
+            "idG": "FI*911",
+            "versionG": "2026-07-24T15:34:27.447Z",
+            "energyInfrastructureSite": [
+              {
+                "idG": "FI*911*70d5121e-0308-11f0-9e08-42010aa40043",
+                "name": {
+                  "values": [
+                    {
+                      "lang": "fi",
+                      "value": "Porsche Destination Charging Kalastajantorpan Tennisklubi - AC 2"
+                    }
+                  ]
+                },
+                "versionG": "2026-07-24T05:16:57.740Z",
+                "lastUpdated": "2026-07-24T05:16:57.740Z",
+                "locationReference": {
+                  "locxFacilityLocation": {
+                    "address": {
+                      "postcode": "00330",
+                      "city": {
+                        "values": [
+                          {
+                            "lang": "fi",
+                            "value": "Helsinki"
+                          }
+                        ]
+                      },
+                      "countryCode": "FI",
+                      "addressLine": [
+                        {
+                          "order": 1,
+                          "type": {
+                            "value": "street"
+                          },
+                          "text": {
+                            "values": [
+                              {
+                                "lang": "fi",
+                                "value": "Kärkitie 4"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "locPointLocation": {
+                    "pointByCoordinates": {
+                      "pointCoordinates": {
+                        "latitude": 60.1911,
+                        "longitude": 24.875
+                      }
+                    }
+                  }
+                },
+                "entrance": [
+                  {
+                    "locPointLocation": {
+                      "pointByCoordinates": {
+                        "pointCoordinates": {
+                          "latitude": 60.1911,
+                          "longitude": 24.875
+                        }
+                      }
+                    }
+                  }
+                ],
+                "operator": {
+                  "facOrganisationSpecification": {
+                    "idG": "ORG*FI*911*33afae99d8bb",
+                    "versionG": "2026-07-24T05:16:57.740Z",
+                    "name": {
+                      "values": [
+                        {
+                          "lang": "en",
+                          "value": "Porsche Sales & Marketplace"
+                        }
+                      ]
+                    },
+                    "legalName": {
+                      "values": [
+                        {
+                          "lang": "en",
+                          "value": "Porsche Sales & Marketplace"
+                        }
+                      ]
+                    },
+                    "organisationUnit": [
+                      {
+                        "name": {
+                          "values": [
+                            {
+                              "lang": "en",
+                              "value": "Porsche Sales & Marketplace"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                "energyInfrastructureStation": [
+                  {
+                    "idG": "FI*911*E*PDC*FI1000061*0000001",
+                    "versionG": "2026-07-24T05:16:57.714Z",
+                    "lastUpdated": "2026-07-24T05:16:57.714Z",
+                    "authenticationAndIdentificationMethods": [],
+                    "refillPoint": [
+                      {
+                        "egiElectricChargingPoint": {
+                          "idG": "FI*911*E*PDC*FI1000061*0000001",
+                          "versionG": "2026-07-24T05:16:57.714Z",
+                          "externalIdentifier": "FI*911*E*PDC*FI1000061*0000001",
+                          "lastUpdated": "2026-07-24T05:16:57.714Z",
+                          "rates": {
+                            "facGeneralRateInformation": {
+                              "paymentMethod": {
+                                "paymentMeans": [
+                                  {
+                                    "value": "paymentCreditCard"
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          "connector": [
+                            {
+                              "connectorType": {
+                                "value": "iec62196T2"
+                              },
+                              "chargingMode": {
+                                "value": "mode3AC3p"
+                              },
+                              "connectorFormat": {
+                                "value": "cableMode3"
+                              },
+                              "maxPowerAtSocket": 12800,
+                              "voltage": 400,
+                              "maximumCurrent": 32
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "idG": "FI*911*E*PDC*FI1000244*0000001",
+                    "versionG": "2026-07-24T05:16:57.714Z",
+                    "lastUpdated": "2026-07-24T05:16:57.714Z",
+                    "authenticationAndIdentificationMethods": [],
+                    "refillPoint": [
+                      {
+                        "egiElectricChargingPoint": {
+                          "idG": "FI*911*E*PDC*FI1000244*0000001",
+                          "versionG": "2026-07-24T05:16:57.714Z",
+                          "externalIdentifier": "FI*911*E*PDC*FI1000244*0000001",
+                          "lastUpdated": "2026-07-24T05:16:57.714Z",
+                          "rates": {
+                            "facGeneralRateInformation": {
+                              "paymentMethod": {
+                                "paymentMeans": [
+                                  {
+                                    "value": "paymentCreditCard"
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          "connector": [
+                            {
+                              "connectorType": {
+                                "value": "iec62196T2"
+                              },
+                              "chargingMode": {
+                                "value": "mode3AC3p"
+                              },
+                              "connectorFormat": {
+                                "value": "cableMode3"
+                              },
+                              "maxPowerAtSocket": 12800,
+                              "voltage": 400,
+                              "maximumCurrent": 32
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exchangeInformation": {
+    "messageType": {
+      "value": "payloadDelivery"
+    },
+    "exchangeContext": {
+      "codedExchangeProtocol": {
+        "value": "snapshotPull"
+      },
+      "exchangeSpecificationVersion": "1",
+      "supplierOrCisRequester": {}
+    },
+    "dynamicInformation": {
+      "exchangeStatus": {
+        "value": "online"
+      },
+      "completedPaylod": true,
+      "messageSequencingNumber": 0,
+      "messageGenerationTimestamp": "2026-07-24T15:34:29.095Z"
+    }
+  }
+}
