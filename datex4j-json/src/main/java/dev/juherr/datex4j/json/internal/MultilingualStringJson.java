@@ -1,0 +1,91 @@
+/*
+ * Copyright 2026 the datex4j authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package dev.juherr.datex4j.json.internal;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import dev.juherr.datex4j.model.v3_7.common.MultilingualString;
+import dev.juherr.datex4j.model.v3_7.common.MultilingualStringValue;
+import java.io.IOException;
+import java.util.List;
+
+/**
+ * Jackson (de)serializers flattening the DATEX II {@link MultilingualString} model into its
+ * conformant JSON encoding.
+ *
+ * <p>The generated JAXB model nests the language/value pairs under an intermediate {@code Values}
+ * wrapper ({@code getValues().getValue()}), mirroring the XML schema's anonymous wrapper element.
+ * The conformant DATEX II JSON encoding flattens that wrapper away, exposing a single {@code
+ * values} array of {@code {lang, value}} objects directly on the {@link MultilingualString}:
+ *
+ * <pre>{@code {"values":[{"lang":"fi","value":"Kärkitie 4"}]}}</pre>
+ */
+public final class MultilingualStringJson {
+
+    private MultilingualStringJson() {}
+
+    /** Serializes a {@link MultilingualString} to the flat {@code {"values":[...]}} JSON shape. */
+    public static final class Serializer extends JsonSerializer<MultilingualString> {
+        @Override
+        public void serialize(MultilingualString value, JsonGenerator generator, SerializerProvider serializers)
+                throws IOException {
+            generator.writeStartObject();
+            generator.writeArrayFieldStart("values");
+            List<MultilingualStringValue> values =
+                    value.getValues() == null ? List.of() : value.getValues().getValue();
+            for (MultilingualStringValue msv : values) {
+                generator.writeStartObject();
+                generator.writeStringField("lang", msv.getLang());
+                generator.writeStringField("value", msv.getValue());
+                generator.writeEndObject();
+            }
+            generator.writeEndArray();
+            generator.writeEndObject();
+        }
+    }
+
+    /** Deserializes the flat {@code {"values":[...]}} JSON shape back into a {@link MultilingualString}. */
+    public static final class Deserializer extends JsonDeserializer<MultilingualString> {
+        @Override
+        public MultilingualString deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+            JsonNode root = parser.getCodec().readTree(parser);
+            MultilingualString.Values values = new MultilingualString.Values();
+            JsonNode valuesNode = root.get("values");
+            if (valuesNode != null) {
+                for (JsonNode item : valuesNode) {
+                    MultilingualStringValue msv = new MultilingualStringValue();
+                    JsonNode lang = item.get("lang");
+                    if (lang != null) {
+                        msv.setLang(lang.asText());
+                    }
+                    JsonNode text = item.get("value");
+                    if (text != null) {
+                        msv.setValue(text.asText());
+                    }
+                    values.getValue().add(msv);
+                }
+            }
+            MultilingualString result = new MultilingualString();
+            result.setValues(values);
+            return result;
+        }
+    }
+}
