@@ -52,6 +52,19 @@
         <executions>
           <!-- One execution per supported DATEX II version; each targets a version-scoped package. -->
           <execution>
+            <id>generate-v3.5</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <schemaDirectory>${project.basedir}/src/main/resources/META-INF/datex4j/schema/v3.5</schemaDirectory>
+              <bindingIncludes>
+                <include>bindings-v3.5.xjb</include>
+              </bindingIncludes>
+              <generateDirectory>${project.build.directory}/generated-sources/xjc-v3.5</generateDirectory>
+            </configuration>
+          </execution>
+          <execution>
             <id>generate-v3.6</id>
             <goals>
               <goal>generate</goal>

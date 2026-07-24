@@ -51,6 +51,17 @@ The steps below use a hypothetical `3.8` as the new version.
    Add a round-trip test for the new version (see `DatexMultiVersionTest`) and update the README's
    bundled-versions line.
 
+## Versions can differ in module set
+
+A version publishes only the modules reachable from its root `DATEXII_3_D2Payload.xsd`, and that set
+changes between versions. Always derive the file list by following the `<xs:include>`/`<xs:import>`
+graph from the root rather than copying another version's directory. For example v3.5 has 15
+schemas — it predates `ControlledZone`, `TrafficRegulation` and the MessageContainer family
+(`MessageContainer`, `ExchangeInformation`, `CISInformation`, `InformationManagement`) as well as
+the AFIR modules. When a version drops modules, remove their `<jaxb:bindings>` blocks and leave them
+out of that version's `VersionModel` module set (see how `VersionModel.ModelPackages` layers the
+v3.6 and AFIR additions onto the v3.5 base).
+
 ## What should *not* change
 
 - The XML façade (`DatexXml`, `DatexMarshaller`) — it is version-neutral by design.

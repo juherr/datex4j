@@ -26,6 +26,19 @@ import org.junit.jupiter.api.Test;
 class DatexMultiVersionTest {
 
     @Test
+    void v35MarshallerRoundtripsAv35Publication() {
+        DatexMarshaller marshaller =
+                DatexXml.builder().version(DatexVersion.V3_5).validating(true).build();
+
+        var original = Fixtures.situationPublicationV35();
+        byte[] xml = marshaller.write(original);
+        var restored = marshaller.read(xml, dev.juherr.datex4j.model.v3_5.situation.SituationPublication.class);
+
+        assertThat(restored.getPublicationCreator().getNationalIdentifier())
+                .isEqualTo(original.getPublicationCreator().getNationalIdentifier());
+    }
+
+    @Test
     void v36MarshallerRoundtripsAv36Publication() {
         DatexMarshaller marshaller =
                 DatexXml.builder().version(DatexVersion.V3_6).validating(true).build();

@@ -48,9 +48,10 @@ Domain builders currently target the default DATEX II version (3.7).
 |----------------|------------------------------------------------------------------------------------|
 | `datex4j-ocpi` | Generated OCPI 2.3.0 model plus a bidirectional OCPI ↔ DATEX II mapping (Energy Infrastructure). |
 
-Bundled DATEX II versions: **3.6 and 3.7** (default 3.7). Both are generated side by side into
-version-scoped packages (`dev.juherr.datex4j.model.v3_6.*` and `...v3_7.*`); pick one per marshaller
-via `DatexXml.builder().version(...)`.
+Bundled DATEX II versions: **3.5, 3.6 and 3.7** (default 3.7). Each is generated side by side into
+version-scoped packages (`dev.juherr.datex4j.model.v3_5.*`, `...v3_6.*` and `...v3_7.*`); pick one
+per marshaller via `DatexXml.builder().version(...)`. v3.5 predates ControlledZone,
+TrafficRegulation and the MessageContainer family, so those modules are absent from its model.
 
 ## Requirements
 
@@ -105,7 +106,7 @@ data sources to test the library across all domains, see
 
 ## Roadmap
 
-Already delivered: multi-version support (3.6 + 3.7), fluent builders (`datex4j-builders`), one
+Already delivered: multi-version support (3.5 + 3.6 + 3.7), fluent builders (`datex4j-builders`), one
 module per official DATEX II user domain (traffic, SRTI, parking, EV charging, UVAR), a cross-cutting
 location module, JSON serialization (`datex4j-json`), a structured validation API
 (`datex4j-validation`), the generated OCPI 2.3.0 model (`datex4j-ocpi`) and a bidirectional OCPI ↔

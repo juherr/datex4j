@@ -17,6 +17,7 @@ package dev.juherr.datex4j.validation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import dev.juherr.datex4j.core.DatexVersion;
 import dev.juherr.datex4j.model.v3_7.common.InternationalIdentifier;
 import dev.juherr.datex4j.model.v3_7.situation.SituationPublication;
 import dev.juherr.datex4j.xml.DatexXml;
@@ -48,6 +49,28 @@ class DatexValidatorTest {
         assertThat(result.isValid()).isFalse();
         assertThat(result.errors()).isNotEmpty();
         assertThat(result.errors().get(0).lineNumber()).isPositive();
+    }
+
+    @Test
+    void acceptsAValidV35Publication() {
+        DatexValidator v35 = DatexValidator.forVersion(DatexVersion.V3_5);
+
+        ValidationResult result = v35.validate(validV35Publication());
+
+        assertThat(result.isValid()).isTrue();
+        assertThat(result.errors()).isEmpty();
+    }
+
+    private static dev.juherr.datex4j.model.v3_5.situation.SituationPublication validV35Publication() {
+        var publication = new dev.juherr.datex4j.model.v3_5.situation.SituationPublication();
+        publication.setLang("en");
+        publication.setModelBaseVersion("3");
+        publication.setPublicationTime(dateTime());
+        var creator = new dev.juherr.datex4j.model.v3_5.common.InternationalIdentifier();
+        creator.setCountry("gb");
+        creator.setNationalIdentifier("datex4j");
+        publication.setPublicationCreator(creator);
+        return publication;
     }
 
     private static SituationPublication validPublication() {
