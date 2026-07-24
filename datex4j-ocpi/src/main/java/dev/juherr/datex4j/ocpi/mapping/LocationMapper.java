@@ -20,6 +20,8 @@ import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricChargingPoint;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.ElectricEnergyMix;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureSite;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureStation;
+import dev.juherr.datex4j.model.v3_7.facilities.Organisation;
+import dev.juherr.datex4j.model.v3_7.facilities.OrganisationSpecification;
 import dev.juherr.datex4j.ocpi.mapping.internal.FacilityLocations;
 import dev.juherr.datex4j.ocpi.mapping.internal.Images;
 import dev.juherr.datex4j.ocpi.mapping.internal.Lists;
@@ -34,10 +36,17 @@ import java.util.List;
 /**
  * Maps an OCPI {@link Location} to a DATEX II {@link EnergyInfrastructureSite} and back.
  *
- * <p><b>Unmapped fields.</b> OCPI {@code country_code}, {@code party_id}, {@code suboperator} are
- * not mapped in this iteration (DATEX II {@code EnergyInfrastructureSite} has only {@code operator}
- * and {@code owner} organisation slots, no third one); DATEX II {@code typeOfSite}, {@code brand}
- * have no OCPI equivalent.
+ * <p><b>Unmapped fields.</b> DATEX II {@code typeOfSite}, {@code brand} have no OCPI equivalent.
+ * The DATEX II operator telephone ({@code OrganisationSpecification.organisationUnit
+ * .contactInformation.telephoneNumber}) is left unset: OCPI {@code BusinessDetails} carries only
+ * name, website and logo, so there is no phone number to source it from.
+ *
+ * <p><b>Operator identity.</b> OCPI {@code country_code} + {@code party_id} (the eMI3 CPO
+ * identifier) map to the operator {@link OrganisationSpecification} {@code
+ * nationalOrganisationNumber} as {@code "<countryCode>*<partyId>"}; round-tripping requires that
+ * form. OCPI {@code suboperator} maps to the operator's first {@code subOrganisation}. When the
+ * OCPI {@code operator} business details are absent, an operator specification is still created to
+ * carry the code and suboperator.
  *
  * <p><b>Address and time zone.</b> OCPI {@code address}, {@code city}, {@code postal_code}, {@code
  * country} and {@code time_zone} map to a
@@ -93,7 +102,7 @@ public final class LocationMapper {
         site.setLocationReference(geoLocationMapper.toDatex(location.getCoordinates()));
         FacilityLocations.attach(site.getLocationReference(), addressMapper.toDatex(location));
         site.setLastUpdated(Temporals.toXmlDateTime(location.getLastUpdated()));
-        site.setOperator(organisationMapper.toDatex(location.getOperator()));
+        site.setOperator(operatorToDatex(location));
         site.setOwner(organisationMapper.toDatex(location.getOwner()));
         site.setOperatingHours(hoursMapper.toDatex(location.getOpeningTimes()));
         site.getPhotoUrl().addAll(Images.toDatex(location.getImages()));
@@ -118,6 +127,67 @@ public final class LocationMapper {
         if (info != null) {
             site.getAdditionalInformation().add(info);
         }
+    }
+
+    /**
+     * Maps the operator organisation, enriched with the OCPI operator identity ({@code country_code}
+     * + {@code party_id}) and the OCPI {@code suboperator}. An empty operator specification is
+     * created on demand so the operator code and suboperator survive even when the OCPI {@code
+     * operator} business details are absent.
+     */
+    private Organisation operatorToDatex(Location location) {
+        Organisation operator = organisationMapper.toDatex(location.getOperator());
+        String code = operatorCode(location.getCountryCode(), location.getPartyId());
+        Organisation suboperator = organisationMapper.toDatex(location.getSuboperator());
+        if (code == null && suboperator == null) {
+            return operator;
+        }
+        OrganisationSpecification spec =
+                operator instanceof OrganisationSpecification existing ? existing : new OrganisationSpecification();
+        if (code != null) {
+            spec.setNationalOrganisationNumber(code);
+        }
+        if (suboperator != null) {
+            spec.getSubOrganisation().add(suboperator);
+        }
+        return spec;
+    }
+
+    private void applyOperatorToOcpi(Organisation operator, Location location) {
+        location.setOperator(organisationMapper.toOcpi(operator));
+        if (!(operator instanceof OrganisationSpecification spec)) {
+            return;
+        }
+        applyOperatorCode(spec.getNationalOrganisationNumber(), location);
+        if (!spec.getSubOrganisation().isEmpty()) {
+            location.setSuboperator(
+                    organisationMapper.toOcpi(spec.getSubOrganisation().get(0)));
+        }
+    }
+
+    /** eMI3-style operator id {@code "<countryCode>*<partyId>"}, or {@code null} if either part is blank. */
+    private static String operatorCode(String countryCode, String partyId) {
+        if (isBlank(countryCode) || isBlank(partyId)) {
+            return null;
+        }
+        return countryCode + "*" + partyId;
+    }
+
+    /** Splits an eMI3-style operator id back onto {@code location}; ignores codes without a {@code *}. */
+    private static void applyOperatorCode(String code, Location location) {
+        if (code == null) {
+            return;
+        }
+        int separator = code.indexOf('*');
+        if (separator < 0) {
+            return;
+        }
+        location.setCountryCode(code.substring(0, separator));
+        location.setPartyId(code.substring(separator + 1));
+    }
+
+    private static boolean isBlank(String value) {
+        return value == null || value.isBlank();
     }
 
     private void applyEnergyMix(EnergyInfrastructureSite site, EnergyMix energyMix) {
@@ -153,7 +223,7 @@ public final class LocationMapper {
         location.setCoordinates(geoLocationMapper.toOcpi(site.getLocationReference()));
         addressMapper.toOcpi(FacilityLocations.of(site.getLocationReference()), location);
         location.setLastUpdated(Temporals.toIso(site.getLastUpdated()));
-        location.setOperator(organisationMapper.toOcpi(site.getOperator()));
+        applyOperatorToOcpi(site.getOperator(), location);
         location.setOwner(organisationMapper.toOcpi(site.getOwner()));
         location.setOpeningTimes(hoursMapper.toOcpi(site.getOperatingHours()));
         location.setImages(Images.toOcpi(site.getPhotoUrl()));

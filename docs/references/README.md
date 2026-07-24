@@ -84,7 +84,9 @@ EnergyInfrastructureSite            (= OCPI Location)
 | Ad-hoc price (`EnergyPricingPolicy`) | ✅ conform |
 | **Address (street/postcode/city/country)** | ✅ conform — `FacilityLocation → Address`, via `AddressMapper` |
 | **Timezone** | ✅ conform — `FacilityLocation → timeZone`, via `AddressMapper` |
-| Telephone, suboperator, operator code | ⚠️ not mapped (documented) — the deliverable prescribes these |
+| **Suboperator** | ✅ conform — OCPI `suboperator` → operator `OrganisationSpecification.subOrganisation` |
+| **Operator code** | ✅ conform — OCPI `country_code`+`party_id` (eMI3) → operator `nationalOrganisationNumber` |
+| Telephone | ⚠️ not mappable — OCPI `BusinessDetails` has no phone field (no source exists) |
 | Operator website | ⚠️ mapped to `linkToWebform` (deliverable uses `linkToGeneralInformation`) |
 
 **Address & time zone anchoring.** `FacilityLocation` (carrying `timeZone` and `Address`) is
@@ -95,7 +97,14 @@ generic `xs:any` extension. `AddressMapper` maps the OCPI `address` / `city` / `
 that anchor is the location reference, a location with no coordinates has nowhere to carry the
 facility location, so address and time zone are dropped in that case (documented limitation).
 
-**Remaining follow-ups (deliverable-prescribed, not yet mapped):** operator telephone
-(`OrganisationSpecification.organisationUnit.contactInformation.telephoneNumber`), suboperator
-name, operator code (`nationalOrganisationNumber`); and operator website currently uses
-`linkToWebform` where the deliverable uses `linkToGeneralInformation`.
+**Operator identity.** OCPI `country_code` + `party_id` (the eMI3 CPO identifier) map to the
+operator `OrganisationSpecification.nationalOrganisationNumber` as `"<countryCode>*<partyId>"`
+(round-tripping requires that form); OCPI `suboperator` maps to the operator's first
+`subOrganisation`. When the OCPI `operator` business details are absent, an operator specification
+is still created to carry these.
+
+**Remaining gaps.** Operator **telephone**
+(`OrganisationSpecification.organisationUnit.contactInformation.telephoneNumber`) has no OCPI
+source — OCPI `BusinessDetails` carries only name, website and logo — so it cannot be mapped.
+Operator **website** currently uses `linkToWebform` where the deliverable uses
+`linkToGeneralInformation`.
