@@ -43,6 +43,12 @@
     status and MQTT push data update continuously.
   - **Access:** open, no registration mentioned for the REST endpoints; MQTT has separate
     production/test hosts.
+  - **Committed in this repository:** a **trimmed excerpt** of the `datex2-3.6` feed (one site) is
+    committed as the integration suite's **first real-world dataset**, at
+    [`datex4j-integration-tests/.../datasets/finland/afir-messagecontainer.v3_6.json`](../../../datex4j-integration-tests/src/test/resources/datasets/finland/afir-messagecontainer.v3_6.json).
+    The feed serves conformant DATEX II JSON (not XML), so the harness round-trips it through
+    `datex4j-json`. See its [dataset README](../../../datex4j-integration-tests/src/test/resources/datasets/finland/README.md)
+    for provenance, attribution and the trimming.
 
 ## Notes
 

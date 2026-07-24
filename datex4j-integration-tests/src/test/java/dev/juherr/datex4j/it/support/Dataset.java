@@ -15,8 +15,27 @@
  */
 package dev.juherr.datex4j.it.support;
 
-/** A committed DATEX II dataset fixture and the publication type it unmarshals to. */
-public record Dataset(String id, String country, String resourcePath, Class<?> rootType) {
+import dev.juherr.datex4j.core.DatexVersion;
+
+/**
+ * A committed DATEX II dataset fixture, the on-the-wire {@link Format} it is expressed in, the
+ * DATEX II model {@link DatexVersion} it targets, and the type its root unmarshals to.
+ *
+ * <p>XML datasets unmarshal to a publication type (for example {@code
+ * EnergyInfrastructureTablePublication}) and run the XML round-trip checks. JSON datasets are
+ * conformant DATEX II JSON rooted at a {@code MessageContainer} and run the JSON round-trip checks;
+ * their {@code rootType} is the container class.
+ */
+public record Dataset(
+        String id, String country, Format format, DatexVersion version, String resourcePath, Class<?> rootType) {
+
+    /** The serialization the committed fixture is expressed in. */
+    public enum Format {
+        /** DATEX II XML, validated and round-tripped through {@code datex4j-xml}. */
+        XML,
+        /** Conformant DATEX II JSON (MessageContainer root), round-tripped through {@code datex4j-json}. */
+        JSON
+    }
 
     @Override
     public String toString() {

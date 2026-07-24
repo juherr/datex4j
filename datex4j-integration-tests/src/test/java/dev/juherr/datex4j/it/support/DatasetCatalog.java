@@ -15,6 +15,8 @@
  */
 package dev.juherr.datex4j.it.support;
 
+import dev.juherr.datex4j.core.DatexVersion;
+import dev.juherr.datex4j.model.v3_6.messagecontainer.MessageContainer;
 import dev.juherr.datex4j.model.v3_7.energyinfrastructure.EnergyInfrastructureTablePublication;
 import java.util.List;
 
@@ -24,11 +26,23 @@ public final class DatasetCatalog {
     private DatasetCatalog() {}
 
     public static List<Dataset> all() {
-        return List.of(new Dataset(
-                "afir-recharging-minimal",
-                "synthetic",
-                "/datasets/synthetic/afir-recharging/table.xml",
-                EnergyInfrastructureTablePublication.class));
+        return List.of(
+                new Dataset(
+                        "afir-recharging-minimal",
+                        "synthetic",
+                        Dataset.Format.XML,
+                        DatexVersion.V3_7,
+                        "/datasets/synthetic/afir-recharging/table.xml",
+                        EnergyInfrastructureTablePublication.class),
+                // Real-world Fintraffic AFIR feed (CC BY 4.0): conformant DATEX II JSON, v3.6,
+                // rooted at a MessageContainer. Trimmed to one site; see the dataset README.
+                new Dataset(
+                        "afir-fintraffic",
+                        "finland",
+                        Dataset.Format.JSON,
+                        DatexVersion.V3_6,
+                        "/datasets/finland/afir-messagecontainer.v3_6.json",
+                        MessageContainer.class));
         // Register committed official/country datasets here as they are added.
     }
 }
