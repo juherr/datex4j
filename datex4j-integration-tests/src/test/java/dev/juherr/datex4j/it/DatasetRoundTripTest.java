@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import dev.juherr.datex4j.it.support.Dataset;
 import dev.juherr.datex4j.it.support.DatasetCatalog;
 import dev.juherr.datex4j.it.support.JsonRoundTrip;
+import dev.juherr.datex4j.it.support.XmlReadOnly;
 import dev.juherr.datex4j.it.support.XmlRoundTrip;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 class DatasetRoundTripTest {
 
     private final XmlRoundTrip xmlRoundTrip = new XmlRoundTrip();
+    private final XmlReadOnly xmlReadOnly = new XmlReadOnly();
     private final JsonRoundTrip jsonRoundTrip = new JsonRoundTrip();
 
     static List<Dataset> datasets() {
@@ -45,6 +47,9 @@ class DatasetRoundTripTest {
     void datasetRoundTrips(Dataset dataset) throws Exception {
         switch (dataset.format()) {
             case XML -> xmlRoundTrip.verify(dataset);
+            // Real NDW truck-parking feed: parses into the model but is XSD-invalid (prefix drift).
+            // Exercised read-only, asserting the stable parking-table identifier survives the read.
+            case XML_READ_ONLY -> xmlReadOnly.verify(dataset, "NL-12");
             // Real Fintraffic content that survives the (lossy) conformant round-trip: the
             // operator identity, the real site name, and a real connector type. The street
             // address/city is intentionally not asserted here: it lives under a FacilityLocation,

@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns3:payload xsi:type="ns2:ParkingStatusPublication" lang="en-us" modelBaseVersion="3" xmlns="http://datex2.eu/schema/3/common" xmlns:ns2="http://datex2.eu/schema/3/parking" xmlns:ns3="http://datex2.eu/schema/3/d2Payload" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <publicationTime>2026-07-24T19:47:03.137849324Z</publicationTime>
+    <publicationCreator>
+        <country>nl</country>
+        <nationalIdentifier>NDW</nationalIdentifier>
+    </publicationCreator>
+    <ns2:parkingTableReference targetClass="par:ParkingTable" id="NL-12" version="97"/>
+    <ns2:parkingRecordStatus xsi:type="ns2:ParkingSiteStatus">
+        <ns2:parkingRecordReference targetClass="par:ParkingRecord" id="NL-12_413"/>
+        <ns2:parkingStatusOriginTime>2026-07-24T19:47:03.118715742Z</ns2:parkingStatusOriginTime>
+        <ns2:parkingOccupancy>
+            <ns2:parkingNumberOfVacantSpaces>0</ns2:parkingNumberOfVacantSpaces>
+            <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+            <ns2:parkingOccupancy>0.0</ns2:parkingOccupancy>
+        </ns2:parkingOccupancy>
+        <ns2:parkingSiteStatus>unknown</ns2:parkingSiteStatus>
+    </ns2:parkingRecordStatus>
+    <ns2:parkingRecordStatus xsi:type="ns2:ParkingSiteStatus">
+        <ns2:parkingRecordReference targetClass="par:ParkingRecord" id="NL-12_408"/>
+        <ns2:parkingStatusOriginTime>2026-07-24T19:46:24.805427719Z</ns2:parkingStatusOriginTime>
+        <ns2:parkingOccupancy>
+            <ns2:parkingNumberOfVacantSpaces>29</ns2:parkingNumberOfVacantSpaces>
+            <ns2:parkingNumberOfOccupiedSpaces>17</ns2:parkingNumberOfOccupiedSpaces>
+            <ns2:parkingOccupancy>54.0</ns2:parkingOccupancy>
+        </ns2:parkingOccupancy>
+        <ns2:groupOfParkingSpacesStatus groupIndex="2">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>13</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>81.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="3">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>9</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>10.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="1000">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>7</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>17</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>71.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:parkingSiteStatus>spacesAvailable</ns2:parkingSiteStatus>
+    </ns2:parkingRecordStatus>
+    <ns2:parkingRecordStatus xsi:type="ns2:ParkingSiteStatus">
+        <ns2:parkingRecordReference targetClass="par:ParkingRecord" id="NL-12_421"/>
+        <ns2:parkingStatusOriginTime>2026-07-24T19:46:28.409075804Z</ns2:parkingStatusOriginTime>
+        <ns2:parkingOccupancy>
+            <ns2:parkingNumberOfVacantSpaces>576</ns2:parkingNumberOfVacantSpaces>
+            <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+            <ns2:parkingOccupancy>62.57143</ns2:parkingOccupancy>
+        </ns2:parkingOccupancy>
+        <ns2:groupOfParkingSpacesStatus groupIndex="1">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>96</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>73.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="2">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>96</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>73.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="3">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>96</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>73.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="4">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>96</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>73.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="5">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>96</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>73.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="8">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>96</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>73.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="1000">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>0</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>0.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:parkingSiteStatus>spacesAvailable</ns2:parkingSiteStatus>
+    </ns2:parkingRecordStatus>
+    <ns2:parkingRecordStatus xsi:type="ns2:ParkingSiteStatus">
+        <ns2:parkingRecordReference targetClass="par:ParkingRecord" id="NL-12_411"/>
+        <ns2:parkingStatusOriginTime>2026-07-24T19:46:44.643374361Z</ns2:parkingStatusOriginTime>
+        <ns2:parkingOccupancy>
+            <ns2:parkingNumberOfVacantSpaces>222</ns2:parkingNumberOfVacantSpaces>
+            <ns2:parkingNumberOfOccupiedSpaces>13</ns2:parkingNumberOfOccupiedSpaces>
+            <ns2:parkingOccupancy>36.4</ns2:parkingOccupancy>
+        </ns2:parkingOccupancy>
+        <ns2:groupOfParkingSpacesStatus groupIndex="2">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>111</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>73.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="3">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>6</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>34.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="4">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>31</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>60.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="5">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>0</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>0.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="1000">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>74</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>13</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>15.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:parkingSiteStatus>spacesAvailable</ns2:parkingSiteStatus>
+    </ns2:parkingRecordStatus>
+    <ns2:parkingRecordStatus xsi:type="ns2:ParkingSiteStatus">
+        <ns2:parkingRecordReference targetClass="par:ParkingRecord" id="NL-12_418"/>
+        <ns2:parkingStatusOriginTime>2026-07-24T19:46:52.077902316Z</ns2:parkingStatusOriginTime>
+        <ns2:parkingOccupancy>
+            <ns2:parkingNumberOfVacantSpaces>8</ns2:parkingNumberOfVacantSpaces>
+            <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+            <ns2:parkingOccupancy>62.333332</ns2:parkingOccupancy>
+        </ns2:parkingOccupancy>
+        <ns2:groupOfParkingSpacesStatus groupIndex="2">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>4</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>98.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="4">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>4</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>89.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="1000">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>0</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>0.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:parkingSiteStatus>spacesAvailable</ns2:parkingSiteStatus>
+    </ns2:parkingRecordStatus>
+    <ns2:parkingRecordStatus xsi:type="ns2:ParkingSiteStatus">
+        <ns2:parkingRecordReference targetClass="par:ParkingRecord" id="NL-12_414"/>
+        <ns2:parkingStatusOriginTime>2026-07-24T19:46:52.611072210Z</ns2:parkingStatusOriginTime>
+        <ns2:parkingOccupancy>
+            <ns2:parkingNumberOfVacantSpaces>0</ns2:parkingNumberOfVacantSpaces>
+            <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+            <ns2:parkingOccupancy>83.333336</ns2:parkingOccupancy>
+        </ns2:parkingOccupancy>
+        <ns2:groupOfParkingSpacesStatus groupIndex="1">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>0</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>100.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="2">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>0</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>100.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="3">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>0</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>100.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="4">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>0</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>100.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="5">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>0</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>100.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="1000">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>0</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>0.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:parkingSiteStatus>full</ns2:parkingSiteStatus>
+    </ns2:parkingRecordStatus>
+    <ns2:parkingRecordStatus xsi:type="ns2:ParkingSiteStatus">
+        <ns2:parkingRecordReference targetClass="par:ParkingRecord" id="NL-12_409"/>
+        <ns2:parkingStatusOriginTime>2026-07-24T19:46:52.879465586Z</ns2:parkingStatusOriginTime>
+        <ns2:parkingOccupancy>
+            <ns2:parkingNumberOfVacantSpaces>46</ns2:parkingNumberOfVacantSpaces>
+            <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+            <ns2:parkingOccupancy>49.333332</ns2:parkingOccupancy>
+        </ns2:parkingOccupancy>
+        <ns2:groupOfParkingSpacesStatus groupIndex="2">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>23</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>74.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="3">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>23</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>74.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="1000">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>0</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>0</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>0.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:parkingSiteStatus>spacesAvailable</ns2:parkingSiteStatus>
+    </ns2:parkingRecordStatus>
+    <ns2:parkingRecordStatus xsi:type="ns2:ParkingSiteStatus">
+        <ns2:parkingRecordReference targetClass="par:ParkingRecord" id="NL-12_8"/>
+        <ns2:parkingStatusOriginTime>2026-07-24T19:47:00.293638898Z</ns2:parkingStatusOriginTime>
+        <ns2:parkingOccupancy>
+            <ns2:parkingNumberOfVacantSpaces>326</ns2:parkingNumberOfVacantSpaces>
+            <ns2:parkingNumberOfOccupiedSpaces>4</ns2:parkingNumberOfOccupiedSpaces>
+            <ns2:parkingOccupancy>-30.0</ns2:parkingOccupancy>
+        </ns2:parkingOccupancy>
+        <ns2:groupOfParkingSpacesStatus groupIndex="3">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>116</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>114</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>50.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:groupOfParkingSpacesStatus groupIndex="4">
+            <ns2:groupOfParkingSpacesStatus>
+                <ns2:parkingNumberOfVacantSpaces>210</ns2:parkingNumberOfVacantSpaces>
+                <ns2:parkingNumberOfOccupiedSpaces>-110</ns2:parkingNumberOfOccupiedSpaces>
+                <ns2:parkingOccupancy>-110.0</ns2:parkingOccupancy>
+            </ns2:groupOfParkingSpacesStatus>
+        </ns2:groupOfParkingSpacesStatus>
+        <ns2:parkingSiteStatus>spacesAvailable</ns2:parkingSiteStatus>
+    </ns2:parkingRecordStatus>
+</ns3:payload>

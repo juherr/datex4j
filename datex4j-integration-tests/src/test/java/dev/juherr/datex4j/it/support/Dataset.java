@@ -33,6 +33,13 @@ public record Dataset(
     public enum Format {
         /** DATEX II XML, validated and round-tripped through {@code datex4j-xml}. */
         XML,
+        /**
+         * DATEX II XML exercised <em>read-only</em>: asserted well-formed and parsed through {@code
+         * datex4j-xml}, but neither XSD-validated nor round-trip-diffed. For real-world feeds that
+         * parse into the model yet fail strict XSD validation (for example NDW prefix drift where
+         * {@code targetClass="par:ParkingTable"} does not match the bundled XSD's fixed prefix).
+         */
+        XML_READ_ONLY,
         /** Conformant DATEX II JSON (MessageContainer root), round-tripped through {@code datex4j-json}. */
         JSON
     }
