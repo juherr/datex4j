@@ -36,6 +36,36 @@
   than a live, citable dataset. This page will be updated once a concrete, accessible dataset (URL,
   format, licence) can be confirmed, rather than guessing at one now.
 
+## Other DATEX II feeds (road traffic, beyond AFIR)
+
+Vejdirektoratet's Dataudveksler (Data Exchanger) is Denmark's NAP for road-traffic DATEX II too, not
+only AFIR. Its **catalogue metadata is browsable anonymously**, but the actual data pull is gated.
+
+- **DCAT catalogue (verified anonymous):**
+  <https://businessservice.dataudveksler.app.vd.dk/api/Metadata?format=dcat> — returns `HTTP 200`,
+  `application/rdf+xml` (~1.4 MB) listing the platform's datasets. Several are tagged `datex-II`
+  (e.g. traffic messages "Trafikmeldinger", lorry-parking, state-road speed limits, road-weather
+  condition reports).
+  - **Important (verified):** every dataset's `dcat:accessURL` points to a
+    `https://du-portal-ui.dataudveksler.app.vd.dk/data/<id>/overview` page, and the catalogue
+    contains **no anonymous `downloadURL`/`endpointURL`**. In other words, the metadata is public but
+    the DATEX II data itself is behind the portal.
+- **Data endpoints (registration-gated):** obtaining the data requires portal credentials /
+  an API key from the Dataudveksler ("Kom godt i gang" / Get started). The related host
+  `data.vd-nap.dk` did **not resolve** at the time of writing, and `nap.vd.dk` redirects to the
+  du-portal login SPA — so **no anonymous DATEX II data endpoint could be confirmed**.
+
+```bash
+# Catalogue metadata is anonymous; data pull is not.
+curl -sS --compressed \
+  'https://businessservice.dataudveksler.app.vd.dk/api/Metadata?format=dcat' -o dk-catalogue.rdf
+```
+
+**How to obtain:** browse the DCAT catalogue above to identify the DATEX II dataset you need, then
+request access credentials through the Vejdirektoratet Dataudveksler portal. No file is committed to
+[`datasets/denmark/`](../../../datex4j-integration-tests/src/test/resources/datasets/denmark) because
+no anonymous, reproducible fetch was found.
+
 ## Notes
 
 No country-specific DATEX II/AFIR implementation details (extensions, national identifiers) could be

@@ -49,10 +49,48 @@
   - **Coverage:** Belgium-wide (Group INDIGO's charging network), covering location, operator
     identification, connector types and power specifications.
 
+## Other DATEX II feeds (road traffic, beyond AFIR)
+
+Beyond the AFIR/EV-charging datasets above, the Flemish traffic-control centre publishes a **fully
+open, anonymous DATEX II v3 road-traffic feed** — the richest openly-reachable DATEX II source found
+for Belgium, and a good test surface for the `situation`/`roadworks`/`srti` sides of the library.
+
+- **Verkeerscentrum Vlaanderen (Flemish Traffic Centre) DATEX II v3 feed**
+  - **Publisher:** Agentschap Wegen en Verkeer (Agency for Roads and Traffic), via the Flemish
+    Traffic Centre ([verkeerscentrum.be/data](https://www.verkeerscentrum.be/data)); also catalogued
+    on [transportdata.be](https://transportdata.be/dataset/datex2-feed-verkeerscentrum-vlaanderen-full-version)
+    and [data.gov.be](https://data.gov.be/en/datasets/9e90a52f-dfbb-4bd0-bb50-e379ebba765c).
+  - **URL (verified live):** <https://www.verkeerscentrum.be/uitwisseling/datex2v3full>
+  - **Format / version (verified):** DATEX II **v3** XML — `HTTP 200`, `Content-Type
+    application/xml`, ~360 KB, `modelBaseVersion="3"`, `http://datex2.eu/schema/3/…` namespaces,
+    root `d2:payload` carrying `situation` records (e.g. `RoadOrCarriagewayOrLaneManagement`). It
+    carries a national-extension namespace (`http://verkeerscentrum.be/tcc.backend/xsd/datex2/v3`)
+    and `publicationCreator` `nationalIdentifier` `BETICV`. A DATEX II **v2** twin and an OTAP feed
+    also exist (the v2 one this library's v3-only model does not read).
+  - **Content:** real-time traffic situations on Flemish motorways (and some regional roads) —
+    incidents, current roadworks, special events and traffic-flow information; DATEX II v3 adds GML
+    (Lambert-72) coordinates and active diversion/calamity routes.
+  - **Licence:** described by the Traffic Centre as **free open data** for developers of mobility/
+    navigation apps; the exact licence text is not restated on the download endpoint, and
+    transportdata.be applies per-dataset terms — confirm before redistributing a captured file.
+  - **Update frequency:** the XML snapshot reflects the control-room situation **every minute**.
+  - **Access:** **anonymous**, no key. The endpoint even sets `Access-Control-Allow-Origin: *`.
+
+```bash
+curl -sS --compressed \
+  https://www.verkeerscentrum.be/uitwisseling/datex2v3full -o be-vlaanderen-situations.xml
+```
+
+**Version note:** the feed is DATEX II **v3** with a Verkeerscentrum national extension, whereas the
+bundled model is v3.6/v3.7. It shares the `http://datex2.eu/schema/3/…` namespaces and
+`modelBaseVersion="3"`, so it parses, but strict XSD validation against the bundled schemas may
+report version-drift and extension differences; treat it as a read/parse input rather than a clean
+round-trip fixture until validated.
+
 ## Notes
 
 No further country-specific DATEX II extensions or national-identifier conventions could be
-confirmed from official sources beyond the dataset listed above at the time of writing.
+confirmed from official sources beyond the datasets listed above at the time of writing.
 
 ## See also
 

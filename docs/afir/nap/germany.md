@@ -96,6 +96,31 @@
   sequence itself. This is tracked as future work — see
   ["Delta-update parsing"](../README.md#future-work) in the knowledge base's future-work list.
 
+## Other DATEX II feeds (road traffic, beyond AFIR)
+
+Germany also exchanges road-traffic data (situations, roadworks, traffic data) as DATEX II, but the
+**DATEX II route is registration-gated** and the widely-used open route is **not** DATEX II.
+
+- **Mobilithek (DATEX II, gated):** the same platform that carries the AFIR profile also carries
+  road-traffic DATEX II offers — Germany publishes national DATEX II profiles including a
+  [German Roadworks Profile](https://repo.datex2.eu/implementations/profile_directory/german-roadworks-profile)
+  and a [German Traffic Data Profile](https://repo.datex2.eu/implementations/profile_directory/german-traffic-data-profile).
+  Mobilithek replaced the former MDM (Mobilitäts Daten Marktplatz, run by BASt) and mCLOUD. Access
+  requires a **free account plus a per-offer subscription**, and delivery is pull over **mTLS** —
+  there is **no anonymous DATEX II endpoint**. See "Registration" above; the same gating applies to
+  road-traffic offers as to the AFIR ones.
+- **Autobahn GmbH REST API (open, but JSON — not DATEX II):** for the federal motorway network,
+  Autobahn GmbH exposes a public REST API at
+  [`https://verkehr.autobahn.de/o/autobahn/`](https://verkehr.autobahn.de/o/autobahn/) — verified
+  `HTTP 200`, `application/json`, **anonymous**. It covers roadworks, closures, warnings, parking and
+  webcams, but serves **JSON, not DATEX II**, so it is useful as an open German traffic source only
+  for non-DATEX comparison, not as a DATEX II fixture for this library.
+
+**How to obtain (DATEX II):** register on [mobilithek.info](https://mobilithek.info) and subscribe to
+the specific road-traffic data offer; delivery is per-offer over mTLS. No file is committed to
+[`datasets/germany/`](../../../datex4j-integration-tests/src/test/resources/datasets/germany) for the
+same reason as the AFIR data — it is gated, not anonymously fetchable.
+
 ## See also
 
 - [`../../../datex4j-integration-tests/src/test/resources/datasets/germany/README.md`](../../../datex4j-integration-tests/src/test/resources/datasets/germany/README.md) —
