@@ -135,4 +135,17 @@
     </jaxb:schemaBindings>
   </jaxb:bindings>
 
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.7/DATEXII_3_MessageContainer.xsd" node="/xs:schema">
+    <jaxb:schemaBindings><jaxb:package name="dev.juherr.datex4j.model.v3_7.messagecontainer" /></jaxb:schemaBindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.7/DATEXII_3_ExchangeInformation.xsd" node="/xs:schema">
+    <jaxb:schemaBindings><jaxb:package name="dev.juherr.datex4j.model.v3_7.exchangeinformation" /></jaxb:schemaBindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.7/DATEXII_3_CISInformation.xsd" node="/xs:schema">
+    <jaxb:schemaBindings><jaxb:package name="dev.juherr.datex4j.model.v3_7.cisinformation" /></jaxb:schemaBindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v3.7/DATEXII_3_InformationManagement.xsd" node="/xs:schema">
+    <jaxb:schemaBindings><jaxb:package name="dev.juherr.datex4j.model.v3_7.informationmanagement" /></jaxb:schemaBindings>
+  </jaxb:bindings>
+
 </jaxb:bindings>
