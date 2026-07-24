@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<d2:payload
+  modelBaseVersion="3"
+  lang="FR"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:d2="http://datex2.eu/schema/3/d2Payload"
+  xmlns:com="http://datex2.eu/schema/3/common"
+  xmlns:comx="http://datex2.eu/schema/3/commonExtension"
+  xmlns:loc="http://datex2.eu/schema/3/locationReferencing"
+  xmlns:dx="https://raw.githubusercontent.com/MTES-MCT/dialog/main/docs/spec/datex2"
+  xmlns="http://datex2.eu/schema/3/trafficRegulation"
+  xsi:schemaLocation="http://datex2.eu/schema/3/d2Payload/DATEXII_3_D2Payload.xsd"
+  xsi:type="TrafficRegulationPublication"
+  id="910928b3-58a1-4462-881b-53dec84602f9"
+>
+    <com:publicationTime>2026-07-24T14:40:09+00:00</com:publicationTime>
+    <com:publicationCreator>
+        <com:country>fr</com:country>
+        <com:nationalIdentifier>DiaLog</com:nationalIdentifier>
+    </com:publicationCreator>
+
+    <trafficRegulationsFromCompetentAuthorities>
+                                            <trafficRegulationOrder id="018a45df-58c3-740c-b712-37d3d2ca25f8" version="1">
+                <description>
+                    <com:values>
+                        <com:value>Interdiction aux véhicules de +7,5T de la traversée de l&#039;agglomération de MAISSE à certaines heures de la journée</com:value>
+                    </com:values>
+                </description>
+                <issuingAuthority>
+                    <com:values>
+                        <com:value>Maisse</com:value>
+                    </com:values>
+                </issuingAuthority>
+                <regulationId>04/49#0189cf50-e505-7548-bea6-7164c06fb437</regulationId>
+                <status>madeAndImplemented</status>
+
+                <validityByOrder>
+                    <com:validityStatus>definedByValidityTimeSpec</com:validityStatus>
+                    <com:validityTimeSpecification>
+                        <com:overallStartTime>2004-10-17T23:00:00+00:00</com:overallStartTime>
+                                            </com:validityTimeSpecification>
+                </validityByOrder>
+
+                                    <trafficRegulation>
+                        <status>active</status>
+                                                    <typeOfRegulation xsi:type="AccessRestriction">
+                                <accessRestrictionType>noEntry</accessRestrictionType>
+                            </typeOfRegulation>
+                        
+                        <condition xsi:type="ConditionSet">
+                            <operator>and</operator>
+
+                                                            <conditions xsi:type="ConditionSet">
+                                    <operator>or</operator>
+                                                                            <conditions xsi:type="ValidityCondition">
+                                            <validityByOrder>
+                                                <com:validityStatus>definedByValidityTimeSpec</com:validityStatus>
+                                                <com:validityTimeSpecification>
+                                                    <com:overallStartTime>2004-10-17T23:00:00+00:00</com:overallStartTime>
+
+                                                    
+                                                                                                            <com:validPeriod>
+                                                                                                                            <com:recurringTimePeriodOfDay>
+                                                                    <com:startTimeOfPeriod>07:00:00+00:00</com:startTimeOfPeriod>
+                                                                    <com:endTimeOfPeriod>20:00:00+00:00</com:endTimeOfPeriod>
+                                                                </com:recurringTimePeriodOfDay>
+                                                                                                                                                                                        <com:recurringDayWeekMonthPeriod>
+                                                                                                                                            <com:applicableDay>monday</com:applicableDay>
+                                                                                                                                            <com:applicableDay>tuesday</com:applicableDay>
+                                                                                                                                            <com:applicableDay>wednesday</com:applicableDay>
+                                                                                                                                            <com:applicableDay>thursday</com:applicableDay>
+                                                                                                                                            <com:applicableDay>friday</com:applicableDay>
+                                                                                                                                    </com:recurringDayWeekMonthPeriod>
+                                                                                                                    </com:validPeriod>
+                                                                                                    </com:validityTimeSpecification>
+                                            </validityByOrder>
+                                        </conditions>
+                                                                    </conditions>
+                            
+                            <conditions xsi:type="ConditionSet">
+                                <operator>or</operator>
+                                                                    <conditions xsi:type="LocationCondition">
+                                        <locationByOrder xsi:type="loc:LinearLocation">
+                                            <loc:supplementaryPositionalDescription>
+                                                                                                    <loc:roadInformation>
+                                                        <loc:roadName>Avenue du Général de Gaulle</loc:roadName>
+                                                    </loc:roadInformation>
+                                                                                            </loc:supplementaryPositionalDescription>
+                                            <loc:_linearLocationExtension>
+                                                <loc:linearLocationExtended>
+                                                    <dx:geoJsonGeometry>{&quot;type&quot;:&quot;MultiLineString&quot;,&quot;coordinates&quot;:[[[2.380987544,48.3941807],[2.381081987,48.394191089]],[[2.390619216,48.392594054],[2.390808779,48.392556341]],[[2.383534765,48.394236257],[2.383631857,48.394135996],[2.383881318,48.393829598],[2.383987894,48.393611526]],[[2.390808779,48.392556341],[2.39124071,48.39247039],[2.391480367,48.392423037],[2.391568315,48.392410893],[2.391639971,48.392405862]],[[2.391639971,48.392405862],[2.391780445,48.392407483],[2.392045173,48.392411539],[2.39224766,48.392424274],[2.392363591,48.392445561]],[[2.386542877,48.393462829],[2.386946823,48.393345259],[2.386999694,48.393329338]],[[2.385208456,48.393900365],[2.385509858,48.393772372],[2.385778219,48.393697288],[2.38630296,48.393531763],[2.386542877,48.393462829]],[[2.384535012,48.394189271],[2.384572994,48.394175973],[2.384609625,48.394162667],[2.384642172,48.39415204],[2.384669305,48.394142284]],[[2.384669305,48.394142284],[2.384847077,48.39407393],[2.385208456,48.393900365]],[[2.383550216,48.394301115],[2.383698959,48.394289292],[2.384310148,48.394241185],[2.384445539,48.394215797],[2.384535012,48.394189271]],[[2.386999694,48.393329338],[2.387261118,48.39326951],[2.388464845,48.393031908],[2.388801996,48.39296527],[2.389075501,48.392911798],[2.389569712,48.392814478]],[[2.383032573,48.394320915],[2.383248774,48.394316641]],[[2.382333059,48.394297479],[2.382859673,48.394319115],[2.383032573,48.394320915]],[[2.383248774,48.394316641],[2.383294735,48.394314181],[2.383324486,48.394311637],[2.383369085,48.39431007],[2.383409653,48.394306682]],[[2.383409653,48.394306682],[2.383550216,48.394301115]],[[2.389569712,48.392814478],[2.389729485,48.392782912],[2.389821549,48.392765392]],[[2.381081987,48.394191089],[2.381291137,48.394211974],[2.381597444,48.394242362],[2.38191728,48.394271021],[2.381969932,48.394273994],[2.382333059,48.394297479]],[[2.390841997,48.392604196],[2.390645691,48.392640974],[2.390636214,48.392642725],[2.390108195,48.392743474],[2.389971553,48.392760765],[2.389821549,48.392765392]],[[2.39165008,48.392466193],[2.391828419,48.392464409],[2.392039229,48.392458293],[2.392363591,48.392445561]],[[2.390841997,48.392604196],[2.390989559,48.392577063],[2.391314547,48.392510356],[2.391476988,48.3924815],[2.39165008,48.392466193]],[[2.389821549,48.392765392],[2.389958473,48.392723811],[2.390085753,48.392698374],[2.390619216,48.392594054]]]}</dx:geoJsonGeometry>
+                                                </loc:linearLocationExtended>
+                                            </loc:_linearLocationExtension>
+                                        </locationByOrder>
+                                    </conditions>
+                                                            </conditions>
+
+                            
+                                                            <conditions xsi:type="ConditionSet">
+                                    <operator>or</operator>
+                                                                                                                        <conditions xsi:type="VehicleCondition">
+                                                <negate>false</negate>
+                                                <vehicleCharacteristics>
+                                                                                                                                                                        <com:vehicleType>heavyGoodsVehicle</com:vehicleType>
+                                                                                                                                                                                                                                            <com:grossWeightCharacteristic>
+                                                                    <com:comparisonOperator>lessThanOrEqualTo</com:comparisonOperator>
+                                                                    <com:grossVehicleWeight>7.5</com:grossVehicleWeight>
+                                                                    <com:typeOfWeight>maximumPermitted</com:typeOfWeight>
+                                                                </com:grossWeightCharacteristic>
+                                                                                                                                                                                                                                                                                </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                                                                                <conditions xsi:type="VehicleCondition">
+                                                <negate>true</negate>
+                                                <vehicleCharacteristics>
+                                                                                                                                                                        <com:vehicleType>commercial</com:vehicleType>
+                                                                                                                                                                                                                                                                            </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                                                                                <conditions xsi:type="VehicleCondition">
+                                                <negate>true</negate>
+                                                <vehicleCharacteristics>
+                                                                                                            <com:vehicleUsage>emergencyServices</com:vehicleUsage>
+                                                                                                    </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                                                                                <conditions xsi:type="VehicleCondition">
+                                                <negate>true</negate>
+                                                <vehicleCharacteristics>
+                                                                                                                                                                                                                                                                                        <com:_vehicleCharacteristicsExtension>
+                                                                <com:vehicleCharacteristicsExtended>
+                                                                    <dx:otherVehicleType>Déserte locale</dx:otherVehicleType>
+                                                                </com:vehicleCharacteristicsExtended>
+                                                            </com:_vehicleCharacteristicsExtension>
+                                                                                                                                                            </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                            </conditions>
+                                                    </condition>
+                    </trafficRegulation>
+                                    <trafficRegulation>
+                        <status>active</status>
+                                                    <typeOfRegulation xsi:type="AccessRestriction">
+                                <accessRestrictionType>noEntry</accessRestrictionType>
+                            </typeOfRegulation>
+                        
+                        <condition xsi:type="ConditionSet">
+                            <operator>and</operator>
+
+                                                            <conditions xsi:type="ConditionSet">
+                                    <operator>or</operator>
+                                                                            <conditions xsi:type="ValidityCondition">
+                                            <validityByOrder>
+                                                <com:validityStatus>definedByValidityTimeSpec</com:validityStatus>
+                                                <com:validityTimeSpecification>
+                                                    <com:overallStartTime>2004-10-17T23:00:00+00:00</com:overallStartTime>
+
+                                                    
+                                                                                                            <com:validPeriod>
+                                                                                                                            <com:recurringTimePeriodOfDay>
+                                                                    <com:startTimeOfPeriod>07:00:00+00:00</com:startTimeOfPeriod>
+                                                                    <com:endTimeOfPeriod>20:00:00+00:00</com:endTimeOfPeriod>
+                                                                </com:recurringTimePeriodOfDay>
+                                                                                                                                                                                        <com:recurringDayWeekMonthPeriod>
+                                                                                                                                            <com:applicableDay>monday</com:applicableDay>
+                                                                                                                                            <com:applicableDay>tuesday</com:applicableDay>
+                                                                                                                                            <com:applicableDay>wednesday</com:applicableDay>
+                                                                                                                                            <com:applicableDay>thursday</com:applicableDay>
+                                                                                                                                            <com:applicableDay>friday</com:applicableDay>
+                                                                                                                                    </com:recurringDayWeekMonthPeriod>
+                                                                                                                    </com:validPeriod>
+                                                                                                    </com:validityTimeSpecification>
+                                            </validityByOrder>
+                                        </conditions>
+                                                                    </conditions>
+                            
+                            <conditions xsi:type="ConditionSet">
+                                <operator>or</operator>
+                                                                    <conditions xsi:type="LocationCondition">
+                                        <locationByOrder xsi:type="loc:LinearLocation">
+                                            <loc:supplementaryPositionalDescription>
+                                                                                                    <loc:roadInformation>
+                                                        <loc:roadName>Grande Rue</loc:roadName>
+                                                    </loc:roadInformation>
+                                                                                            </loc:supplementaryPositionalDescription>
+                                            <loc:_linearLocationExtension>
+                                                <loc:linearLocationExtended>
+                                                    <dx:geoJsonGeometry>{&quot;type&quot;:&quot;MultiLineString&quot;,&quot;coordinates&quot;:[[[2.378779764,48.394095378],[2.3790689,48.394092394],[2.379760888,48.394066326],[2.379929702,48.394070808],[2.380089008,48.394079738],[2.380303454,48.394109649],[2.380392473,48.39412181],[2.380987544,48.3941807]],[[2.377983941,48.3941056],[2.378075809,48.394105183]],[[2.378075809,48.394105183],[2.378779764,48.394095378]],[[2.376493777,48.394112168],[2.37638974,48.394113421]],[[2.376287043,48.394115579],[2.376061344,48.394123389],[2.375793874,48.394121981]],[[2.376770745,48.394110026],[2.376523507,48.394111425],[2.376493777,48.394112168]],[[2.37638974,48.394113421],[2.376295159,48.394114722],[2.376287043,48.394115579]],[[2.377983941,48.3941056],[2.377375885,48.394116804],[2.377170587,48.394113027]],[[2.377170587,48.394113027],[2.376953132,48.394109185],[2.376770745,48.394110026]]]}</dx:geoJsonGeometry>
+                                                </loc:linearLocationExtended>
+                                            </loc:_linearLocationExtension>
+                                        </locationByOrder>
+                                    </conditions>
+                                                            </conditions>
+
+                            
+                                                            <conditions xsi:type="ConditionSet">
+                                    <operator>or</operator>
+                                                                                                                        <conditions xsi:type="VehicleCondition">
+                                                <negate>false</negate>
+                                                <vehicleCharacteristics>
+                                                                                                                                                                        <com:vehicleType>heavyGoodsVehicle</com:vehicleType>
+                                                                                                                                                                                                                                            <com:grossWeightCharacteristic>
+                                                                    <com:comparisonOperator>lessThanOrEqualTo</com:comparisonOperator>
+                                                                    <com:grossVehicleWeight>7.5</com:grossVehicleWeight>
+                                                                    <com:typeOfWeight>maximumPermitted</com:typeOfWeight>
+                                                                </com:grossWeightCharacteristic>
+                                                                                                                                                                                                                                                                                </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                                                                                <conditions xsi:type="VehicleCondition">
+                                                <negate>true</negate>
+                                                <vehicleCharacteristics>
+                                                                                                                                                                        <com:vehicleType>commercial</com:vehicleType>
+                                                                                                                                                                                                                                                                            </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                                                                                <conditions xsi:type="VehicleCondition">
+                                                <negate>true</negate>
+                                                <vehicleCharacteristics>
+                                                                                                            <com:vehicleUsage>emergencyServices</com:vehicleUsage>
+                                                                                                    </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                                                                                <conditions xsi:type="VehicleCondition">
+                                                <negate>true</negate>
+                                                <vehicleCharacteristics>
+                                                                                                                                                                                                                                                                                        <com:_vehicleCharacteristicsExtension>
+                                                                <com:vehicleCharacteristicsExtended>
+                                                                    <dx:otherVehicleType>Déserte locale</dx:otherVehicleType>
+                                                                </com:vehicleCharacteristicsExtended>
+                                                            </com:_vehicleCharacteristicsExtension>
+                                                                                                                                                            </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                            </conditions>
+                                                    </condition>
+                    </trafficRegulation>
+                                    <trafficRegulation>
+                        <status>active</status>
+                                                    <typeOfRegulation xsi:type="AccessRestriction">
+                                <accessRestrictionType>noEntry</accessRestrictionType>
+                            </typeOfRegulation>
+                        
+                        <condition xsi:type="ConditionSet">
+                            <operator>and</operator>
+
+                                                            <conditions xsi:type="ConditionSet">
+                                    <operator>or</operator>
+                                                                            <conditions xsi:type="ValidityCondition">
+                                            <validityByOrder>
+                                                <com:validityStatus>definedByValidityTimeSpec</com:validityStatus>
+                                                <com:validityTimeSpecification>
+                                                    <com:overallStartTime>2004-10-17T23:00:00+00:00</com:overallStartTime>
+
+                                                    
+                                                                                                            <com:validPeriod>
+                                                                                                                            <com:recurringTimePeriodOfDay>
+                                                                    <com:startTimeOfPeriod>07:00:00+00:00</com:startTimeOfPeriod>
+                                                                    <com:endTimeOfPeriod>20:00:00+00:00</com:endTimeOfPeriod>
+                                                                </com:recurringTimePeriodOfDay>
+                                                                                                                                                                                        <com:recurringDayWeekMonthPeriod>
+                                                                                                                                            <com:applicableDay>monday</com:applicableDay>
+                                                                                                                                            <com:applicableDay>tuesday</com:applicableDay>
+                                                                                                                                            <com:applicableDay>wednesday</com:applicableDay>
+                                                                                                                                            <com:applicableDay>thursday</com:applicableDay>
+                                                                                                                                            <com:applicableDay>friday</com:applicableDay>
+                                                                                                                                    </com:recurringDayWeekMonthPeriod>
+                                                                                                                    </com:validPeriod>
+                                                                                                    </com:validityTimeSpecification>
+                                            </validityByOrder>
+                                        </conditions>
+                                                                    </conditions>
+                            
+                            <conditions xsi:type="ConditionSet">
+                                <operator>or</operator>
+                                                                    <conditions xsi:type="LocationCondition">
+                                        <locationByOrder xsi:type="loc:LinearLocation">
+                                            <loc:supplementaryPositionalDescription>
+                                                                                                    <loc:roadInformation>
+                                                        <loc:roadName>Rue de Milly</loc:roadName>
+                                                    </loc:roadInformation>
+                                                                                            </loc:supplementaryPositionalDescription>
+                                            <loc:_linearLocationExtension>
+                                                <loc:linearLocationExtended>
+                                                    <dx:geoJsonGeometry>{&quot;type&quot;:&quot;MultiLineString&quot;,&quot;coordinates&quot;:[[[2.39456347,48.392860777],[2.395192246,48.393043025]],[[2.393394482,48.392548906],[2.393650618,48.392595201],[2.393895659,48.39266663],[2.39456347,48.392860777]],[[2.392846569,48.392501117],[2.392997643,48.392520784]],[[2.392363591,48.392445561],[2.392452724,48.392447817],[2.392568883,48.392449312]],[[2.402518074,48.395077483],[2.402213664,48.394997675]],[[2.402213664,48.394997675],[2.402060114,48.394957315]],[[2.398039953,48.393869939],[2.397910693,48.393832395]],[[2.397910693,48.393832395],[2.397059741,48.393585154],[2.395192246,48.393043025]],[[2.398039953,48.393869939],[2.398163829,48.393905656]],[[2.408187471,48.395729401],[2.407846068,48.395694408],[2.407711029,48.395689235],[2.407527357,48.395683819],[2.407088193,48.39569242],[2.40642154,48.395747565],[2.406218742,48.395760944],[2.406017326,48.395771631],[2.405608074,48.395763283],[2.405436611,48.395753426],[2.405255774,48.395736325],[2.405112761,48.395719413],[2.404945515,48.395695182],[2.404744638,48.395658186],[2.404658415,48.39563706],[2.40429331,48.395547956],[2.403551242,48.395343595],[2.402518074,48.395077483]],[[2.398163829,48.393905656],[2.398301164,48.393945939],[2.398928615,48.39412816],[2.399607311,48.394318735],[2.399978979,48.394423181],[2.401697833,48.394858321],[2.402060114,48.394957315]],[[2.392997643,48.392520784],[2.393285159,48.39254025],[2.393394482,48.392548906]],[[2.392568883,48.392449312],[2.392681999,48.392480481],[2.392846569,48.392501117]]]}</dx:geoJsonGeometry>
+                                                </loc:linearLocationExtended>
+                                            </loc:_linearLocationExtension>
+                                        </locationByOrder>
+                                    </conditions>
+                                                            </conditions>
+
+                            
+                                                            <conditions xsi:type="ConditionSet">
+                                    <operator>or</operator>
+                                                                                                                        <conditions xsi:type="VehicleCondition">
+                                                <negate>false</negate>
+                                                <vehicleCharacteristics>
+                                                                                                                                                                        <com:vehicleType>heavyGoodsVehicle</com:vehicleType>
+                                                                                                                                                                                                                                            <com:grossWeightCharacteristic>
+                                                                    <com:comparisonOperator>lessThanOrEqualTo</com:comparisonOperator>
+                                                                    <com:grossVehicleWeight>7.5</com:grossVehicleWeight>
+                                                                    <com:typeOfWeight>maximumPermitted</com:typeOfWeight>
+                                                                </com:grossWeightCharacteristic>
+                                                                                                                                                                                                                                                                                </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                                                                                <conditions xsi:type="VehicleCondition">
+                                                <negate>true</negate>
+                                                <vehicleCharacteristics>
+                                                                                                                                                                        <com:vehicleType>commercial</com:vehicleType>
+                                                                                                                                                                                                                                                                            </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                                                                                <conditions xsi:type="VehicleCondition">
+                                                <negate>true</negate>
+                                                <vehicleCharacteristics>
+                                                                                                            <com:vehicleUsage>emergencyServices</com:vehicleUsage>
+                                                                                                    </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                                                                                <conditions xsi:type="VehicleCondition">
+                                                <negate>true</negate>
+                                                <vehicleCharacteristics>
+                                                                                                                                                                                                                                                                                        <com:_vehicleCharacteristicsExtension>
+                                                                <com:vehicleCharacteristicsExtended>
+                                                                    <dx:otherVehicleType>Déserte locale</dx:otherVehicleType>
+                                                                </com:vehicleCharacteristicsExtended>
+                                                            </com:_vehicleCharacteristicsExtension>
+                                                                                                                                                            </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                            </conditions>
+                                                    </condition>
+                    </trafficRegulation>
+                                    <trafficRegulation>
+                        <status>active</status>
+                                                    <typeOfRegulation xsi:type="AccessRestriction">
+                                <accessRestrictionType>noEntry</accessRestrictionType>
+                            </typeOfRegulation>
+                        
+                        <condition xsi:type="ConditionSet">
+                            <operator>and</operator>
+
+                                                            <conditions xsi:type="ConditionSet">
+                                    <operator>or</operator>
+                                                                            <conditions xsi:type="ValidityCondition">
+                                            <validityByOrder>
+                                                <com:validityStatus>definedByValidityTimeSpec</com:validityStatus>
+                                                <com:validityTimeSpecification>
+                                                    <com:overallStartTime>2004-10-17T23:00:00+00:00</com:overallStartTime>
+
+                                                    
+                                                                                                            <com:validPeriod>
+                                                                                                                            <com:recurringTimePeriodOfDay>
+                                                                    <com:startTimeOfPeriod>07:00:00+00:00</com:startTimeOfPeriod>
+                                                                    <com:endTimeOfPeriod>20:00:00+00:00</com:endTimeOfPeriod>
+                                                                </com:recurringTimePeriodOfDay>
+                                                                                                                                                                                        <com:recurringDayWeekMonthPeriod>
+                                                                                                                                            <com:applicableDay>monday</com:applicableDay>
+                                                                                                                                            <com:applicableDay>tuesday</com:applicableDay>
+                                                                                                                                            <com:applicableDay>wednesday</com:applicableDay>
+                                                                                                                                            <com:applicableDay>thursday</com:applicableDay>
+                                                                                                                                            <com:applicableDay>friday</com:applicableDay>
+                                                                                                                                    </com:recurringDayWeekMonthPeriod>
+                                                                                                                    </com:validPeriod>
+                                                                                                    </com:validityTimeSpecification>
+                                            </validityByOrder>
+                                        </conditions>
+                                                                    </conditions>
+                            
+                            <conditions xsi:type="ConditionSet">
+                                <operator>or</operator>
+                                                                    <conditions xsi:type="LocationCondition">
+                                        <locationByOrder xsi:type="loc:LinearLocation">
+                                            <loc:supplementaryPositionalDescription>
+                                                                                                    <loc:roadInformation>
+                                                        <loc:roadName>Rue d&#039;Etampes</loc:roadName>
+                                                    </loc:roadInformation>
+                                                                                            </loc:supplementaryPositionalDescription>
+                                            <loc:_linearLocationExtension>
+                                                <loc:linearLocationExtended>
+                                                    <dx:geoJsonGeometry>{&quot;type&quot;:&quot;MultiLineString&quot;,&quot;coordinates&quot;:[[[2.374558891,48.394027303],[2.374603324,48.39381251],[2.374644909,48.39372366]],[[2.374558891,48.394027303],[2.374080687,48.393911418],[2.37390275,48.393878989],[2.373732747,48.393860997]],[[2.374638356,48.394047515],[2.374558891,48.394027303]],[[2.370073764,48.393464642],[2.369961407,48.393483838],[2.369865153,48.393512116],[2.369781088,48.393537761],[2.369664182,48.393598319],[2.36965838,48.393631576],[2.36973296,48.393721043],[2.369735934,48.393811028],[2.369612028,48.394004703],[2.369393489,48.394316634],[2.369560294,48.394376001]],[[2.37009584,48.393426072],[2.370073764,48.393464642]],[[2.375793874,48.394121981],[2.375571047,48.394115409],[2.375336084,48.394106974]],[[2.373732747,48.393860997],[2.372791989,48.393790346],[2.372732605,48.393785534],[2.372173817,48.393743889],[2.371530002,48.393695494],[2.371369542,48.393670351],[2.371214475,48.393646137],[2.370461088,48.393497288],[2.37009584,48.393426072]],[[2.375336084,48.394106974],[2.374874209,48.394094643],[2.374638356,48.394047515]]]}</dx:geoJsonGeometry>
+                                                </loc:linearLocationExtended>
+                                            </loc:_linearLocationExtension>
+                                        </locationByOrder>
+                                    </conditions>
+                                                            </conditions>
+
+                            
+                                                            <conditions xsi:type="ConditionSet">
+                                    <operator>or</operator>
+                                                                                                                        <conditions xsi:type="VehicleCondition">
+                                                <negate>false</negate>
+                                                <vehicleCharacteristics>
+                                                                                                                                                                        <com:vehicleType>heavyGoodsVehicle</com:vehicleType>
+                                                                                                                                                                                                                                            <com:grossWeightCharacteristic>
+                                                                    <com:comparisonOperator>lessThanOrEqualTo</com:comparisonOperator>
+                                                                    <com:grossVehicleWeight>7.5</com:grossVehicleWeight>
+                                                                    <com:typeOfWeight>maximumPermitted</com:typeOfWeight>
+                                                                </com:grossWeightCharacteristic>
+                                                                                                                                                                                                                                                                                </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                                                                                <conditions xsi:type="VehicleCondition">
+                                                <negate>true</negate>
+                                                <vehicleCharacteristics>
+                                                                                                                                                                        <com:vehicleType>commercial</com:vehicleType>
+                                                                                                                                                                                                                                                                            </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                                                                                <conditions xsi:type="VehicleCondition">
+                                                <negate>true</negate>
+                                                <vehicleCharacteristics>
+                                                                                                            <com:vehicleUsage>emergencyServices</com:vehicleUsage>
+                                                                                                    </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                                                                                <conditions xsi:type="VehicleCondition">
+                                                <negate>true</negate>
+                                                <vehicleCharacteristics>
+                                                                                                                                                                                                                                                                                        <com:_vehicleCharacteristicsExtension>
+                                                                <com:vehicleCharacteristicsExtended>
+                                                                    <dx:otherVehicleType>Déserte locale</dx:otherVehicleType>
+                                                                </com:vehicleCharacteristicsExtended>
+                                                            </com:_vehicleCharacteristicsExtension>
+                                                                                                                                                            </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                            </conditions>
+                                                    </condition>
+                    </trafficRegulation>
+                
+                <_trafficRegulationOrderExtension>
+                    <trafficRegulationOrderExtended>
+                        <dx:source>dialog</dx:source>
+                        <dx:publicUrl>http://localhost/regulations/018a45df-58c3-740c-b712-37d3d3924ca4</dx:publicUrl>
+                    </trafficRegulationOrderExtended>
+                </_trafficRegulationOrderExtension>
+            </trafficRegulationOrder>
+                                            <trafficRegulationOrder id="018b19e9-7f21-7b21-9200-5b4a09b00fdd" version="1">
+                <description>
+                    <com:values>
+                        <com:value>CVO N° 9 Bosserville-Saulxures les Nancy : Circulation interdite aux véhicules de plus de 5 tonnes</com:value>
+                    </com:values>
+                </description>
+                <issuingAuthority>
+                    <com:values>
+                        <com:value>Art-sur-Meurthe</com:value>
+                    </com:values>
+                </issuingAuthority>
+                <regulationId>2021-07-28#018b19b6-38f1-7bf6-b451-a09f65f0273f</regulationId>
+                <status>madeAndImplemented</status>
+
+                <validityByOrder>
+                    <com:validityStatus>definedByValidityTimeSpec</com:validityStatus>
+                    <com:validityTimeSpecification>
+                        <com:overallStartTime>2021-07-27T22:00:00+00:00</com:overallStartTime>
+                                            </com:validityTimeSpecification>
+                </validityByOrder>
+
+                                    <trafficRegulation>
+                        <status>active</status>
+                                                    <typeOfRegulation xsi:type="AccessRestriction">
+                                <accessRestrictionType>noEntry</accessRestrictionType>
+                            </typeOfRegulation>
+                        
+                        <condition xsi:type="ConditionSet">
+                            <operator>and</operator>
+
+                                                            <conditions xsi:type="ConditionSet">
+                                    <operator>or</operator>
+                                                                            <conditions xsi:type="ValidityCondition">
+                                            <validityByOrder>
+                                                <com:validityStatus>definedByValidityTimeSpec</com:validityStatus>
+                                                <com:validityTimeSpecification>
+                                                    <com:overallStartTime>2021-07-27T22:00:00+00:00</com:overallStartTime>
+
+                                                    
+                                                                                                    </com:validityTimeSpecification>
+                                            </validityByOrder>
+                                        </conditions>
+                                                                    </conditions>
+                            
+                            <conditions xsi:type="ConditionSet">
+                                <operator>or</operator>
+                                                                    <conditions xsi:type="LocationCondition">
+                                        <locationByOrder xsi:type="loc:LinearLocation">
+                                            <loc:supplementaryPositionalDescription>
+                                                                                                    <loc:roadInformation>
+                                                        <loc:roadName>Route de Saulxures</loc:roadName>
+                                                    </loc:roadInformation>
+                                                                                            </loc:supplementaryPositionalDescription>
+                                            <loc:_linearLocationExtension>
+                                                <loc:linearLocationExtended>
+                                                    <dx:geoJsonGeometry>{&quot;type&quot;:&quot;MultiLineString&quot;,&quot;coordinates&quot;:[[[6.246806611,48.67025863],[6.246858624,48.670330132],[6.247078446,48.67067433],[6.247351503,48.670978367],[6.247464952,48.671076101],[6.247633442,48.671206543],[6.247739181,48.671333293],[6.247806814,48.671459282],[6.247822104,48.671574094],[6.247801594,48.671703386],[6.247734039,48.671841162],[6.247643957,48.672010159],[6.247518767,48.67224853],[6.247450769,48.672444832],[6.247434307,48.672529902]],[[6.245606324,48.668570996],[6.245637869,48.668641255],[6.245694378,48.668741441],[6.245759436,48.668826091],[6.245790273,48.66886306],[6.245952491,48.669045889],[6.246101494,48.669212873],[6.246183059,48.669300673],[6.246248415,48.66936821],[6.246300203,48.669436117],[6.246347401,48.669517652],[6.246381382,48.669583343],[6.246424621,48.669666786],[6.246453175,48.669732625],[6.246493885,48.669797233],[6.246545266,48.669880454],[6.246622857,48.669991769],[6.246700336,48.670101286],[6.246761439,48.670187843],[6.246806611,48.67025863]],[[6.247434307,48.672529902],[6.247395658,48.672717302],[6.247368205,48.672975515],[6.247358628,48.67314952]],[[6.245901777,48.667791451],[6.245725711,48.667888971],[6.245606537,48.667961535],[6.245561336,48.667999676],[6.245529927,48.668041042],[6.245503703,48.668100271],[6.245498279,48.668166136],[6.245535275,48.668346074],[6.245558661,48.66843816],[6.245606324,48.668570996]],[[6.246116499,48.667637964],[6.246100312,48.667661811],[6.246057658,48.667697182],[6.245996287,48.667737563],[6.245901777,48.667791451]],[[6.247358628,48.67314952],[6.247383007,48.673279388],[6.247393846,48.673300698],[6.247403105,48.67331845],[6.247447594,48.673400059],[6.247453803,48.673412492]]]}</dx:geoJsonGeometry>
+                                                </loc:linearLocationExtended>
+                                            </loc:_linearLocationExtension>
+                                        </locationByOrder>
+                                    </conditions>
+                                                            </conditions>
+
+                            
+                                                            <conditions xsi:type="ConditionSet">
+                                    <operator>or</operator>
+                                                                                                                        <conditions xsi:type="VehicleCondition">
+                                                <negate>false</negate>
+                                                <vehicleCharacteristics>
+                                                                                                                                                                        <com:vehicleType>heavyGoodsVehicle</com:vehicleType>
+                                                                                                                                                                                                                                            <com:grossWeightCharacteristic>
+                                                                    <com:comparisonOperator>lessThanOrEqualTo</com:comparisonOperator>
+                                                                    <com:grossVehicleWeight>5</com:grossVehicleWeight>
+                                                                    <com:typeOfWeight>maximumPermitted</com:typeOfWeight>
+                                                                </com:grossWeightCharacteristic>
+                                                                                                                                                                                                                                                                                </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                                                                                <conditions xsi:type="VehicleCondition">
+                                                <negate>true</negate>
+                                                <vehicleCharacteristics>
+                                                                                                            <com:vehicleUsage>emergencyServices</com:vehicleUsage>
+                                                                                                    </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                                                                                <conditions xsi:type="VehicleCondition">
+                                                <negate>true</negate>
+                                                <vehicleCharacteristics>
+                                                                                                                                                                                                                                                                                        <com:_vehicleCharacteristicsExtension>
+                                                                <com:vehicleCharacteristicsExtended>
+                                                                    <dx:otherVehicleType>Grumiers, Camions déchetterie</dx:otherVehicleType>
+                                                                </com:vehicleCharacteristicsExtended>
+                                                            </com:_vehicleCharacteristicsExtension>
+                                                                                                                                                            </vehicleCharacteristics>
+                                            </conditions>
+                                                                                                            </conditions>
+                                                    </condition>
+                    </trafficRegulation>
+                
+                <_trafficRegulationOrderExtension>
+                    <trafficRegulationOrderExtended>
+                        <dx:source>dialog</dx:source>
+                        <dx:publicUrl>http://localhost/regulations/018b19e9-7f21-7b21-9200-5b4a0a4de388</dx:publicUrl>
+                    </trafficRegulationOrderExtended>
+                </_trafficRegulationOrderExtension>
+            </trafficRegulationOrder></trafficRegulationsFromCompetentAuthorities>
+</d2:payload>
