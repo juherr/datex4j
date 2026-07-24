@@ -50,6 +50,38 @@
     `datex4j-json`. See its [dataset README](../../../datex4j-integration-tests/src/test/resources/datasets/finland/README.md)
     for provenance, attribution and the trimming.
 
+## Other Fintraffic DATEX II feeds (road traffic, beyond AFIR)
+
+Beyond the AFIR charging feed, Digitraffic publishes general **road-traffic** data as DATEX II — a
+useful test surface for the `situation`, `srti` and `roadTrafficData` sides of the library.
+Verified live at the time of writing (base host `tie.digitraffic.fi`, licence **CC BY 4.0**):
+
+| Feed | URL | DATEX II | Root |
+|---|---|---|---|
+| Roadworks | `/api/traffic-message/v2/roadworks/datex2-3.5.xml` | **v3.5** XML | `SituationPublication` |
+| Traffic announcements | `/api/traffic-message/v2/traffic-announcements/datex2-3.5.xml` | v3.5 XML | `SituationPublication` |
+| Weight restrictions | `/api/traffic-message/v2/weight-restrictions/datex2-3.5.xml` | v3.5 XML | `SituationPublication` |
+| Exempted transports | `/api/traffic-message/v2/exempted-transports/datex2-3.5.xml` | v3.5 XML | `SituationPublication` |
+| Traffic data (SRTI/RTTI) | `/api/traffic-message/v2/traffic-data/datex2-3.5.xml` | v3.5 XML | `SituationPublication` |
+| TMS measurement stations | `/api/tms/v1/stations/datex2` (`.xml`) and `/api/tms/v1/stations/data/datex2` (`.xml`) | v3.5 XML + JSON | measurement data |
+
+Each `datex2-3.5.xml` feed also has a legacy `datex2-2.2.3.xml` twin (DATEX II **v2**, which this
+library's v3-only model does not read).
+
+### How to obtain (required headers)
+
+Digitraffic rejects requests without two headers (`406` otherwise) — the same for the AFIR feed:
+
+```bash
+curl -s --compressed -H 'Digitraffic-User: <your-client-id>' \
+  https://tie.digitraffic.fi/api/traffic-message/v2/roadworks/datex2-3.5.xml
+```
+
+**Version note:** these feeds are **v3.5**, whereas the bundled model is v3.6/v3.7. They share the
+`http://datex2.eu/schema/3/…` namespaces and `modelBaseVersion="3"`, so they parse, but strict XSD
+validation against the bundled 3.6/3.7 schemas may report version-drift differences; treat them as
+read/parse inputs rather than clean round-trip fixtures until validated.
+
 ## Notes
 
 No further country-specific DATEX II extensions or national-identifier conventions could be

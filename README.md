@@ -99,7 +99,9 @@ The project deliberately separates the **generated model** from **hand-written s
 that upgrading to a newer DATEX II release is mostly automatic: drop in the new schemas, regenerate,
 and the model updates without touching any logic. See [docs/architecture.md](docs/architecture.md)
 and the [version-upgrade runbook](docs/version-upgrade.md). For AFIR (EV charging) specifically, see
-the [AFIR / NAP knowledge base and integration-test suite](docs/afir/README.md).
+the [AFIR / NAP knowledge base and integration-test suite](docs/afir/README.md). For open DATEX II
+data sources to test the library across all domains, see
+[docs/datex-test-data-sources.md](docs/datex-test-data-sources.md).
 
 ## Roadmap
 
