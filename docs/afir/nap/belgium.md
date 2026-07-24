@@ -11,9 +11,12 @@
   of the ITS steering committee" (federal and regional transport authorities) — per
   [transportdata.be's "About" page](https://transportdata.be/en/pages/about).
 - **AFIR status:** transportdata.be already lists at least one operator's charging-infrastructure
-  dataset published directly in **DATEX II XML**, ahead of the EU-wide mandatory-use date of 14 April
-  2026 (see [`../README.md#afir`](../README.md#afir)); other operators on the same portal currently
-  publish in OCPI or plain JSON instead.
+  dataset published directly in **DATEX II XML**, ahead of the EU-wide date from which DATEX II
+  becomes the mandatory format for the AFIR Article 20(2) charging-point data — 14 April 2026, under
+  [Commission Implementing Regulation (EU) 2025/655](https://transport.ec.europa.eu/news-events/news/commission-enhances-interoperability-and-transparency-alternative-fuels-infrastructure-data-2025-04-11_en)
+  (the underlying AFIR Article 20 data-via-NAP obligation has applied since 14 April 2025; see
+  [`../README.md#afir`](../README.md#afir)); other operators on the same portal currently publish in
+  OCPI or plain JSON instead.
 
 ## Useful links
 

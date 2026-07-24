@@ -9,10 +9,12 @@
   site itself states it is "provided by [Swedish Transport Administration]". For charging-point
   data specifically, **Energimyndigheten** (the Swedish Energy Agency) maintains the underlying
   register.
-- **AFIR status:** Sweden is reported as one of the EU's operational NAPs, with the EU-wide DATEX II
-  mandate applying from 14 April 2026 (see [`../README.md#afir`](../README.md#afir)). The
-  charging-point dataset available today (see below) is API-based and its format is not documented
-  as DATEX II on the catalogue page reviewed.
+- **AFIR status:** Sweden is reported as one of the EU's operational NAPs. DATEX II becomes the
+  mandatory EU-wide format for the AFIR Article 20(2) charging-point data from 14 April 2026 under
+  [Commission Implementing Regulation (EU) 2025/655](https://transport.ec.europa.eu/news-events/news/commission-enhances-interoperability-and-transparency-alternative-fuels-infrastructure-data-2025-04-11_en);
+  the underlying AFIR Article 20 data-via-NAP obligation has applied since 14 April 2025 (see
+  [`../README.md#afir`](../README.md#afir)). The charging-point dataset available today (see below)
+  is API-based and its format is not documented as DATEX II on the catalogue page reviewed.
 
 ## Useful links
 

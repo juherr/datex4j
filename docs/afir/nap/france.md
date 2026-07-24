@@ -12,9 +12,11 @@
   under the DGEC (Direction Générale de l'Énergie et du Climat).
 - **AFIR status:** since 14 April 2025, AFIR Article 20 requires operators of publicly accessible
   charging points to make static data (location, connectors, access/payment conditions) and dynamic
-  data (real-time availability, operating status, price) available free of charge; DATEX II becomes
-  the mandatory exchange format across the EU from 14 April 2026 (see
-  [`../README.md#afir`](../README.md#afir)). **No France-specific public DATEX II endpoint for
+  data (real-time availability, operating status, price) available free of charge via the NAP (see
+  [`../README.md#afir`](../README.md#afir)); DATEX II then becomes the mandatory EU-wide format for
+  that Article 20(2) data from 14 April 2026 under [Commission Implementing Regulation (EU)
+  2025/655](https://transport.ec.europa.eu/news-events/news/commission-enhances-interoperability-and-transparency-alternative-fuels-infrastructure-data-2025-04-11_en).
+  **No France-specific public DATEX II endpoint for
   recharging data was confirmed at the time of writing** — see "Available datasets" below for what
   is confirmed today.
 
@@ -45,8 +47,9 @@
 - **A dedicated DATEX II feed for AFIR recharging data could not be confirmed** on
   transport.data.gouv.fr as of this writing. QualiCharge's role (collecting operator data and
   relaying it onward) suggests a DATEX II-format publication may follow the EU-wide 14 April 2026
-  deadline, but no such endpoint, URL, or schema reference was found to cite here — this page will be
-  updated once one is confirmed rather than guessing at a URL.
+  DATEX II deadline (Commission Implementing Regulation (EU) 2025/655, cited above), but no such
+  endpoint, URL, or schema reference was found to cite here — this page will be updated once one is
+  confirmed rather than guessing at a URL.
 
 ## Notes
 
