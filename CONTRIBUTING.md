@@ -135,28 +135,37 @@ version runbook, BOM, examples, and relevant data documentation in the same chan
 
 ## Public API stability
 
-datex4j follows Semantic Versioning and treats public types and methods as compatibility
-commitments. Document additive changes in [CHANGELOG.md](CHANGELOG.md). Highlight breaking changes
-before release and include migration guidance.
+datex4j follows the [API compatibility policy](docs/api-compatibility.md). Revapi checks every
+module against the latest final release during `verify`; implementation packages listed in the
+policy are excluded. Validate configuration changes explicitly:
+
+```bash
+./mvnw revapi:validate-configuration
+```
+
+The allowlist in `config/revapi/accepted-differences.json` is intentionally empty, and the
+`revapi.differences` transform is disabled while it remains empty. Every exception must enable the
+transform, identify the exact difference, use a justification beginning with `Migration:`, and
+repeat that migration in `CHANGELOG.md`. Run `scripts/verify-revapi-allowlist.sh` after any change
+to the allowlist.
 
 ## Release workflow
 
-Artifacts publish to Maven Central through the Sonatype Central Portal with the opt-in `release`
-profile. The profile adds source, Javadoc, signing, and central-publishing plugins. `examples` and
-`datex4j-integration-tests` are not published.
+Artifacts publish to Maven Central through the manually dispatched `Release to Maven Central`
+workflow. It only accepts `main`, uses the protected `maven-central` environment, validates a local
+Central bundle and an isolated Maven consumer, then publishes automatically. A separate job creates
+the signed tag and GitHub Release only after Central reports `published`.
 
-Release prerequisites remain outside the repository:
-
-- a published GPG signing key;
-- Central Portal credentials in `~/.m2/settings.xml` under server id `central`.
+The environment must provide `CENTRAL_USERNAME`, `CENTRAL_TOKEN`, `GPG_PRIVATE_KEY`, and
+`GPG_PASSPHRASE`. The corresponding public key must be available from a public keyserver.
 
 Release steps:
 
-1. Run `./mvnw verify` and confirm the working tree is clean.
-2. Update `CHANGELOG.md`, moving relevant `Unreleased` entries into
-   `## [X.Y.Z] - YYYY-MM-DD`. Keep an empty `Unreleased` section and add comparison links for the
-   release and the next development cycle.
-3. Remove `-SNAPSHOT`, set the release version, and create the release tag.
-4. Run `./mvnw -Prelease deploy`.
-5. Review and release the deployment in the Central Portal because `autoPublish=false`.
-6. Open the next `-SNAPSHOT` version and restore an `Unreleased` changelog section.
+1. Open and merge a release PR containing the final version, dated changelog section, and versioned
+   release notes.
+2. Dispatch `Release to Maven Central` from `main` with that version.
+3. Verify Central resolution, the signed tag, and the GitHub Release.
+4. Open a separate PR for the next `X.Y.Z-SNAPSHOT` version and an empty `Unreleased` section.
+
+The workflow safely resumes when its signed tag or GitHub Release already exists at the same
+commit. It refuses conflicting tags or releases.

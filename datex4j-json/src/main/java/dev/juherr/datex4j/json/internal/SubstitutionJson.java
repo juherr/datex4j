@@ -29,7 +29,7 @@ import java.util.Locale;
  * fixture ({@code
  * datex4j-json/src/test/resources/datex-json/finland-afir-messagecontainer.v3_6.json}).
  */
-public final class SubstitutionJson {
+final class SubstitutionJson {
 
     private SubstitutionJson() {}
 

@@ -25,7 +25,13 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-/** Creates fail-closed SAX sources for untrusted DATEX II XML documents. */
+/**
+ * Creates fail-closed SAX sources for untrusted DATEX II XML documents.
+ *
+ * <p><strong>API note:</strong> This public type exists for cooperation between datex4j modules. It
+ * is an unsupported implementation detail and may change without notice. Applications should use
+ * {@link DatexXml} or the validation facade instead.
+ */
 public final class SecureXmlSource {
 
     private static final String DISALLOW_DOCTYPE = "http://apache.org/xml/features/disallow-doctype-decl";

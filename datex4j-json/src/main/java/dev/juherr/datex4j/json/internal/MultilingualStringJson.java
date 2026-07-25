@@ -38,7 +38,7 @@ import java.util.List;
  *
  * <pre>{@code {"values":[{"lang":"fi","value":"Kärkitie 4"}]}}</pre>
  */
-public final class MultilingualStringJson {
+final class MultilingualStringJson {
 
     private MultilingualStringJson() {}
 
