@@ -11,8 +11,13 @@ Maven wrapper pins Maven.
 
 ```bash
 mise install
-./mvnw verify
+./scripts/verify.sh
 ```
+
+The verification script checks GitHub Actions syntax and security, verifies the critical XML and
+validation modules, tests the consumer dependency graph with an isolated Maven repository, runs
+the complete Maven reactor, and prints the final coverage ratios. Its full log is written to
+`target/verification/verify.log`.
 
 Read the [architecture guide](docs/architecture.md) before changing module boundaries or adding a
 dependency.
