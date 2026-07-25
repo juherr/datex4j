@@ -6,7 +6,7 @@
 
   <groupId>dev.juherr.datex4j</groupId>
   <artifactId>datex4j</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
   <packaging>pom</packaging>
 
   <name>datex4j</name>
@@ -99,12 +99,16 @@
     <palantir-java-format.version>2.96.0</palantir-java-format.version>
     <jacoco-maven-plugin.version>0.8.15</jacoco-maven-plugin.version>
     <jacoco.line.minimum>0.00</jacoco.line.minimum>
+    <revapi-maven-plugin.version>0.15.1</revapi-maven-plugin.version>
+    <revapi-java.version>0.28.4</revapi-java.version>
 
     <!-- Release / publishing plugin versions (used only by the `release` profile) -->
     <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
     <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
     <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
     <central-publishing-maven-plugin.version>0.11.0</central-publishing-maven-plugin.version>
+    <central.autoPublish>false</central.autoPublish>
+    <central.waitUntil>validated</central.waitUntil>
   </properties>
 
   <dependencyManagement>
@@ -383,6 +387,61 @@
           </execution>
         </executions>
       </plugin>
+
+      <!--
+        Public API compatibility. Before the first release, an unresolved RELEASE baseline is
+        tolerated. Once 0.1.0 exists, the same configuration becomes a blocking verify gate.
+      -->
+      <plugin>
+        <groupId>org.revapi</groupId>
+        <artifactId>revapi-maven-plugin</artifactId>
+        <version>${revapi-maven-plugin.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.revapi</groupId>
+            <artifactId>revapi-java</artifactId>
+            <version>${revapi-java.version}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <oldVersion>RELEASE</oldVersion>
+          <versionFormat>[0-9]+\.[0-9]+\.[0-9]+</versionFormat>
+          <checkDependencies>false</checkDependencies>
+          <failBuildOnProblemsFound>true</failBuildOnProblemsFound>
+          <failOnUnresolvedArtifacts>false</failOnUnresolvedArtifacts>
+          <pipelineConfiguration>
+            <filters>
+              <exclude>
+                <item>revapi.java.filter.annotated</item>
+              </exclude>
+            </filters>
+            <transforms>
+              <exclude>
+                <item>revapi.differences</item>
+                <item>revapi.ignore</item>
+                <item>revapi.reclassify</item>
+                <item>revapi.semver.ignore</item>
+                <item>revapi.versions</item>
+              </exclude>
+            </transforms>
+          </pipelineConfiguration>
+          <!-- Avoid Maven materializing an empty analysisConfiguration as a null extension. -->
+          <analysisConfiguration><![CDATA[[]]]></analysisConfiguration>
+          <analysisConfigurationFiles>
+            <file>${maven.multiModuleProjectDirectory}/config/revapi/revapi.json</file>
+            <file>${maven.multiModuleProjectDirectory}/config/revapi/accepted-differences.json</file>
+          </analysisConfigurationFiles>
+        </configuration>
+        <executions>
+          <execution>
+            <id>check-api-compatibility</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
@@ -417,7 +476,7 @@
             <configuration>
               <doclint>none</doclint>
               <quiet>true</quiet>
-              <failOnError>false</failOnError>
+              <failOnError>true</failOnError>
             </configuration>
             <executions>
               <execution>
@@ -451,8 +510,8 @@
             <extensions>true</extensions>
             <configuration>
               <publishingServerId>central</publishingServerId>
-              <!-- Review and release manually from the Central Portal after upload. -->
-              <autoPublish>false</autoPublish>
+              <autoPublish>${central.autoPublish}</autoPublish>
+              <waitUntil>${central.waitUntil}</waitUntil>
             </configuration>
           </plugin>
         </plugins>

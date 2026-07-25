@@ -14,6 +14,7 @@ goal.
    convenience APIs.
 5. Read [OCPI mapping](guides/ocpi-mapping.md) when converting charging infrastructure between OCPI
    2.3 and DATEX II 3.7.
+6. Read [API compatibility](api-compatibility.md) before relying on extension points or upgrading.
 
 The [examples module](../examples/src/main/java/dev/juherr/datex4j/examples) contains runnable,
 tested sources for every guide.
@@ -27,6 +28,8 @@ tested sources for every guide.
 4. Read the [integration-test guide](../datex4j-integration-tests/README.md) before adding a fixture
    or live-feed test.
 5. Record user-visible changes in [CHANGELOG.md](../CHANGELOG.md).
+6. Follow [API compatibility](api-compatibility.md) when changing public types or accepting a
+   Revapi difference.
 
 ## Standards and test data
 

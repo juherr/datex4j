@@ -47,6 +47,7 @@ run_logged "GitHub Actions syntax" mise exec -- actionlint -color
 run_logged \
   "GitHub Actions security" \
   mise exec -- zizmor --min-severity medium .github/workflows
+run_logged "Revapi allowlist policy" ./scripts/verify-revapi-allowlist.sh
 run_logged \
   "critical XML and validation modules" \
   ./mvnw --batch-mode --no-transfer-progress \

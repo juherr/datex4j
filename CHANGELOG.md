@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-07-25
+
 ### Added
 
 - Generated DATEX II model artifacts for versions 2.0–2.3 and 3.0–3.7, discovered through a
@@ -21,6 +23,8 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 - Adversarial XML tests covering DTDs, external entities, and recursive entity expansion.
 - A single contributor verification command with isolated Maven consumer checks, actionable
   failure logs, coverage summaries, and GitHub Actions linting.
+- A documented supported API boundary and automated Revapi compatibility checks.
+- A resumable, manually dispatched Maven Central publication workflow.
 
 ### Changed
 
@@ -38,6 +42,7 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 - Hardened XML reading and validation so documents containing DTDs or entity declarations are
   rejected before JAXB binding or schema validation.
 
-[Unreleased]: https://github.com/juherr/datex4j/commits/main
+[Unreleased]: https://github.com/juherr/datex4j/compare/0.1.0...HEAD
+[0.1.0]: https://github.com/juherr/datex4j/releases/tag/0.1.0
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html

@@ -28,7 +28,7 @@ import java.util.Set;
  * shows {@code idG}, {@code versionG}, and {@code modelBaseVersionG} but leaves locally declared
  * attributes such as {@code lang}, {@code order}, and {@code extensionName} bare.
  */
-public final class GAttributes {
+final class GAttributes {
 
     private static final Set<String> GLOBAL_GROUP = Set.of("id", "version", "modelBaseVersion");
 
