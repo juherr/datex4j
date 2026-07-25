@@ -38,7 +38,7 @@ import java.nio.charset.StandardCharsets;
  * DATEX II model, and maps the XML temporal types via {@link DatexTemporalModule}. Instances are
  * immutable and thread-safe and may be shared across an application.
  *
- * <p>Any DATEX II object of any bundled version can be written; {@link #read} returns the
+ * <p>Any object from the configured DATEX II model can be written; {@link #read} returns the
  * requested type. A {@code MessageContainer} value is the one exception: {@link #write} and {@link
  * #writeToString} emit the conformant {@code payload}/{@code exchangeInformation} envelope for it
  * (see {@link #readContainer}), while every other type is serialized directly with no wrapper.

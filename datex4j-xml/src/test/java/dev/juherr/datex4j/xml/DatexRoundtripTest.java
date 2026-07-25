@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import dev.juherr.datex4j.model.v3_7.situation.SituationPublication;
+import java.io.InputStream;
 import org.junit.jupiter.api.Test;
 
 class DatexRoundtripTest {
@@ -54,5 +55,24 @@ class DatexRoundtripTest {
     @Test
     void rejectsNullValue() {
         assertThatIllegalArgumentException().isThrownBy(() -> marshaller.write(null));
+    }
+
+    @Test
+    void rejectsNullXmlInputs() {
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> marshaller.read((byte[]) null, SituationPublication.class))
+                .withMessage("xml must not be null");
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> marshaller.read((InputStream) null, SituationPublication.class))
+                .withMessage("in must not be null");
+    }
+
+    @Test
+    void rejectsANullTargetType() {
+        byte[] xml = marshaller.write(Fixtures.situationPublication());
+
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> marshaller.read(xml, null))
+                .withMessage("type must not be null");
     }
 }

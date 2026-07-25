@@ -90,20 +90,27 @@ public final class DatexJsonModule extends SimpleModule {
 
     @SuppressWarnings("unchecked")
     private void registerMultilingualString(DatexVersion version) {
-        if (version == DatexVersion.V3_7) {
-            addSerializer(
-                    dev.juherr.datex4j.model.v3_7.common.MultilingualString.class,
-                    new MultilingualStringJson.Serializer());
-            addDeserializer(
-                    dev.juherr.datex4j.model.v3_7.common.MultilingualString.class,
-                    new MultilingualStringJson.Deserializer());
-        } else {
-            addSerializer(
-                    dev.juherr.datex4j.model.v3_6.common.MultilingualString.class,
-                    new MultilingualString36Json.Serializer());
-            addDeserializer(
-                    dev.juherr.datex4j.model.v3_6.common.MultilingualString.class,
-                    new MultilingualString36Json.Deserializer());
+        String commonPackage = MODEL_PACKAGE_PREFIX + version.packageSegment() + ".common.";
+        Class<?> stringType = loadModelClass(commonPackage + "MultilingualString", version);
+        Class<?> valueType = loadModelClass(commonPackage + "MultilingualStringValue", version);
+        addSerializer((Class<Object>) stringType, new MultilingualStringJson.Serializer());
+        addDeserializer((Class<Object>) stringType, new MultilingualStringJson.Deserializer<>(stringType, valueType));
+    }
+
+    private static Class<?> loadModelClass(String className, DatexVersion version) {
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        if (loader == null) {
+            loader = DatexJsonModule.class.getClassLoader();
+        }
+        try {
+            return Class.forName(className, true, loader);
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException(
+                    "DATEX II model "
+                            + version
+                            + " is not available; add dev.juherr.datex4j:datex4j-model-"
+                            + version.packageSegment(),
+                    e);
         }
     }
 

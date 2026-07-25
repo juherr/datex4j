@@ -31,19 +31,23 @@ datex4j-model-vX_Y ──► datex4j-model-spi ──► datex4j-core
           │
 datex4j-model (aggregate of every version)
 
-datex4j-xml ─────────► datex4j-model + datex4j-model-spi + datex4j-core
-datex4j-json ────────► datex4j-model + datex4j-core
+datex4j-xml ─────────► datex4j-model-spi + datex4j-core
+datex4j-json ────────► datex4j-core
 datex4j-validation ──► datex4j-xml + datex4j-core
-datex4j-builders ────► datex4j-model + datex4j-core
-datex4j-location ────► datex4j-model
+datex4j-builders ────► datex4j-model-v3_7 + datex4j-core
+datex4j-location ────► datex4j-model-v3_7
 
-datex4j-domain-* ────► datex4j-builders + datex4j-model
-datex4j-ocpi ────────► datex4j-model + datex4j-location
+datex4j-domain-* ────► datex4j-builders + datex4j-model-v3_7
+datex4j-ocpi ────────► datex4j-model-v3_7 + datex4j-location
                         + datex4j-domain-evcharging
 ```
 
 Domain modules use `datex4j-xml` only in tests. Keeping that edge out of their production
 dependencies prevents convenience builders from depending on a serialization technology.
+
+The XML and JSON facades do not pull the all-version aggregate. Consumers add one or more
+`datex4j-model-vX_Y` artifacts explicitly; `datex4j-consumer-tests` verifies that selecting v3.7
+does not expose any other provider.
 
 ## Generated model boundary
 
@@ -108,8 +112,9 @@ model provider.
 
 ## Facade boundaries
 
-- `datex4j-xml` owns JAXB context creation, root-envelope handling, schema resolution, marshalling,
-  and unmarshalling. Public callers use `DatexXml` and `DatexMarshaller`, not JAXB types.
+- `datex4j-xml` owns cached JAXB context creation, root-envelope handling, schema resolution,
+  hardened XML parsing, marshalling, and unmarshalling. Public callers use `DatexXml` and
+  `DatexMarshaller`, not JAXB types.
 - `datex4j-json` owns conformant DATEX II JSON configuration and generated-model adaptations. Public
   callers use `DatexJson` and `DatexJsonMapper`.
 - `datex4j-validation` wraps XSD validation in `ValidationResult` and `ValidationMessage`, preserving
@@ -136,6 +141,7 @@ when a fully named module graph provides a concrete consumer benefit.
 - Spotless and Checkstyle inspect handwritten sources.
 - JaCoCo measures handwritten code; generated models are excluded.
 - Unit tests verify each facade and helper in isolation.
+- Consumer-classpath tests ensure facades never pull unrequested model versions transitively.
 - Integration tests exercise real and synthetic DATEX II 2.x/3.x XML and JSON feeds offline.
 - The release profile publishes sources, Javadoc, and signed artifacts through the Central Portal.
 

@@ -6,7 +6,7 @@ datex4j reads, writes, validates, and converts DATEX II publications without exp
 its public facades. The SDK bundles generated models for DATEX II 2.0–2.3 and 3.0–3.7, provides
 helpers for common user domains, and has no application-framework dependency.
 
-- **Java 25**, JPMS-compatible, and framework-free.
+- **Java 21+**, JPMS-compatible, and framework-free.
 - **Generated DATEX II models** built reproducibly from vendored official XML Schemas.
 - **Small public facades** for XML, JSON, and structured validation.
 - **Optional domain modules** for traffic, SRTI, parking, EV charging, and UVAR.
@@ -80,8 +80,9 @@ in every version transitively. The AFIR-specific `AfirEnergyInfrastructure` and 
 packages are part of the 3.7 model; earlier versions expose only the modules defined by their own
 root schema.
 
-Domain builders currently target DATEX II 3.7. The XML, JSON, and validation facades can target any
-bundled version when the corresponding model artifact is present.
+Domain builders currently target DATEX II 3.7. The XML and validation facades can target any
+bundled version when the corresponding model artifact is present. Conformant JSON fixtures cover
+DATEX II 3.6 and 3.7.
 
 See [Models and versions](docs/guides/models-and-versions.md) for dependency choices, version
 selection, and the differences between DATEX II 2.x and 3.x.
@@ -119,7 +120,7 @@ boundaries, SPI discovery, and JPMS strategy.
 
 ## Build from source
 
-The project requires Java 25. The committed Maven wrapper pins Maven, while
+The project requires Java 21 or newer. The committed Maven wrapper pins Maven, while
 [mise](https://mise.jdx.dev) provisions the JDK.
 
 ```bash

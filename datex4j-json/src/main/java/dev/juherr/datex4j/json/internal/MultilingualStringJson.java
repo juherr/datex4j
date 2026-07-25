@@ -22,19 +22,19 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import dev.juherr.datex4j.model.v3_7.common.MultilingualString;
-import dev.juherr.datex4j.model.v3_7.common.MultilingualStringValue;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
- * Jackson (de)serializers flattening the DATEX II {@link MultilingualString} model into its
- * conformant JSON encoding.
+ * Version-neutral Jackson (de)serializers flattening a generated DATEX II
+ * {@code MultilingualString} into its conformant JSON encoding.
  *
  * <p>The generated JAXB model nests the language/value pairs under an intermediate {@code Values}
  * wrapper ({@code getValues().getValue()}), mirroring the XML schema's anonymous wrapper element.
  * The conformant DATEX II JSON encoding flattens that wrapper away, exposing a single {@code
- * values} array of {@code {lang, value}} objects directly on the {@link MultilingualString}:
+ * values} array of {@code {lang, value}} objects directly on the generated string:
  *
  * <pre>{@code {"values":[{"lang":"fi","value":"Kärkitie 4"}]}}</pre>
  */
@@ -42,50 +42,97 @@ public final class MultilingualStringJson {
 
     private MultilingualStringJson() {}
 
-    /** Serializes a {@link MultilingualString} to the flat {@code {"values":[...]}} JSON shape. */
-    public static final class Serializer extends JsonSerializer<MultilingualString> {
+    /** Serializes any generated multilingual string to the flat {@code {"values":[...]}} shape. */
+    public static final class Serializer extends JsonSerializer<Object> {
         @Override
-        public void serialize(MultilingualString value, JsonGenerator generator, SerializerProvider serializers)
+        public void serialize(Object value, JsonGenerator generator, SerializerProvider serializers)
                 throws IOException {
-            generator.writeStartObject();
-            generator.writeArrayFieldStart("values");
-            List<MultilingualStringValue> values =
-                    value.getValues() == null ? List.of() : value.getValues().getValue();
-            for (MultilingualStringValue msv : values) {
+            try {
+                Method getValues = value.getClass().getMethod("getValues");
+                Object wrapper = getValues.invoke(value);
+                List<?> values = wrapper == null
+                        ? List.of()
+                        : (List<?>) wrapper.getClass().getMethod("getValue").invoke(wrapper);
+
                 generator.writeStartObject();
-                generator.writeStringField("lang", msv.getLang());
-                generator.writeStringField("value", msv.getValue());
+                generator.writeArrayFieldStart("values");
+                for (Object item : values) {
+                    generator.writeStartObject();
+                    generator.writeStringField("lang", (String)
+                            item.getClass().getMethod("getLang").invoke(item));
+                    generator.writeStringField("value", (String)
+                            item.getClass().getMethod("getValue").invoke(item));
+                    generator.writeEndObject();
+                }
+                generator.writeEndArray();
                 generator.writeEndObject();
+            } catch (ReflectiveOperationException e) {
+                throw new IOException(
+                        "Failed to serialize DATEX II multilingual string "
+                                + value.getClass().getName(),
+                        e);
             }
-            generator.writeEndArray();
-            generator.writeEndObject();
         }
     }
 
-    /** Deserializes the flat {@code {"values":[...]}} JSON shape back into a {@link MultilingualString}. */
-    public static final class Deserializer extends JsonDeserializer<MultilingualString> {
-        @Override
-        public MultilingualString deserialize(JsonParser parser, DeserializationContext context) throws IOException {
-            JsonNode root = parser.getCodec().readTree(parser);
-            MultilingualString.Values values = new MultilingualString.Values();
-            JsonNode valuesNode = root.get("values");
-            if (valuesNode != null) {
-                for (JsonNode item : valuesNode) {
-                    MultilingualStringValue msv = new MultilingualStringValue();
-                    JsonNode lang = item.get("lang");
-                    if (lang != null) {
-                        msv.setLang(lang.asText());
-                    }
-                    JsonNode text = item.get("value");
-                    if (text != null) {
-                        msv.setValue(text.asText());
-                    }
-                    values.getValue().add(msv);
-                }
+    /** Deserializes the flat JSON shape into one version-specific generated string type. */
+    public static final class Deserializer<T> extends JsonDeserializer<T> {
+        private final Constructor<?> stringConstructor;
+        private final Constructor<?> valuesConstructor;
+        private final Constructor<?> valueConstructor;
+        private final Method setValues;
+        private final Method values;
+        private final Method setLang;
+        private final Method setValue;
+
+        /** Creates a deserializer for the supplied generated multilingual string class. */
+        public Deserializer(Class<?> stringType, Class<?> valueType) {
+            try {
+                Class<?> valuesType =
+                        Class.forName(stringType.getName() + "$Values", true, stringType.getClassLoader());
+                this.stringConstructor = stringType.getDeclaredConstructor();
+                this.valuesConstructor = valuesType.getDeclaredConstructor();
+                this.valueConstructor = valueType.getDeclaredConstructor();
+                this.setValues = stringType.getMethod("setValues", valuesType);
+                this.values = valuesType.getMethod("getValue");
+                this.setLang = valueType.getMethod("setLang", String.class);
+                this.setValue = valueType.getMethod("setValue", String.class);
+            } catch (ReflectiveOperationException e) {
+                throw new IllegalArgumentException(
+                        "Unsupported DATEX II multilingual string type " + stringType.getName(), e);
             }
-            MultilingualString result = new MultilingualString();
-            result.setValues(values);
-            return result;
+        }
+
+        @Override
+        public T deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+            JsonNode root = parser.getCodec().readTree(parser);
+            try {
+                Object wrapper = valuesConstructor.newInstance();
+                @SuppressWarnings("unchecked")
+                List<Object> generatedValues = (List<Object>) values.invoke(wrapper);
+                JsonNode valuesNode = root.get("values");
+                if (valuesNode != null) {
+                    for (JsonNode item : valuesNode) {
+                        Object generatedValue = valueConstructor.newInstance();
+                        JsonNode lang = item.get("lang");
+                        if (lang != null) {
+                            setLang.invoke(generatedValue, lang.asText());
+                        }
+                        JsonNode text = item.get("value");
+                        if (text != null) {
+                            setValue.invoke(generatedValue, text.asText());
+                        }
+                        generatedValues.add(generatedValue);
+                    }
+                }
+                Object result = stringConstructor.newInstance();
+                setValues.invoke(result, wrapper);
+                @SuppressWarnings("unchecked")
+                T typedResult = (T) result;
+                return typedResult;
+            } catch (ReflectiveOperationException e) {
+                throw new IOException("Failed to deserialize DATEX II multilingual string", e);
+            }
         }
     }
 }

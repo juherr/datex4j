@@ -18,16 +18,21 @@
     Small, JAXB-hiding API for reading, writing, validating and pretty-printing DATEX II XML.
   </description>
 
+  <properties>
+    <jacoco.line.minimum>0.85</jacoco.line.minimum>
+  </properties>
+
   <dependencies>
     <!-- SPI consumed by the ServiceLoader-based VersionModel registry (main code). -->
     <dependency>
       <groupId>dev.juherr.datex4j</groupId>
       <artifactId>datex4j-model-spi</artifactId>
     </dependency>
-    <!-- Aggregate of every generated model: provides the DatexModelProvider services + XSDs. -->
+    <!-- All bundled providers and schemas are present only while testing the version-neutral facade. -->
     <dependency>
       <groupId>dev.juherr.datex4j</groupId>
       <artifactId>datex4j-model</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>dev.juherr.datex4j</groupId>
@@ -52,6 +57,16 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- Mechanical LSInput adapter methods are exercised indirectly by schema compilation. -->
+            <exclude>**/ClasspathSchemas$StreamLsInput*</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
       <!--
         Consumable as a JPMS automatic module. A full module-info is intentionally deferred:
         this module depends on the generated automatic module datex4j-model and drives JAXB

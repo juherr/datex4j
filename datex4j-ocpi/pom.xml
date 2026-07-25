@@ -37,7 +37,7 @@
 
     <dependency>
       <groupId>dev.juherr.datex4j</groupId>
-      <artifactId>datex4j-model</artifactId>
+      <artifactId>datex4j-model-v3_7</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

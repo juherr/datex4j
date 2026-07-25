@@ -18,6 +18,10 @@
     Structured, error-collecting validation of DATEX II documents against the official XML Schemas.
   </description>
 
+  <properties>
+    <jacoco.line.minimum>0.85</jacoco.line.minimum>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>dev.juherr.datex4j</groupId>
@@ -31,6 +35,11 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-model</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
