@@ -57,6 +57,11 @@ jobs:
           grep -Fq "## [${RELEASE_VERSION}] -" CHANGELOG.md
           test -s ".github/release-notes/${RELEASE_VERSION}.md"
           scripts/verify-revapi-allowlist.sh
+          ./mvnw --quiet --batch-mode -N -Prelease \
+            -Dcentral.autoPublish=true -Dcentral.waitUntil=published \
+            help:effective-pom -Doutput="${RUNNER_TEMP}/effective-pom.xml"
+          grep -Fq "<autoPublish>true</autoPublish>" "${RUNNER_TEMP}/effective-pom.xml"
+          grep -Fq "<waitUntil>published</waitUntil>" "${RUNNER_TEMP}/effective-pom.xml"
           test -n "${CENTRAL_USERNAME}"
           test -n "${CENTRAL_TOKEN}"
           test -n "${GPG_PASSPHRASE}"
@@ -153,14 +158,15 @@ jobs:
             exit 0
           fi
           ./mvnw --batch-mode --no-transfer-progress \
-            -Prelease -DskipTests -DautoPublish=true -DwaitUntil=published deploy
+            -Prelease -DskipTests \
+            -Dcentral.autoPublish=true -Dcentral.waitUntil=published deploy
 
       - name: Wait for Maven Central resolution
         shell: bash
         run: |
           set -euo pipefail
           base_url="https://repo1.maven.org/maven2/dev/juherr/datex4j"
-          for attempt in $(seq 1 30); do
+          for attempt in $(seq 1 60); do
             missing=0
             while read -r artifact_id _packaging; do
               [[ -z "${artifact_id}" || "${artifact_id}" == \#* ]] && continue
@@ -178,11 +184,13 @@ jobs:
               fi
             done < config/release/public-artifacts.txt
             [[ "${missing}" -eq 0 ]] && break
-            if [[ "${attempt}" -eq 30 ]]; then
+            if [[ "${attempt}" -eq 60 ]]; then
               echo "Release did not become resolvable from Maven Central in time." >&2
+              echo "Check the deployment state at https://central.sonatype.com/publishing/deployments" >&2
+              echo "Once it reports published, re-run this failed job to keep the released commit." >&2
               exit 1
             fi
-            sleep 20
+            sleep 30
           done
           consumer_repository=$(mktemp -d)
           ./mvnw --batch-mode --no-transfer-progress \
