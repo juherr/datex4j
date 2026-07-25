@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import org.junit.jupiter.api.Test;
+import org.xml.sax.SAXException;
 
 class DatexValidatorTest {
 
@@ -73,6 +74,16 @@ class DatexValidatorTest {
 
         assertThat(result.isValid()).isFalse();
         assertThat(result.errors()).extracting(ValidationMessage::severity).contains(ValidationMessage.Severity.FATAL);
+    }
+
+    @Test
+    void recordsFatalSaxErrorsWithoutLocation() {
+        var handler = new DatexValidator.CollectingErrorHandler();
+
+        handler.recordFatalIfEmpty(new SAXException("fatal parser error"));
+
+        assertThat(handler.messages())
+                .containsExactly(new ValidationMessage(ValidationMessage.Severity.FATAL, "fatal parser error", -1, -1));
     }
 
     @Test

@@ -20,6 +20,7 @@ import dev.juherr.datex4j.validation.ValidationMessage.Severity;
 import dev.juherr.datex4j.xml.DatexMarshaller;
 import dev.juherr.datex4j.xml.DatexSchemaFactory;
 import dev.juherr.datex4j.xml.DatexXml;
+import dev.juherr.datex4j.xml.SecureXmlSource;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -100,7 +101,7 @@ public final class DatexValidator {
      */
     public ValidationResult validate(InputStream in) {
         try {
-            return validate(SecureValidationSource.from(in));
+            return validate(SecureXmlSource.from(in));
         } catch (ParserConfigurationException | SAXException e) {
             throw new DatexValidationException("Failed to configure secure XML validation", e);
         }
