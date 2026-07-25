@@ -136,9 +136,15 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if scripts/check-central-release.sh "${RELEASE_VERSION}"; then
+          status=0
+          scripts/check-central-release.sh "${RELEASE_VERSION}" || status=$?
+          if [[ "${status}" -eq 0 ]]; then
             echo "Release ${RELEASE_VERSION} is already available from Maven Central; skipping deploy."
             exit 0
+          fi
+          if [[ "${status}" -ne 1 ]]; then
+            echo "Could not determine whether ${RELEASE_VERSION} is published; refusing to deploy." >&2
+            exit "${status}"
           fi
           ./mvnw --batch-mode --no-transfer-progress \
             -Prelease -DskipTests \
@@ -149,7 +155,11 @@ jobs:
         run: |
           set -euo pipefail
           for attempt in $(seq 1 60); do
-            if scripts/check-central-release.sh "${RELEASE_VERSION}"; then
+            # Unlike the deploy guard, a transport failure is retried here: this
+            # loop only waits, so an unreachable Central is just another retry.
+            status=0
+            scripts/check-central-release.sh "${RELEASE_VERSION}" || status=$?
+            if [[ "${status}" -eq 0 ]]; then
               break
             fi
             if [[ "${attempt}" -eq 60 ]]; then
