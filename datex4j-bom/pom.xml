@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>dev.juherr.datex4j</groupId>
+    <artifactId>datex4j</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>datex4j-bom</artifactId>
+  <packaging>pom</packaging>
+
+  <name>datex4j-bom</name>
+  <description>
+    Bill of Materials (BOM) for datex4j. Import this artifact under dependencyManagement with
+    scope=import to pin every published datex4j module to a single, consistent version, then declare
+    the individual datex4j dependencies you need without repeating their version. Covers every
+    published artifact: the model SPI, the aggregate and per-version model modules (v2.0-v2.3 and
+    v3.0-v3.7), the XML/JSON codecs, validation, builders, location, the domain modules and the OCPI
+    bridge. The non-published modules (examples, integration tests) are intentionally excluded.
+  </description>
+
+  <!--
+    A BOM carries no sources: it exists solely to manage versions. It inherits the release profile
+    (source/javadoc/gpg/central-publishing) from the parent exactly like every other deployable
+    module - the source and javadoc plugins no-op on pom packaging, and the pom itself is signed and
+    published. Coverage is skipped, mirroring the datex4j-model aggregate.
+  -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- Model SPI, per-version models and the aggregate. -->
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-spi</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v2_0</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v2_1</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v2_2</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v2_3</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v3_0</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v3_1</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v3_2</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v3_3</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v3_4</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v3_5</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v3_6</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v3_7</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <!-- Codecs, validation and helper libraries. -->
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-xml</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-json</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-validation</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-builders</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-location</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <!-- Domain facades. -->
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-domain-traffic</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-domain-srti</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-domain-parking</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-domain-evcharging</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-domain-uvar</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <!-- OCPI bridge. -->
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-ocpi</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>
