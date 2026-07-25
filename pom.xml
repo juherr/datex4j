@@ -389,8 +389,10 @@
       </plugin>
 
       <!--
-        Public API compatibility. Before the first release, an unresolved RELEASE baseline is
-        tolerated. Once 0.1.0 exists, the same configuration becomes a blocking verify gate.
+        Public API compatibility. The RELEASE baseline resolves to the newest final version
+        strictly older than the current one, so it stays unresolved - and the check silently
+        compares against an empty archive - until the reactor moves past the released version.
+        This gate is only effective on a SNAPSHOT ahead of the latest release.
       -->
       <plugin>
         <groupId>org.revapi</groupId>
