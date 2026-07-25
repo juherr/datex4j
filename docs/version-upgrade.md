@@ -24,41 +24,52 @@ The steps below use a hypothetical `3.8` as the new version.
 2. **Vendor the new schemas.** Download every XSD for the target version from
    <https://docs.datex2.eu/downloads/> into the module's schema directory:
 
-   ```
+   ```text
    datex4j-model-v3_8/src/main/resources/META-INF/datex4j/schema/v3.8/
    ```
 
 3. **Add a bindings file.** Copy `datex4j-model-v3_7/src/main/xjb/bindings-v3.7.xjb` to
    `datex4j-model-v3_8/src/main/xjb/bindings-v3.8.xjb` and:
 
-   - repoint every `schemaLocation` to `.../schema/v3.8/...`;
-   - change every `<jaxb:package>` to `dev.juherr.datex4j.model.v3_8.<module>`;
-   - add/remove `<jaxb:bindings>` blocks if the version added or dropped modules;
-   - keep the `_namedAreaExtension` rename (and add any new collision workaround the version needs).
+   1. Repoint every `schemaLocation` to `.../schema/v3.8/...`.
+   2. Change every `<jaxb:package>` to `dev.juherr.datex4j.model.v3_8.<module>`.
+   3. Add or remove `<jaxb:bindings>` blocks if the version added or dropped modules.
+   4. Keep the `_namedAreaExtension` rename and add any new collision workaround the version needs.
 
 4. **Register the version.**
 
-   - Add the constant to `DatexVersion` (`V3_8("3.8")` in `datex4j-core`); update
+   1. Add the constant to `DatexVersion` (`V3_8("3.8")` in `datex4j-core`); update
      `DatexVersion.current()` if it becomes the default.
-   - Add a `DatexModelProviderV38` under `datex4j-model-v3_8/src/main/java/.../v3_8/spi/`,
+   2. Add a `DatexModelProviderV38` under `datex4j-model-v3_8/src/main/java/.../v3_8/spi/`,
      implementing `DatexModelProvider` with this version's module set (the colon-separated
      `contextPath`) and its `PayloadPublication` / `d2payload.ObjectFactory` references (plus the
      `messagecontainer` overrides if the version bundles the Exchange 2020 family). Register it in
      `datex4j-model-v3_8/src/main/resources/META-INF/services/dev.juherr.datex4j.model.spi.DatexModelProvider`.
-   - Add the `<module>datex4j-model-v3_8</module>` to the reactor `pom.xml`, a `dependencyManagement`
+   3. Add the `<module>datex4j-model-v3_8</module>` to the reactor `pom.xml`, a `dependencyManagement`
      entry for it, and a `<dependency>` on it in the `datex4j-model` aggregate `pom.xml`.
-   - Adjust `Namespaces` only if the base namespace scheme changed (stable at
+   4. Adjust `Namespaces` only if the base namespace scheme changed (stable at
      `http://datex2.eu/schema/3/<module>`).
 
-5. **Regenerate, test, document.**
+5. **Regenerate and test.**
 
    ```bash
    ./mvnw -pl datex4j-model-v3_8 clean generate-sources   # inspect the new v3_8 packages
    ./mvnw verify                                           # full build, formatting, tests
    ```
 
-   Add a round-trip test for the new version (see `DatexMultiVersionTest`) and update the README's
-   bundled-versions line.
+   Add a round-trip test for the new version (see `DatexMultiVersionTest`). If the new version becomes
+   the default, update examples and domain helpers that intentionally target the default package tree.
+
+6. **Complete the release and documentation checklist.**
+
+   1. Add the artifact to `datex4j-bom` and confirm the aggregate dependency is documented.
+   2. Update the compatibility matrices in `README.md`, `docs/guides/models-and-versions.md`, and
+     `docs/datex-test-data-sources.md`.
+   3. Update `docs/architecture.md` when the new version changes module availability or the default.
+   4. Update AFIR documentation when the release adds, removes, or changes AFIR schemas.
+   5. Add or update a runnable example when public usage changes.
+   6. Register representative fixtures and their metadata when redistributable data exists.
+   7. Record the addition under `Unreleased` in `CHANGELOG.md`.
 
 ## Versions can differ in module set
 

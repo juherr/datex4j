@@ -1,0 +1,17 @@
+# datex4j contains standalone project documentation rather than an mdBook.
+# Keep the standard Markdown rules and use Lychee for link validation. The CI
+# passes Git-managed Markdown files explicitly so generated target files stay out.
+fail-on-warnings = true
+
+[MD013]
+line_length = 120
+length_mode = "visual"
+code_blocks = false
+tables = false
+headings = false
+
+[MD024]
+siblings_only = false
+
+[MD007]
+indent = 2

@@ -1,0 +1,78 @@
+name: Documentation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  markdown:
+    name: Markdown and local links
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    env:
+      MDBOOK_LINT_VERSION: "0.14.4"
+      MDBOOK_LINT_SHA256: "2f95c82c5fc17ed15e843d2719083523c89cd3e6c99624349bbc06e8d7b10f4c"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Install mdbook-lint
+        shell: bash
+        run: |
+          archive="${RUNNER_TEMP}/mdbook-lint.tar.xz"
+          curl --fail --location --silent --show-error \
+            "https://github.com/joshrotenberg/mdbook-lint/releases/download/v${MDBOOK_LINT_VERSION}/mdbook-lint-x86_64-unknown-linux-gnu.tar.xz" \
+            --output "${archive}"
+          echo "${MDBOOK_LINT_SHA256}  ${archive}" | sha256sum --check -
+          tar --extract --xz --file "${archive}" --directory "${RUNNER_TEMP}"
+          install \
+            "${RUNNER_TEMP}/mdbook-lint-x86_64-unknown-linux-gnu/mdbook-lint" \
+            "${RUNNER_TEMP}/mdbook-lint"
+
+      - name: Lint Markdown
+        shell: bash
+        run: |
+          git ls-files -z --cached --others --exclude-standard '*.md' |
+            xargs -0 "${RUNNER_TEMP}/mdbook-lint" lint \
+              --standard-only \
+              --fail-on-warnings \
+              --output github
+
+      - name: Check local links and anchors
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          args: >-
+            --offline
+            --root-dir "${{ github.workspace }}"
+            --include-fragments=anchor-only
+            './**/*.md'
+
+  external-links:
+    name: External links
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Check external links
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          fail: false
+          args: >-
+            --root-dir "${{ github.workspace }}"
+            --include-fragments=anchor-only
+            --max-retries 3
+            --timeout 30
+            './**/*.md'

@@ -1,5 +1,7 @@
 # Official DATEX II resources
 
+> Last verified: 2026-07-25.
+
 Curated, direct links to the official DATEX II and AFIR sources this knowledge base is built from.
 Every URL below was checked (fetched or resolved) while writing this page; where an official,
 citable link could not be confirmed, that is stated explicitly instead of guessing one.
@@ -11,6 +13,8 @@ citable link could not be confirmed, that is stated explicitly instead of guessi
 ## DATEX II documentation portal
 
 - **URL:** <https://docs.datex2.eu>
+- **Official GitHub organization:** <https://github.com/DATEX-II-EU> — model repositories, country
+  profiles, extensions, webinars, and the main issue tracker.
 - **Why it matters:** the entry point to all DATEX II documentation, organized by expertise level
   (Basics → Using → Mastering → Expert), with downloads for every released version back to 2.0 and
   the current default, **v3.7**. Start here for anything not covered by the more specific links
@@ -21,13 +25,13 @@ citable link could not be confirmed, that is stated explicitly instead of guessi
 - **URL:** <https://docs.datex2.eu/downloads/modelv37/> (per-namespace `.xsd`/`.json` files, UML
   models, and release notes for v3.7)
 - **Why it matters:** this is the authoritative source of the schemas `datex4j` vendors under
-  [`datex4j-model/src/main/resources/META-INF/datex4j/schema/v3.7/`](../../datex4j-model/src/main/resources/META-INF/datex4j/schema/v3.7)
+  [the v3.7 schema directory](../../datex4j-model-v3_7/src/main/resources/META-INF/datex4j/schema/v3.7)
   and generates the JAXB model from — including the AFIR-relevant
   `DATEXII_3_EnergyInfrastructure.xsd`, `DATEXII_3_AfirEnergyInfrastructure.xsd` and
   `DATEXII_3_AfirFacilities.xsd`. If a generated class's shape looks surprising, this is the schema
   to check against.
 
-## Developer Guide
+## Developer guide
 
 - **URL:** <https://docs.datex2.eu/levels/developers/> ("Developer's Corner")
 - **Why it matters:** documents JAXB code-generation pitfalls directly relevant to how `datex4j`
@@ -35,7 +39,7 @@ citable link could not be confirmed, that is stated explicitly instead of guessi
   a known naming conflict between abstract and concrete `NamedArea` classes in the
   LocationReferencing module. Useful background if you ever need to regenerate or extend the model.
 
-## User Guide
+## User guide
 
 - **URL:** <https://docs.datex2.eu/user-guide/>
 - **Why it matters:** the conceptual reference for DATEX II as a whole — data models, XML schemas,
@@ -60,7 +64,7 @@ notes, but no sample payloads). To get a validating example in practice:
   major versions' pages do bundle example payloads, or
 - Use `datex4j`'s own committed, XSD-valid AFIR fixture as a concrete (if non-official, synthetic)
   starting point:
-  [`datex4j-integration-tests/src/test/resources/datasets/synthetic/afir-recharging/table.xml`](../../datex4j-integration-tests/src/test/resources/datasets/synthetic/afir-recharging/table.xml).
+  [synthetic AFIR fixture][synthetic-fixture].
 
 ## AFIR profile
 
@@ -71,7 +75,7 @@ notes, but no sample payloads). To get a validating example in practice:
   repository at the time of writing** — treat its contents as reference material only, and verify
   licensing terms yourself before reusing any file from it.
 - **Announcement:** [NOW GmbH — "Implementation of Article 20 AFIR: DATEX II data profile now ready
-  for use"](https://www.now-gmbh.de/en/news/pressreleases/implementation-of-article-20-afir-datex-2-data-profile-now-ready-for-use/) —
+  for use"][now-announcement] —
   confirms profile version `01-00-00`, its availability through Germany's NAP (Mobilithek, run by
   the Federal Ministry of Transport), and that DATEX II use becomes mandatory there from 14 April
   2026.
@@ -80,7 +84,7 @@ notes, but no sample payloads). To get a validating example in practice:
   points implementers toward; it is a paid CEN document, not freely downloadable, but the
   specifications page confirms its scope and part number.
 
-## Regulation and National Access Points
+## Regulation and national access points
 
 - **Regulation (EU) 2023/1804 (AFIR):**
   <https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32023R1804> — the legal text
@@ -88,3 +92,6 @@ notes, but no sample payloads). To get a validating example in practice:
 - **European NAP catalogue:** <https://datex2.naps.inqms.tamtamresearch.com/> — a community survey
   of DATEX II availability across European National Access Points; useful as a starting point when
   looking for a specific country's NAP (see the [country pages](./README.md#country-pages)).
+
+[now-announcement]: https://www.now-gmbh.de/en/news/pressreleases/implementation-of-article-20-afir-datex-2-data-profile-now-ready-for-use/
+[synthetic-fixture]: ../../datex4j-integration-tests/src/test/resources/datasets/synthetic/afir-recharging/table.xml

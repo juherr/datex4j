@@ -1,0 +1,5 @@
+# Authenticated or access-gated portals documented intentionally.
+^https://contentportal\.asfinag\.at/.*
+^https://mobilithek\.info/.*
+^https://nap\.vd\.dk/.*
+^https://trafficdata\.se/.*

@@ -1,8 +1,10 @@
 # Dataset: finland / afir-fintraffic
 
+> Source access last verified: 2026-07-25. Snapshot dates belong to individual dataset records.
+
 - **Source URL:** <https://afir.digitraffic.fi/api/charging-network/v1/locations/datex2-3.6>
   (Fintraffic / digitraffic.fi AFIR charging-network feed)
-- **Licence:** Creative Commons 4.0 BY (CC BY 4.0) — attribution: **"Source: Fintraffic /
+- **License:** Creative Commons 4.0 BY (CC BY 4.0) — attribution: **"Source: Fintraffic /
   digitraffic.fi, license CC 4.0 BY"**. Confirmed via Fintraffic's
   [Terms of use](https://www.fintraffic.fi/en/fintraffic/terms-use).
 - **Download date:** 2026-07-24
@@ -15,7 +17,7 @@
 - **Remarks:** Real values from the live Fintraffic AFIR feed, **trimmed** from the full response
   (~13 MB across 18 tables and thousands of sites) down to a single site so it is small enough to
   commit. Values are unmodified. The feed serves **JSON only** (no XML), so this dataset exercises
-  the [`JsonRoundTrip`](../../../../java/dev/juherr/datex4j/it/support/JsonRoundTrip.java) path of
+  the [`JsonRoundTrip`](../../../java/dev/juherr/datex4j/it/support/JsonRoundTrip.java) path of
   the harness — parse into a `MessageContainer`, then an idempotent conformant-JSON round-trip that
   preserves the site's real identity, name and connector type. To refresh, re-fetch the endpoint and
   trim to one `energyInfrastructureTable` / `energyInfrastructureSite` entry. This is the same real
@@ -32,10 +34,11 @@
 - **Endpoints:** see [`docs/afir/nap/finland.md`](../../../../../../docs/afir/nap/finland.md) for the
   full list (locations, statuses, operators, tariffs, MQTT).
 - **How to obtain:** query `GET /api/charging-network/v1/locations/datex2-3.6` for the DATEX II JSON
-  representation directly (no registration mentioned for the REST endpoints). Two headers are
-  **required** by Digitraffic, or the endpoint answers `406`:
-  - `Digitraffic-User: <a free-form identifier for your client>`
-  - gzip: send `Accept-Encoding: gzip` (curl's `--compressed` does this and decompresses the reply).
+  representation directly (no registration mentioned for the REST endpoints).
+
+  Digitraffic requires `Digitraffic-User: <a free-form identifier for your client>` and
+  `Accept-Encoding: gzip`; otherwise the endpoint answers `406`. Curl's `--compressed` option sends
+  the latter header and decompresses the reply.
 
   ```bash
   curl -s --compressed \
@@ -43,6 +46,7 @@
     -o /tmp/finland-full.json \
     https://afir.digitraffic.fi/api/charging-network/v1/locations/datex2-3.6
   ```
+
 - **Format / DATEX version:** DATEX II v3.6 conformant JSON; GeoJSON also available.
 - **Update frequency:** snapshots regenerated every minute.
 - **Size:** roughly 13 MB — hence not committed (see the policy in
@@ -50,7 +54,7 @@
 
 ## Whole-feed read test (opt-in, never committed)
 
-[`FinlandFullFeedReadTest`](../../../../java/dev/juherr/datex4j/it/FinlandFullFeedReadTest.java)
+[`FinlandFullFeedReadTest`](../../../java/dev/juherr/datex4j/it/FinlandFullFeedReadTest.java)
 reads the **entire** downloaded feed into a `MessageContainer` and asserts the codec drops no
 `energyInfrastructureSite` (parsed count equals the count in the raw JSON). It is **skipped** unless
 you point it at a locally downloaded copy via the `datex4j.it.finland.full` system property:
@@ -69,16 +73,16 @@ updates every minute).
 
 ---
 
-# Dataset: finland / roadworks (DATEX II v2)
+## Dataset: finland / roadworks (DATEX II v2)
 
 A second, unrelated Finnish feed: Fintraffic / Digitraffic's **road-maintenance / roadworks**
 traffic messages, published as **DATEX II v2**. Covered offline by
-[`Datex2TrafficFeedReadValidateTest`](../../../../java/dev/juherr/datex4j/it/Datex2TrafficFeedReadValidateTest.java).
+[`Datex2TrafficFeedReadValidateTest`](../../../java/dev/juherr/datex4j/it/Datex2TrafficFeedReadValidateTest.java).
 
 - **Source URL:**
   <https://tie.digitraffic.fi/api/traffic-message/v2/roadworks/datex2-2.2.3.xml> (send header
   `Digitraffic-User: <your client id>`)
-- **Licence:** Creative Commons 4.0 BY (CC BY 4.0) — attribution: **"Source: Fintraffic /
+- **License:** Creative Commons 4.0 BY (CC BY 4.0) — attribution: **"Source: Fintraffic /
   digitraffic.fi, license CC 4.0 BY"**.
 - **Download date:** 2026-07-25
 - **DATEX version:** 2.3 payload (`d2LogicalModel`, `modelBaseVersion="2"`, namespace
