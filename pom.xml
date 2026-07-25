@@ -39,6 +39,10 @@
 
   <modules>
     <module>datex4j-model-spi</module>
+    <module>datex4j-model-v2_0</module>
+    <module>datex4j-model-v2_1</module>
+    <module>datex4j-model-v2_2</module>
+    <module>datex4j-model-v2_3</module>
     <module>datex4j-model-v3_0</module>
     <module>datex4j-model-v3_1</module>
     <module>datex4j-model-v3_2</module>
@@ -111,6 +115,26 @@
       <dependency>
         <groupId>dev.juherr.datex4j</groupId>
         <artifactId>datex4j-model-spi</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v2_0</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v2_1</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v2_2</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dev.juherr.datex4j</groupId>
+        <artifactId>datex4j-model-v2_3</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

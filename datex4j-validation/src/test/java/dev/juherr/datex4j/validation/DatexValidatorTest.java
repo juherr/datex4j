@@ -74,6 +74,70 @@ class DatexValidatorTest {
     }
 
     @Test
+    void acceptsAValidV23D2LogicalModel() {
+        DatexValidator v23 = DatexValidator.forVersion(DatexVersion.V2_3);
+
+        ValidationResult result = v23.validate(validV23D2LogicalModel());
+
+        assertThat(result.isValid()).isTrue();
+        assertThat(result.errors()).isEmpty();
+    }
+
+    @Test
+    void acceptsAValidV21D2LogicalModel() {
+        DatexValidator v21 = DatexValidator.forVersion(DatexVersion.V2_1);
+
+        ValidationResult result = v21.validate(validV21D2LogicalModel());
+
+        assertThat(result.isValid()).isTrue();
+        assertThat(result.errors()).isEmpty();
+    }
+
+    private static jakarta.xml.bind.JAXBElement<dev.juherr.datex4j.model.v2_3.D2LogicalModel> validV23D2LogicalModel() {
+        var factory = new dev.juherr.datex4j.model.v2_3.ObjectFactory();
+        var root = factory.createD2LogicalModel();
+        root.setModelBaseVersion("2");
+        var exchange = new dev.juherr.datex4j.model.v2_3.Exchange();
+        var supplier = new dev.juherr.datex4j.model.v2_3.InternationalIdentifier();
+        supplier.setCountry(dev.juherr.datex4j.model.v2_3.CountryEnum.GB);
+        supplier.setNationalIdentifier("datex4j");
+        exchange.setSupplierIdentification(supplier);
+        root.setExchange(exchange);
+        var publication = new dev.juherr.datex4j.model.v2_3.GenericPublication();
+        publication.setLang("en");
+        publication.setPublicationTime(dateTime());
+        var creator = new dev.juherr.datex4j.model.v2_3.InternationalIdentifier();
+        creator.setCountry(dev.juherr.datex4j.model.v2_3.CountryEnum.GB);
+        creator.setNationalIdentifier("datex4j");
+        publication.setPublicationCreator(creator);
+        publication.setGenericPublicationName("datex4j-test");
+        root.setPayloadPublication(publication);
+        return factory.createD2LogicalModel(root);
+    }
+
+    private static jakarta.xml.bind.JAXBElement<dev.juherr.datex4j.model.v2_1.D2LogicalModel> validV21D2LogicalModel() {
+        var factory = new dev.juherr.datex4j.model.v2_1.ObjectFactory();
+        var root = factory.createD2LogicalModel();
+        root.setModelBaseVersion("2");
+        var exchange = new dev.juherr.datex4j.model.v2_1.Exchange();
+        var supplier = new dev.juherr.datex4j.model.v2_1.InternationalIdentifier();
+        supplier.setCountry(dev.juherr.datex4j.model.v2_1.CountryEnum.GB);
+        supplier.setNationalIdentifier("datex4j");
+        exchange.setSupplierIdentification(supplier);
+        root.setExchange(exchange);
+        var publication = new dev.juherr.datex4j.model.v2_1.GenericPublication();
+        publication.setLang("en");
+        publication.setPublicationTime(dateTime());
+        var creator = new dev.juherr.datex4j.model.v2_1.InternationalIdentifier();
+        creator.setCountry(dev.juherr.datex4j.model.v2_1.CountryEnum.GB);
+        creator.setNationalIdentifier("datex4j");
+        publication.setPublicationCreator(creator);
+        publication.setGenericPublicationName("datex4j-test");
+        root.setPayloadPublication(publication);
+        return factory.createD2LogicalModel(root);
+    }
+
+    @Test
     void acceptsAValidV35Publication() {
         DatexValidator v35 = DatexValidator.forVersion(DatexVersion.V3_5);
 

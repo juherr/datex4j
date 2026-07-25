@@ -23,11 +23,15 @@ import java.util.Set;
  * Locations of the official DATEX II XML Schemas bundled on the classpath by {@code datex4j-model}.
  *
  * <p>The schemas are packaged as classpath resources so that tools such as the XML marshaller can
- * validate documents without touching the file system. {@link #ROOT_SCHEMA} imports every payload
- * module schema; from Exchange 2020 onwards {@link #MESSAGE_CONTAINER_SCHEMA} additionally declares
- * the {@code messageContainer} envelope. {@link #rootSchemas(DatexVersion)} returns the full set of
+ * validate documents without touching the file system.
+ *
+ * <p>DATEX II v3 is modular: {@link #ROOT_SCHEMA} imports every payload module schema, and from
+ * Exchange 2020 onwards {@link #MESSAGE_CONTAINER_SCHEMA} additionally declares the {@code
+ * messageContainer} envelope. DATEX II v2 is monolithic instead: a single {@code
+ * DATEXIISchema_2_2_x.xsd} declares the whole model rooted at {@code d2LogicalModel}, so its root
+ * schema file name is version-specific. {@link #rootSchemas(DatexVersion)} returns the full set of
  * root schema resources needed to build a validating {@code javax.xml.validation.Schema} that
- * recognises both payload-rooted and container-rooted documents.
+ * recognises the documents of a version.
  */
 public final class DatexSchemas {
 
@@ -80,14 +84,39 @@ public final class DatexSchemas {
     }
 
     /**
+     * Returns the file name of the root schema for a version.
+     *
+     * <p>For v3 this is the modular {@link #ROOT_SCHEMA}; for v2 it is the version-specific
+     * monolithic schema, for example {@code DATEXIISchema_2_2_3.xsd} for v2.3.
+     *
+     * @param version the DATEX II version
+     * @return the root schema file name
+     * @throws NullPointerException if {@code version} is {@code null}
+     */
+    public static String rootSchemaFileName(DatexVersion version) {
+        requireVersion(version);
+        if (isV2(version)) {
+            // v2 minors share a single monolithic schema whose name encodes the minor: v2.3 ->
+            // DATEXIISchema_2_2_3.xsd.
+            String minor = version.id().substring(version.id().indexOf('.') + 1);
+            return "DATEXIISchema_2_2_" + minor + ".xsd";
+        }
+        return ROOT_SCHEMA;
+    }
+
+    /**
      * Returns the classpath resource path of the root schema for a version.
      *
      * @param version the DATEX II version
-     * @return the classpath resource path of {@link #ROOT_SCHEMA}
+     * @return the classpath resource path of the version's root schema
      * @throws NullPointerException if {@code version} is {@code null}
      */
     public static String rootSchema(DatexVersion version) {
-        return resource(version, ROOT_SCHEMA);
+        return resource(version, rootSchemaFileName(version));
+    }
+
+    private static boolean isV2(DatexVersion version) {
+        return version.id().startsWith("2.");
     }
 
     /**
