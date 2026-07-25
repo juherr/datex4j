@@ -19,6 +19,8 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 - Documentation checks based on `mdbook-lint` and Lychee.
 - Consumer-classpath verification for applications that install a single DATEX II model.
 - Adversarial XML tests covering DTDs, external entities, and recursive entity expansion.
+- A single contributor verification command with isolated Maven consumer checks, actionable
+  failure logs, coverage summaries, and GitHub Actions linting.
 
 ### Changed
 
