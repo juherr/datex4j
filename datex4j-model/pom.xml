@@ -16,13 +16,29 @@
   <name>datex4j-model</name>
   <description>
     Aggregate of every generated DATEX II model version. Depending on this artifact pulls in all
-    datex4j-model-vX_Y modules (v3.0 through v3.7) transitively, together with their bundled XSD
+    datex4j-model-vX_Y modules (v2.0 through v2.3 and v3.0 through v3.7) transitively, together with their bundled XSD
     resources and ServiceLoader-registered DatexModelProvider implementations. Consumers that only
     need a single version may depend on the matching datex4j-model-vX_Y module directly instead.
   </description>
 
   <dependencies>
     <!-- Re-expose every per-version model (and, transitively, datex4j-model-spi + datex4j-core). -->
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-model-v2_0</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-model-v2_1</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-model-v2_2</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-model-v2_3</artifactId>
+    </dependency>
     <dependency>
       <groupId>dev.juherr.datex4j</groupId>
       <artifactId>datex4j-model-v3_0</artifactId>

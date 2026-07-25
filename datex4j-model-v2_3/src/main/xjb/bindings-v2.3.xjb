@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  JAXB (Jakarta XML Binding 4.x) binding customization for the DATEX II v2.3 schema.
+
+  DATEX II v2 ships a single, monolithic schema (one XSD per minor) in the namespace
+  http://datex2.eu/schema/2/2_0, so the whole model is generated into a single, version-scoped
+  package (dev.juherr.datex4j.model.v2_3) to let all bundled versions coexist in one classpath.
+
+  Follows the official DATEX II developer recommendations:
+    * underscoreBinding="asCharInWord" keeps DATEX II's leading underscores.
+  schemaLocation paths are relative to this file.
+-->
+<jaxb:bindings xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               version="3.0">
+
+  <jaxb:globalBindings underscoreBinding="asCharInWord" />
+
+  <jaxb:bindings schemaLocation="../resources/META-INF/datex4j/schema/v2.3/DATEXIISchema_2_2_3.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="dev.juherr.datex4j.model.v2_3" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+
+</jaxb:bindings>
