@@ -3,8 +3,9 @@
 This directory holds committed real-world DATEX II v3 datasets from the Dutch National Data Warehouse
 for Traffic Information (NDW, <http://opendata.ndw.nu>, all **CC0**): **traffic situations**, **SRTI
 safety-related messages**, **emission zones (UVAR)** and **truck-parking status**. It also documents
-an opt-in, never-committed source (**roadworks/events planning feed**, ~171 MB) and a second
-Netherlands AFIR source (**AFIR charging points**) that is not committed yet.
+opt-in, never-committed sources (the v3 **roadworks/events planning feed**, ~171 MB, and the
+**DATEX II v2 measurement feeds**, up to ~390 MB) and a second Netherlands AFIR source (**AFIR
+charging points**) that is not committed yet.
 
 The situations / SRTI / emission-zones / roadworks feeds are all Exchange-2020 `mc:messageContainer`
 documents (`modelBaseVersion="3"`). They are read into the v3.7 `MessageContainer` model and their
@@ -100,6 +101,38 @@ feed's now-known validity verdict.
   references, whereas the bundled DATEX II XSD fixes that prefix as `prk:`. This real-world prefix
   drift makes the payload **XSD-invalid** even though it **parses** cleanly into the model — hence
   the read-only treatment rather than the seven mandatory XML checks.
+
+## Opt-in (never committed): DATEX II v2 measurement feeds
+
+NDW also publishes **DATEX II v2** feeds. Three are covered by
+[`NdwMeasurementV2ReadTest`](../../../../java/dev/juherr/datex4j/it/NdwMeasurementV2ReadTest.java):
+
+- **Source URLs:** <http://opendata.ndw.nu/measurement_current.xml.gz> (`MeasurementSiteTablePublication`),
+  <http://opendata.ndw.nu/trafficspeed.xml.gz> and <http://opendata.ndw.nu/traveltime.xml.gz>
+  (`MeasuredDataPublication`).
+- **Licence:** CC0 (public domain; redistribute freely, no attribution required).
+- **DATEX version:** 2.0 (`d2LogicalModel`, `modelBaseVersion="2"`, namespace
+  `http://datex2.eu/schema/2/2_0`).
+- **Size:** ~12 MB gzipped / **~390 MB uncompressed** for `measurement_current` — far too large to
+  commit.
+- **SOAP wrapper — important:** unlike the small committed v2 fixtures, **these feeds are
+  SOAP-wrapped**: the DATEX II `d2LogicalModel` is nested inside a `<SOAP:Envelope>`/`<SOAP:Body>`
+  (`http://schemas.xmlsoap.org/soap/envelope/`). **datex4j reads a `d2LogicalModel` root, not a SOAP
+  envelope**, so you must strip the envelope first (slice out the inner `d2LogicalModel` element)
+  before handing the bytes to the codec. `NdwMeasurementV2ReadTest` does exactly this and documents
+  the technique.
+- **How to obtain and run:** the test is skipped unless `-Ddatex4j.it.ndw.v2measurement=<path>`
+  points at a downloaded copy (a `.gz` path is gunzipped transparently). Run with a generous heap:
+
+  ```bash
+  curl -sL -o /tmp/ndw-measurement.xml.gz http://opendata.ndw.nu/measurement_current.xml.gz
+  MAVEN_OPTS=-Xmx6g ./mvnw -pl datex4j-integration-tests test \
+    -Dtest=NdwMeasurementV2ReadTest \
+    -DargLine=-Xmx6g \
+    -Ddatex4j.it.ndw.v2measurement=/tmp/ndw-measurement.xml.gz
+  ```
+- **Observed (2026-07-25):** `measurement_current` (~390 MB uncompressed) strips, reads into a v2.0
+  `MeasurementSiteTablePublication`, and **validates cleanly against v2.0 (zero errors)**.
 
 ## Not committed: AFIR charging points (DOT-NL)
 

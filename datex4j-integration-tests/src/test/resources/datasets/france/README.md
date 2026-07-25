@@ -1,8 +1,54 @@
 # Dataset: france
 
-This directory holds one committed real-world DATEX II v3 dataset (**DiaLog traffic regulations**,
-below). A separate AFIR charging-point source is documented but not committed (it is CSV/GeoJSON, not
-DATEX II).
+This directory holds committed real-world DATEX II datasets: one **v3** feed (**DiaLog traffic
+regulations**) and two **v2** feeds (**speeds** and **events**, both from Bison Futé / Tipi). A
+separate AFIR charging-point source is documented but not committed (it is CSV/GeoJSON, not DATEX
+II).
+
+The two v2 feeds are covered offline by
+[`Datex2TrafficFeedReadValidateTest`](../../../../java/dev/juherr/datex4j/it/Datex2TrafficFeedReadValidateTest.java),
+which reads each into the version-scoped `D2LogicalModel` (a v2 document is rooted at
+`d2LogicalModel`, not at a bare publication) and reports its XSD verdict.
+
+## Committed dataset: speeds
+
+- **Source URL:** <https://transport.data.gouv.fr/resources/79165/download> (Bison Futé / Tipi,
+  published on France's National Access Point transport.data.gouv.fr)
+- **Licence:** Licence Ouverte / Open Licence, version 2.0 — attribution: **"Source: Bison Futé /
+  Tipi (transport.data.gouv.fr), Licence Ouverte 2.0"**.
+- **Download date:** 2026-07-25
+- **DATEX version:** 2.2 (`d2LogicalModel`, `modelBaseVersion="2"`, namespace
+  `http://datex2.eu/schema/2/2_0`)
+- **Profile / publication:** `MeasuredDataPublication` (measured traffic flow / speed)
+- **Country:** France
+- **Expected object counts:** 1 `exchange`, 1 `MeasuredDataPublication`, **2 `siteMeasurements`**
+  (trimmed from 1184 in the full ~1.2 MB feed).
+- **Remarks:** Bare `d2LogicalModel` on the wire. **Trimmed to the first 2 `siteMeasurements`**; the
+  `exchange`, publication header and all values are unmodified. Reads into a v2.2
+  `MeasuredDataPublication`; the measurement-site reference id `MUM76.h1` survives re-serialization.
+- **Known quirks:** v2.2 validation reports it **valid (zero errors)**.
+
+## Committed dataset: events
+
+- **Source URL:** <https://transport.data.gouv.fr/resources/79173/download> (Bison Futé / Tipi
+  "Evenementiel-DIR" event feed, transport.data.gouv.fr)
+- **Licence:** Licence Ouverte / Open Licence, version 2.0 — attribution: **"Source: Bison Futé /
+  Tipi (transport.data.gouv.fr), Licence Ouverte 2.0"**.
+- **Download date:** 2026-07-25
+- **DATEX version:** 2.2 (`d2LogicalModel`, `modelBaseVersion="2"`, namespace
+  `http://datex2.eu/schema/2/2_0`)
+- **Profile / publication:** `SituationPublication`
+- **Country:** France
+- **Expected object counts:** 1 `exchange`, 1 `SituationPublication`, 1 `situation` with 1
+  `situationRecord` (a `VehicleObstruction`).
+- **Remarks:** **The `79173/download` resource is an Apache directory index**, not a single feed;
+  each entry (e.g. `3405697.xml`) is one publication **wrapped in a `<soap:Envelope>`**. datex4j
+  reads `d2LogicalModel`, not SOAP envelopes, so the committed fixture is the **SOAP-unwrapped**
+  inner `d2LogicalModel` — only the `<soap:Envelope>`/`<soap:Body>` wrapper was stripped; all
+  DATEX II values are unmodified. Reads into a v2.2 `SituationPublication`; the situation id
+  `260724-000456` survives re-serialization.
+- **Known quirks:** v2.2 validation reports it **valid (zero errors)**. If you fetch a fresh file
+  yourself, strip the `<soap:Envelope>`/`<soap:Body>` wrapper before handing the bytes to datex4j.
 
 ## Committed dataset: dialog-regulations
 
