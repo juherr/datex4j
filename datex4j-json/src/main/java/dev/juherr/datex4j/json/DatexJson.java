@@ -40,9 +40,9 @@ import dev.juherr.datex4j.core.DatexVersion;
  * National Access Points (NAPs), anchored against a real-world Fintraffic AFIR fixture; it may
  * need to adapt once an official JSON binding is published.
  *
- * <p>Both bundled DATEX II model versions are supported via {@link
- * Builder#version(DatexVersion)}: pass {@link DatexVersion#V3_6} or {@link DatexVersion#V3_7} (the
- * default is {@link DatexVersion#current()}).
+ * <p>DATEX II 3.6 and 3.7 are covered by conformant JSON fixtures. Select the model through {@link
+ * Builder#version(DatexVersion)} and add the matching {@code datex4j-model-vX_Y} artifact at
+ * runtime. The default is {@link DatexVersion#current()}.
  *
  * <p>Use {@link #createMapper()} for the default configuration (pretty-printed) or {@link
  * #builder()} to customize it.

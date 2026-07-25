@@ -20,14 +20,15 @@ import dev.juherr.datex4j.validation.ValidationMessage.Severity;
 import dev.juherr.datex4j.xml.DatexMarshaller;
 import dev.juherr.datex4j.xml.DatexSchemaFactory;
 import dev.juherr.datex4j.xml.DatexXml;
+import dev.juherr.datex4j.xml.SecureXmlSource;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.XMLConstants;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
 import org.xml.sax.ErrorHandler;
@@ -88,7 +89,7 @@ public final class DatexValidator {
      * @throws DatexValidationException if the document cannot be read
      */
     public ValidationResult validate(byte[] xml) {
-        return validate(new StreamSource(new ByteArrayInputStream(xml)));
+        return validate(new ByteArrayInputStream(xml));
     }
 
     /**
@@ -99,7 +100,11 @@ public final class DatexValidator {
      * @throws DatexValidationException if the document cannot be read
      */
     public ValidationResult validate(InputStream in) {
-        return validate(new StreamSource(in));
+        try {
+            return validate(SecureXmlSource.from(in));
+        } catch (ParserConfigurationException | SAXException e) {
+            throw new DatexValidationException("Failed to configure secure XML validation", e);
+        }
     }
 
     /**
@@ -127,6 +132,9 @@ public final class DatexValidator {
         try {
             validator.validate(source);
         } catch (SAXException e) {
+            if (e.getCause() instanceof IOException io) {
+                throw new DatexValidationException("Failed to read the document to validate", io);
+            }
             // A fatal error was already reported to the handler before the parser gave up.
             handler.recordFatalIfEmpty(e);
         } catch (IOException e) {
@@ -135,7 +143,7 @@ public final class DatexValidator {
         return new ValidationResult(handler.messages());
     }
 
-    private static final class CollectingErrorHandler implements ErrorHandler {
+    static final class CollectingErrorHandler implements ErrorHandler {
 
         private final List<ValidationMessage> messages = new ArrayList<>();
 

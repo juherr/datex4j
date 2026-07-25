@@ -21,6 +21,8 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -42,6 +44,13 @@ import org.xml.sax.SAXException;
  */
 final class ClasspathSchemas {
 
+    private static final ClassValue<ConcurrentMap<DatexVersion, Schema>> CACHE = new ClassValue<>() {
+        @Override
+        protected ConcurrentMap<DatexVersion, Schema> computeValue(Class<?> type) {
+            return new ConcurrentHashMap<>();
+        }
+    };
+
     private ClasspathSchemas() {}
 
     /**
@@ -52,9 +61,14 @@ final class ClasspathSchemas {
      * @throws DatexXmlException if the schemas cannot be found or compiled
      */
     static Schema load(DatexVersion version) {
+        Class<?> providerType = VersionModel.of(version).getClass();
+        return CACHE.get(providerType)
+                .computeIfAbsent(version, ignored -> compile(version, providerType.getClassLoader()));
+    }
+
+    private static Schema compile(DatexVersion version, ClassLoader loader) {
         String directory = DatexSchemas.resourceDirectory(version);
         List<String> rootResources = DatexSchemas.rootSchemas(version);
-        ClassLoader loader = ClasspathSchemas.class.getClassLoader();
 
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         try {

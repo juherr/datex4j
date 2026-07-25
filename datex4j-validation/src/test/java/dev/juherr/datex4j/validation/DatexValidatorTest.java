@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import org.junit.jupiter.api.Test;
+import org.xml.sax.SAXException;
 
 class DatexValidatorTest {
 
@@ -52,6 +53,52 @@ class DatexValidatorTest {
         assertThat(result.isValid()).isFalse();
         assertThat(result.errors()).isNotEmpty();
         assertThat(result.errors().get(0).lineNumber()).isPositive();
+    }
+
+    @Test
+    void rejectsDocumentsThatDeclareEntities() {
+        String valid = DatexXml.builder().build().writeToString(validPublication());
+        String invalid = valid.replaceFirst("\\?>", "?><!DOCTYPE situationPublication [<!ENTITY probe \"en\">]>")
+                .replace("lang=\"en\"", "lang=\"&probe;\"");
+
+        ValidationResult result = validator.validate(invalid.getBytes(StandardCharsets.UTF_8));
+
+        assertThat(result.isValid()).isFalse();
+        assertThat(result.errors())
+                .anySatisfy(message -> assertThat(message.message()).containsIgnoringCase("DOCTYPE"));
+    }
+
+    @Test
+    void reportsMalformedXmlAsAFatalValidationMessage() {
+        ValidationResult result = validator.validate("<broken".getBytes(StandardCharsets.UTF_8));
+
+        assertThat(result.isValid()).isFalse();
+        assertThat(result.errors()).extracting(ValidationMessage::severity).contains(ValidationMessage.Severity.FATAL);
+    }
+
+    @Test
+    void recordsFatalSaxErrorsWithoutLocation() {
+        var handler = new DatexValidator.CollectingErrorHandler();
+
+        handler.recordFatalIfEmpty(new SAXException("fatal parser error"));
+
+        assertThat(handler.messages())
+                .containsExactly(new ValidationMessage(ValidationMessage.Severity.FATAL, "fatal parser error", -1, -1));
+    }
+
+    @Test
+    void wrapsIoFailuresFromInputStreams() {
+        InputStream failing = new InputStream() {
+            @Override
+            public int read() throws IOException {
+                throw new IOException("simulated read failure");
+            }
+        };
+
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> validator.validate(failing))
+                .isInstanceOf(DatexValidationException.class)
+                .hasMessageContaining("Failed to read the document to validate")
+                .hasRootCauseMessage("simulated read failure");
     }
 
     @Test

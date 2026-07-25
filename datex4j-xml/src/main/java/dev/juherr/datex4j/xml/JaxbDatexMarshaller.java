@@ -28,7 +28,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.validation.Schema;
+import org.xml.sax.SAXException;
 
 /**
  * Default {@link DatexMarshaller} implementation backed by JAXB.
@@ -49,12 +51,7 @@ final class JaxbDatexMarshaller implements DatexMarshaller {
         this.prettyPrint = prettyPrint;
         this.charset = charset;
         this.model = VersionModel.of(version);
-        try {
-            this.context =
-                    JAXBContext.newInstance(model.contextPath(), getClass().getClassLoader());
-        } catch (JAXBException e) {
-            throw new DatexXmlException("Failed to initialize the DATEX II JAXB context", e);
-        }
+        this.context = JaxbContexts.get(model);
         this.schema = validating ? ClasspathSchemas.load(version) : null;
     }
 
@@ -109,12 +106,12 @@ final class JaxbDatexMarshaller implements DatexMarshaller {
             if (schema != null) {
                 unmarshaller.setSchema(schema);
             }
-            Object result = unmarshaller.unmarshal(in);
+            Object result = unmarshaller.unmarshal(SecureXmlSource.from(in));
             if (result instanceof JAXBElement<?> element) {
                 result = element.getValue();
             }
             return type.cast(result);
-        } catch (JAXBException e) {
+        } catch (JAXBException | ParserConfigurationException | SAXException e) {
             throw new DatexXmlException("Failed to read DATEX II XML", e);
         }
     }

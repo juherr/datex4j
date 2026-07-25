@@ -10,40 +10,38 @@
     <version>0.1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>datex4j-location</artifactId>
+  <artifactId>datex4j-consumer-tests</artifactId>
   <packaging>jar</packaging>
 
-  <name>datex4j-location</name>
-  <description>
-    Cross-cutting helpers for DATEX II location referencing (used by every user domain).
-  </description>
+  <name>datex4j-consumer-tests</name>
+  <description>Consumer-classpath tests for optional DATEX II model isolation. Not published.</description>
+
+  <properties>
+    <maven.deploy.skip>true</maven.deploy.skip>
+    <maven.install.skip>true</maven.install.skip>
+  </properties>
 
   <dependencies>
     <dependency>
       <groupId>dev.juherr.datex4j</groupId>
-      <artifactId>datex4j-model-v3_7</artifactId>
+      <artifactId>datex4j-xml</artifactId>
+      <scope>test</scope>
     </dependency>
-
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-json</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-model-v3_7</artifactId>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifestEntries>
-              <Automatic-Module-Name>dev.juherr.datex4j.location</Automatic-Module-Name>
-            </manifestEntries>
-          </archive>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>
