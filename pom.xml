@@ -52,6 +52,7 @@
     <module>datex4j-model-v3_6</module>
     <module>datex4j-model-v3_7</module>
     <module>datex4j-model</module>
+    <module>datex4j-bom</module>
     <module>datex4j-core</module>
     <module>datex4j-xml</module>
     <module>datex4j-builders</module>

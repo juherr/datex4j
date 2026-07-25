@@ -29,6 +29,7 @@ carries no framework dependencies.
 | `datex4j-validation`| Structured, error-collecting validation against the official XSDs.               |
 | `datex4j-builders`| Fluent `PublicationBuilder` foundation shared by the domain modules.               |
 | `datex4j-location`| Cross-cutting helpers for DATEX II location referencing.                          |
+| `datex4j-bom`     | Bill of Materials: pins every published datex4j module to one version (see [Version management](#version-management)). |
 | `examples`        | Runnable end-to-end examples (not published).                                     |
 
 **Domain modules** — one per official [DATEX II user domain](https://datex2.eu/user-domains/), each
@@ -57,6 +58,38 @@ Bundled DATEX II versions: the full v3 family **3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.
 schema, and that set changes across minors (for example the Parking module first appears in v3.3,
 and v3.5 predates ControlledZone, TrafficRegulation and the MessageContainer family), so a given
 version's model contains only the modules that version defines.
+
+## Version management
+
+datex4j publishes many modules that must share one version. Import the `datex4j-bom` under
+`<dependencyManagement>` with `scope=import`, then declare the datex4j dependencies you need
+**without** versions — the BOM supplies them:
+
+```xml
+<dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-bom</artifactId>
+      <version>0.1.0-SNAPSHOT</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+
+<dependencies>
+  <!-- No <version> needed: the BOM pins it. -->
+  <dependency>
+    <groupId>dev.juherr.datex4j</groupId>
+    <artifactId>datex4j-xml</artifactId>
+  </dependency>
+  <dependency>
+    <groupId>dev.juherr.datex4j</groupId>
+    <artifactId>datex4j-domain-traffic</artifactId>
+  </dependency>
+</dependencies>
+```
 
 ## Requirements
 
