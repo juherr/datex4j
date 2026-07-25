@@ -172,8 +172,10 @@ commit. It refuses conflicting tags or releases.
 
 Resume a failed release with `gh run rerun <run-id> --failed` rather than a new dispatch. A re-run
 keeps the original commit, so the signed tag still points at the code that produced the published
-artifacts. The publishing job skips the deploy when every artifact already resolves from Central,
-so the re-run only replays the remaining verification, tag, and release steps.
+artifacts. The publishing job skips the deploy only when `scripts/check-central-release.sh` resolves
+every published file — each POM plus the main, sources, and javadoc jars — so a partially propagated
+release still redeploys instead of being frozen. The re-run then replays the remaining verification,
+tag, and release steps.
 
 The publishing job drives `central-publishing-maven-plugin` through the `central.autoPublish` and
 `central.waitUntil` properties. The root POM binds them into an explicit plugin `<configuration>`,
