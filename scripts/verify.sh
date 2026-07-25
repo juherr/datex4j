@@ -32,6 +32,10 @@ print_coverage() {
     'NR > 1 { missed += $8; covered += $9 }
      END {
        total = missed + covered;
+       if (total == 0) {
+         printf "%s line coverage: 0/0 (0.0%%)\n", module;
+         exit;
+       }
        printf "%s line coverage: %d/%d (%.1f%%)\n", module, covered, total, 100 * covered / total
      }' \
     "${report}"
