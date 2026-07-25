@@ -6,7 +6,7 @@
 
   <groupId>dev.juherr.datex4j</groupId>
   <artifactId>datex4j</artifactId>
-  <version>0.1.0</version>
+  <version>0.2.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>datex4j</name>
@@ -76,7 +76,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- Reproducible builds: fixed, version-controlled timestamp. -->
-    <project.build.outputTimestamp>2026-07-23T00:00:00Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2026-07-25T00:00:00Z</project.build.outputTimestamp>
 
     <!-- Dependency versions -->
     <jakarta.xml.bind-api.version>4.0.5</jakarta.xml.bind-api.version>
