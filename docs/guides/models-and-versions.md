@@ -11,7 +11,8 @@ a small classpath, or use the aggregate when an application must process several
 | 3.x | 3.0–3.7 | `payload` or Exchange 2020 `messageContainer` | `dev.juherr.datex4j.model.v3_X.*` |
 
 `DatexVersion.current()` returns 3.7. Domain builders and location helpers target 3.7, while the XML,
-JSON, and validation facades can select any bundled model.
+XML and validation facades can select any bundled model. Conformant JSON fixtures currently cover
+DATEX II 3.6 and 3.7.
 
 AFIR-specific `AfirEnergyInfrastructure` and `AfirFacilities` packages belong to the 3.7 model.
 Earlier 3.x releases can expose the base Energy Infrastructure model without those extensions.

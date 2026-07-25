@@ -5,7 +5,8 @@ boundary between generated standards models and handwritten library code.
 
 ## Prerequisites
 
-The project requires Java 25. [mise](https://mise.jdx.dev) provisions the JDK, and the committed
+The project requires Java 21 or newer. [mise](https://mise.jdx.dev) provisions the baseline JDK,
+CI also verifies Java 25, and the committed
 Maven wrapper pins Maven.
 
 ```bash
@@ -31,7 +32,9 @@ Each version module owns its schemas, XJC bindings, generated classes, and a sma
 facades to discover only the versions present on the classpath.
 
 Handwritten support code lives in the facade, helper, domain, and integration modules. The
-`examples` and `datex4j-integration-tests` modules verify public behavior and are not published.
+`examples`, `datex4j-consumer-tests`, and `datex4j-integration-tests` modules verify public behavior
+and are not published. Consumer tests deliberately install one model version and must remain free
+of the all-version aggregate.
 
 ## Generated sources
 

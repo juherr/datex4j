@@ -29,7 +29,9 @@ class MultilingualStringJsonTest {
     private static ObjectMapper newMapper() {
         SimpleModule module = new SimpleModule();
         module.addSerializer(MultilingualString.class, new MultilingualStringJson.Serializer());
-        module.addDeserializer(MultilingualString.class, new MultilingualStringJson.Deserializer());
+        module.addDeserializer(
+                MultilingualString.class,
+                new MultilingualStringJson.Deserializer<>(MultilingualString.class, MultilingualStringValue.class));
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(module);
         return mapper;

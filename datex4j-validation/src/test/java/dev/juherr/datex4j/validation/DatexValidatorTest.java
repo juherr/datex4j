@@ -55,6 +55,42 @@ class DatexValidatorTest {
     }
 
     @Test
+    void rejectsDocumentsThatDeclareEntities() {
+        String valid = DatexXml.builder().build().writeToString(validPublication());
+        String invalid = valid.replaceFirst("\\?>", "?><!DOCTYPE situationPublication [<!ENTITY probe \"en\">]>")
+                .replace("lang=\"en\"", "lang=\"&probe;\"");
+
+        ValidationResult result = validator.validate(invalid.getBytes(StandardCharsets.UTF_8));
+
+        assertThat(result.isValid()).isFalse();
+        assertThat(result.errors())
+                .anySatisfy(message -> assertThat(message.message()).containsIgnoringCase("DOCTYPE"));
+    }
+
+    @Test
+    void reportsMalformedXmlAsAFatalValidationMessage() {
+        ValidationResult result = validator.validate("<broken".getBytes(StandardCharsets.UTF_8));
+
+        assertThat(result.isValid()).isFalse();
+        assertThat(result.errors()).extracting(ValidationMessage::severity).contains(ValidationMessage.Severity.FATAL);
+    }
+
+    @Test
+    void wrapsIoFailuresFromInputStreams() {
+        InputStream failing = new InputStream() {
+            @Override
+            public int read() throws IOException {
+                throw new IOException("simulated read failure");
+            }
+        };
+
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> validator.validate(failing))
+                .isInstanceOf(DatexValidationException.class)
+                .hasMessageContaining("Failed to read the document to validate")
+                .hasRootCauseMessage("simulated read failure");
+    }
+
+    @Test
     void acceptsAValidMessageContainerDocument() {
         byte[] xml = resource("/messagecontainer/message-container-v3_7.xml");
 

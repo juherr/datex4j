@@ -23,6 +23,7 @@
     <dependency>
       <groupId>dev.juherr.datex4j</groupId>
       <artifactId>datex4j-model</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>dev.juherr.datex4j</groupId>
