@@ -12,7 +12,7 @@ helpers for common user domains, and has no application-framework dependency.
 - **Optional domain modules** for traffic, SRTI, parking, EV charging, and UVAR.
 - **Apache-2.0** licensed and versioned as a multi-module SDK.
 
-> Project status: `0.1.0-SNAPSHOT`. The architecture and public facades are in place, while domain
+> Project status: `0.1.0`. The architecture and public facades are in place, while domain
 > convenience APIs and DATEX II profile support continue to grow.
 
 ## Quick start
@@ -26,7 +26,7 @@ facade and model dependencies that your application needs.
     <dependency>
       <groupId>dev.juherr.datex4j</groupId>
       <artifactId>datex4j-bom</artifactId>
-      <version>0.1.0-SNAPSHOT</version>
+      <version>0.1.0</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -108,6 +108,8 @@ boundaries, SPI discovery, and JPMS strategy.
 - [XML, JSON, and validation](docs/guides/xml-json-validation.md) — public facade usage.
 - [Domain builders and locations](docs/guides/domain-builders-and-location.md) — convenience APIs.
 - [OCPI mapping](docs/guides/ocpi-mapping.md) — supported mappings and known limitations.
+- [API compatibility](docs/api-compatibility.md) — supported types, extensions, and migration
+  policy.
 - [AFIR / NAP knowledge base](docs/afir/README.md) — regulation, country access points, and datasets.
 - [Open DATEX II test data](docs/datex-test-data-sources.md) — cross-domain source catalogue.
 

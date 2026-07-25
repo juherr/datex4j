@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  *   datex4j-model/src/main/resources/META-INF/datex4j/schema/v3.7/*.xsd | sort -u
  * }</pre>
  */
-public final class DatexPrefixes {
+final class DatexPrefixes {
 
     private static final String BASE = "http://datex2.eu/schema/3/";
 

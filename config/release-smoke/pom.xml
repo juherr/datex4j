@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>dev.juherr.datex4j.release</groupId>
+  <artifactId>datex4j-release-smoke</artifactId>
+  <version>1</version>
+
+  <name>datex4j release smoke test</name>
+  <description>Standalone consumer used to verify staged and published datex4j artifacts.</description>
+  <url>https://github.com/juherr/datex4j</url>
+
+  <properties>
+    <maven.compiler.release>21</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <datex4j.version>0.1.0</datex4j.version>
+    <datex4j.repository>https://repo1.maven.org/maven2</datex4j.repository>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>datex4j-release-under-test</id>
+      <url>${datex4j.repository}</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-xml</artifactId>
+      <version>${datex4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>dev.juherr.datex4j</groupId>
+      <artifactId>datex4j-model-v3_7</artifactId>
+      <version>${datex4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>6.1.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.15.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.6</version>
+      </plugin>
+    </plugins>
+  </build>
+</project>

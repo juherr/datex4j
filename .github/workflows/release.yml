@@ -1,0 +1,231 @@
+name: Release to Maven Central
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release version
+        required: true
+        default: 0.1.0
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: maven-central-release
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Verify and publish
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: maven-central
+    env:
+      CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+      CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      RELEASE_VERSION: ${{ inputs.version }}
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Java and signing
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          server-id: central
+          server-username: CENTRAL_USERNAME
+          server-password: CENTRAL_TOKEN
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: GPG_PASSPHRASE
+
+      - name: Validate release inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "${GITHUB_REF}" == "refs/heads/main" ]]
+          [[ "${RELEASE_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          actual_version=$(./mvnw --quiet help:evaluate -Dexpression=project.version -DforceStdout)
+          [[ "${actual_version}" == "${RELEASE_VERSION}" ]]
+          grep -Fq "## [${RELEASE_VERSION}] -" CHANGELOG.md
+          test -s ".github/release-notes/${RELEASE_VERSION}.md"
+          scripts/verify-revapi-allowlist.sh
+          test -n "${CENTRAL_USERNAME}"
+          test -n "${CENTRAL_TOKEN}"
+          test -n "${GPG_PASSPHRASE}"
+
+      - name: Verify signing capability
+        shell: bash
+        run: |
+          set -euo pipefail
+          signing_key=$(gpg --batch --with-colons --list-secret-keys | awk -F: '$1 == "sec" { print $5; exit }')
+          test -n "${signing_key}"
+          umask 077
+          GPG_PASSPHRASE_FILE="${RUNNER_TEMP}/datex4j-gpg-passphrase"
+          printf '%s' "${GPG_PASSPHRASE}" > "${GPG_PASSPHRASE_FILE}"
+          export GPG_PASSPHRASE_FILE
+          git config user.name "datex4j release workflow"
+          git config user.email "actions@users.noreply.github.com"
+          git config user.signingkey "${signing_key}"
+          git config gpg.program "$(pwd)/scripts/git-gpg-wrapper.sh"
+          git tag --sign --message "Signing check" "__signing-check-${GITHUB_RUN_ID}"
+          git tag --verify "__signing-check-${GITHUB_RUN_ID}"
+          git tag --delete "__signing-check-${GITHUB_RUN_ID}"
+
+      - name: Check existing tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          remote_tag=$(git ls-remote --tags origin "refs/tags/${RELEASE_VERSION}^{}" | awk '{print $1}')
+          if [[ -z "${remote_tag}" ]]; then
+            remote_tag=$(git ls-remote --tags origin "refs/tags/${RELEASE_VERSION}" | awk '{print $1}')
+          fi
+          if [[ -n "${remote_tag}" && "${remote_tag}" != "${GITHUB_SHA}" ]]; then
+            echo "Tag ${RELEASE_VERSION} already points to ${remote_tag}, not ${GITHUB_SHA}." >&2
+            exit 1
+          fi
+
+      - name: Verify project
+        run: ./mvnw --batch-mode --no-transfer-progress verify
+
+      - name: Build local Central bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./mvnw --batch-mode --no-transfer-progress \
+            -Prelease -DskipTests -DskipPublishing=true deploy
+          scripts/build-central-bundle.sh target/central-bundle.zip "${RELEASE_VERSION}"
+
+      - name: Validate Central bundle
+        id: bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle=$(find . -type f -name central-bundle.zip -print -quit)
+          test -n "${bundle}"
+          scripts/verify-central-bundle.sh "${bundle}" "${RELEASE_VERSION}"
+          echo "path=${bundle}" >> "${GITHUB_OUTPUT}"
+
+      - name: Test isolated Maven consumer
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle_repository=$(mktemp -d)
+          consumer_repository=$(mktemp -d)
+          unzip -q "${{ steps.bundle.outputs.path }}" -d "${bundle_repository}"
+          ./mvnw --batch-mode --no-transfer-progress \
+            -f config/release-smoke/pom.xml \
+            -Dmaven.repo.local="${consumer_repository}" \
+            -Ddatex4j.version="${RELEASE_VERSION}" \
+            -Ddatex4j.repository="file://${bundle_repository}" \
+            verify
+
+      - name: Publish to Maven Central
+        run: >
+          ./mvnw --batch-mode --no-transfer-progress
+          -Prelease -DskipTests -DautoPublish=true -DwaitUntil=published deploy
+
+      - name: Wait for Maven Central resolution
+        shell: bash
+        run: |
+          set -euo pipefail
+          base_url="https://repo1.maven.org/maven2/dev/juherr/datex4j"
+          for attempt in $(seq 1 30); do
+            missing=0
+            while read -r artifact_id _packaging; do
+              [[ -z "${artifact_id}" || "${artifact_id}" == \#* ]] && continue
+              pom_url="${base_url}/${artifact_id}/${RELEASE_VERSION}/${artifact_id}-${RELEASE_VERSION}.pom"
+              if ! curl --fail --silent --show-error --head "${pom_url}" >/dev/null; then
+                missing=1
+                break
+              fi
+            done < config/release/public-artifacts.txt
+            [[ "${missing}" -eq 0 ]] && break
+            if [[ "${attempt}" -eq 30 ]]; then
+              echo "Release did not become resolvable from Maven Central in time." >&2
+              exit 1
+            fi
+            sleep 20
+          done
+          consumer_repository=$(mktemp -d)
+          ./mvnw --batch-mode --no-transfer-progress \
+            -f config/release-smoke/pom.xml \
+            -Dmaven.repo.local="${consumer_repository}" \
+            -Ddatex4j.version="${RELEASE_VERSION}" \
+            -Ddatex4j.repository="${base_url%/dev/juherr/datex4j}" \
+            verify
+
+  finalize:
+    name: Tag and create GitHub Release
+    needs: publish
+    runs-on: ubuntu-latest
+    environment: maven-central
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      RELEASE_VERSION: ${{ inputs.version }}
+    steps:
+      - name: Checkout published commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Java and signing
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: GPG_PASSPHRASE
+
+      - name: Create or verify signed tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          signing_key=$(gpg --batch --with-colons --list-secret-keys | awk -F: '$1 == "sec" { print $5; exit }')
+          test -n "${signing_key}"
+          umask 077
+          GPG_PASSPHRASE_FILE="${RUNNER_TEMP}/datex4j-gpg-passphrase"
+          printf '%s' "${GPG_PASSPHRASE}" > "${GPG_PASSPHRASE_FILE}"
+          export GPG_PASSPHRASE_FILE
+          git config user.name "datex4j release workflow"
+          git config user.email "actions@users.noreply.github.com"
+          git config user.signingkey "${signing_key}"
+          git config gpg.program "$(pwd)/scripts/git-gpg-wrapper.sh"
+
+          if git ls-remote --exit-code --tags origin "refs/tags/${RELEASE_VERSION}" >/dev/null 2>&1; then
+            git fetch --force origin "refs/tags/${RELEASE_VERSION}:refs/tags/${RELEASE_VERSION}"
+            tagged_commit=$(git rev-list -n 1 "${RELEASE_VERSION}")
+            [[ "${tagged_commit}" == "${GITHUB_SHA}" ]]
+            git tag --verify "${RELEASE_VERSION}"
+          else
+            git tag --sign --message "datex4j ${RELEASE_VERSION}" "${RELEASE_VERSION}" "${GITHUB_SHA}"
+            git tag --verify "${RELEASE_VERSION}"
+            git push \
+              "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+              "refs/tags/${RELEASE_VERSION}"
+          fi
+
+      - name: Create or verify GitHub Release
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view "${RELEASE_VERSION}" >/dev/null 2>&1; then
+            existing_tag=$(gh release view "${RELEASE_VERSION}" --json tagName --jq .tagName)
+            [[ "${existing_tag}" == "${RELEASE_VERSION}" ]]
+          else
+            gh release create "${RELEASE_VERSION}" \
+              --title "datex4j ${RELEASE_VERSION}" \
+              --notes-file ".github/release-notes/${RELEASE_VERSION}.md" \
+              --verify-tag
+          fi
