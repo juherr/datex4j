@@ -75,6 +75,7 @@ done < <(find "${repository_root}" -type f ! -name '*.md5' ! -name '*.sha1' ! -n
 
 (
   cd "${staging}"
+  rm -f "${output}"
   zip -q -r "${output}" dev
 )
 

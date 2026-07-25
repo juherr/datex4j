@@ -128,9 +128,32 @@ jobs:
             verify
 
       - name: Publish to Maven Central
-        run: >
-          ./mvnw --batch-mode --no-transfer-progress
-          -Prelease -DskipTests -DautoPublish=true -DwaitUntil=published deploy
+        shell: bash
+        run: |
+          set -euo pipefail
+          base_url="https://repo1.maven.org/maven2/dev/juherr/datex4j"
+          missing=0
+          while read -r artifact_id _packaging; do
+            [[ -z "${artifact_id}" || "${artifact_id}" == \#* ]] && continue
+            pom_url="${base_url}/${artifact_id}/${RELEASE_VERSION}/${artifact_id}-${RELEASE_VERSION}.pom"
+            if ! curl \
+              --connect-timeout 5 \
+              --max-time 10 \
+              --fail \
+              --silent \
+              --show-error \
+              --head \
+              "${pom_url}" >/dev/null; then
+              missing=1
+              break
+            fi
+          done < config/release/public-artifacts.txt
+          if [[ "${missing}" -eq 0 ]]; then
+            echo "Release ${RELEASE_VERSION} is already available from Maven Central; skipping deploy."
+            exit 0
+          fi
+          ./mvnw --batch-mode --no-transfer-progress \
+            -Prelease -DskipTests -DautoPublish=true -DwaitUntil=published deploy
 
       - name: Wait for Maven Central resolution
         shell: bash
@@ -142,7 +165,14 @@ jobs:
             while read -r artifact_id _packaging; do
               [[ -z "${artifact_id}" || "${artifact_id}" == \#* ]] && continue
               pom_url="${base_url}/${artifact_id}/${RELEASE_VERSION}/${artifact_id}-${RELEASE_VERSION}.pom"
-              if ! curl --fail --silent --show-error --head "${pom_url}" >/dev/null; then
+              if ! curl \
+                --connect-timeout 5 \
+                --max-time 10 \
+                --fail \
+                --silent \
+                --show-error \
+                --head \
+                "${pom_url}" >/dev/null; then
                 missing=1
                 break
               fi
