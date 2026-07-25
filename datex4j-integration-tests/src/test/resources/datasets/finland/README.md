@@ -66,3 +66,33 @@ This keeps the committed suite offline and reproducible while still letting you 
 real feed on demand. Last run against the live feed read **18 `energyInfrastructureTable`s, 3022
 `energyInfrastructureSite`s, ~16.5k stations and connectors** with no loss (counts drift as the feed
 updates every minute).
+
+---
+
+# Dataset: finland / roadworks (DATEX II v2)
+
+A second, unrelated Finnish feed: Fintraffic / Digitraffic's **road-maintenance / roadworks**
+traffic messages, published as **DATEX II v2**. Covered offline by
+[`Datex2TrafficFeedReadValidateTest`](../../../../java/dev/juherr/datex4j/it/Datex2TrafficFeedReadValidateTest.java).
+
+- **Source URL:**
+  <https://tie.digitraffic.fi/api/traffic-message/v2/roadworks/datex2-2.2.3.xml> (send header
+  `Digitraffic-User: <your client id>`)
+- **Licence:** Creative Commons 4.0 BY (CC BY 4.0) — attribution: **"Source: Fintraffic /
+  digitraffic.fi, license CC 4.0 BY"**.
+- **Download date:** 2026-07-25
+- **DATEX version:** 2.3 payload (`d2LogicalModel`, `modelBaseVersion="2"`, namespace
+  `http://datex2.eu/schema/2/2_0`)
+- **Profile / publication:** `SituationPublication` (roadworks / `MaintenanceWorks` records)
+- **Country:** Finland
+- **Expected object counts:** 1 `SituationPublication`, 1 `situation` with 3 `situationRecord`s
+  (trimmed from 597 situations / 2298 records in the full ~6.4 MB feed).
+- **Remarks:** Bare `d2LogicalModel` (no `exchange`). **Trimmed to the first `situation`**; values
+  unmodified. Reads into a v2.3 `SituationPublication`; the situation id `GUID50467344` survives
+  re-serialization.
+- **Known quirks:** The feed's `xsi:schemaLocation` points at a **Finnish national-extension XSD**
+  (`DATEXIISchema_2_2_3_with_definitions_FI.xsd`), **not** the plain DATEX II v2.3 schema. Validated
+  against the **bundled plain v2.3** schema it is **invalid** (3 errors): the national profile omits
+  the `exchange` element and the `payloadPublication`'s `lang` attribute and `publicationTime` that
+  plain v2.3 mandates. This is national-profile drift, not a vendoring defect; the verdict is
+  reported honestly (`expectedValid = false`).

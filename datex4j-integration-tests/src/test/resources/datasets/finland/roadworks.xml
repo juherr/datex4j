@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<d2LogicalModel xmlns="http://datex2.eu/schema/2/2_0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" modelBaseVersion="2" xsi:schemaLocation="https://datex2.eu/schema/2/2_0 http://tie.digitraffic.fi/schemas/datex2/2_2_3_fi/DATEXIISchema_2_2_3_with_definitions_FI.xsd">
+    <payloadPublication xsi:type="SituationPublication">
+        <situation id="GUID50467344" version="1">
+            <overallSeverity>highest</overallSeverity>
+            <headerInformation>
+                <confidentiality>noRestriction</confidentiality>
+                <informationStatus>real</informationStatus>
+            </headerInformation>
+            <situationRecord xsi:type="MaintenanceWorks" id="GUID5047012301" version="1">
+                <situationRecordCreationTime>2026-07-14T14:04:02.058Z</situationRecordCreationTime>
+                <situationRecordVersionTime>2026-07-14T14:04:02.057Z</situationRecordVersionTime>
+                <situationRecordFirstSupplierVersionTime>2026-07-14T14:04:02.058Z</situationRecordFirstSupplierVersionTime>
+                <probabilityOfOccurrence>certain</probabilityOfOccurrence>
+                <severity>highest</severity>
+                <validity>
+                    <validityStatus>definedByValidityTimeSpec</validityStatus>
+                    <validityTimeSpecification>
+                        <overallStartTime>2026-07-19T21:00:00.000Z</overallStartTime>
+                        <overallEndTime>2026-07-31T20:59:59.999Z</overallEndTime>
+                    </validityTimeSpecification>
+                </validity>
+                <generalPublicComment>
+                    <comment>
+                        <values>
+                            <value lang="fi">Tie 11698, eli Sipoonkirkontie, Sipoo. Tietyö. 
+
+Tie 11698, eli Sipoonkirkontie, Sipoo.
+Tarkempi paikka: Välillä Båskis - Sipoon kirkko. Merkittävää haittaa molempiin ajosuuntiin.
+
+Rummunvaihto
+
+Tie on suljettu liikenteeltä
+Kiertotie käytössä
+
+Lisätieto: Tie katkaistaan kolmen ojarummun uusimisen ajaksi 20.7.-31.7. välisenä aikana.
+Rummut vaihdetaan yksitellen, joten tonteille kulku säilyy.
+
+Kuninkaantie 14; 20.7.-22.7.
+Kuninkaantie 41; 22.7.-24.7.
+Kuninkaantie 68; 27.7.-31.7.
+
+Ajankohta: 20.07.2026 - 31.07.2026. 
+Työaika: ma-pe 07:00-22:00
+
+Fintraffic Tieliikennekeskus Helsinki
+Puh: 02002100
+Sähköposti: helsinki.liikennekeskus@fintraffic.fi</value>
+                        </values>
+                    </comment>
+                </generalPublicComment>
+                <groupOfLocations xsi:type="Linear">
+                    <alertCLinear xsi:type="AlertCMethod2Linear">
+                        <alertCLocationCountryCode>6</alertCLocationCountryCode>
+                        <alertCLocationTableNumber>17</alertCLocationTableNumber>
+                        <alertCLocationTableVersion>1.11.45</alertCLocationTableVersion>
+                        <alertCDirection>
+                            <alertCDirectionCoded>both</alertCDirectionCoded>
+                        </alertCDirection>
+                        <alertCMethod2PrimaryPointLocation>
+                            <alertCLocation>
+<specificLocation>7628</specificLocation>
+                            </alertCLocation>
+                        </alertCMethod2PrimaryPointLocation>
+                        <alertCMethod2SecondaryPointLocation>
+                            <alertCLocation>
+<specificLocation>7627</specificLocation>
+                            </alertCLocation>
+                        </alertCMethod2SecondaryPointLocation>
+                    </alertCLinear>
+                </groupOfLocations>
+                <roadMaintenanceType>roadworks</roadMaintenanceType>
+            </situationRecord>
+            <situationRecord xsi:type="RoadOrCarriagewayOrLaneManagement" id="GUID5047012302" version="1">
+                <situationRecordCreationTime>2026-07-14T14:04:02.058Z</situationRecordCreationTime>
+                <situationRecordVersionTime>2026-07-14T14:04:02.057Z</situationRecordVersionTime>
+                <situationRecordFirstSupplierVersionTime>2026-07-14T14:04:02.058Z</situationRecordFirstSupplierVersionTime>
+                <probabilityOfOccurrence>certain</probabilityOfOccurrence>
+                <severity>highest</severity>
+                <validity>
+                    <validityStatus>definedByValidityTimeSpec</validityStatus>
+                    <validityTimeSpecification>
+                        <overallStartTime>2026-07-19T21:00:00.000Z</overallStartTime>
+                        <overallEndTime>2026-07-31T20:59:59.999Z</overallEndTime>
+                    </validityTimeSpecification>
+                </validity>
+                <groupOfLocations xsi:type="Linear">
+                    <alertCLinear xsi:type="AlertCMethod2Linear">
+                        <alertCLocationCountryCode>6</alertCLocationCountryCode>
+                        <alertCLocationTableNumber>17</alertCLocationTableNumber>
+                        <alertCLocationTableVersion>1.11.45</alertCLocationTableVersion>
+                        <alertCDirection>
+                            <alertCDirectionCoded>both</alertCDirectionCoded>
+                        </alertCDirection>
+                        <alertCMethod2PrimaryPointLocation>
+                            <alertCLocation>
+<specificLocation>7628</specificLocation>
+                            </alertCLocation>
+                        </alertCMethod2PrimaryPointLocation>
+                        <alertCMethod2SecondaryPointLocation>
+                            <alertCLocation>
+<specificLocation>7627</specificLocation>
+                            </alertCLocation>
+                        </alertCMethod2SecondaryPointLocation>
+                    </alertCLinear>
+                </groupOfLocations>
+                <complianceOption>mandatory</complianceOption>
+                <roadOrCarriagewayOrLaneManagementType>roadClosed</roadOrCarriagewayOrLaneManagementType>
+            </situationRecord>
+            <situationRecord xsi:type="ReroutingManagement" id="GUID5047012303" version="1">
+                <situationRecordCreationTime>2026-07-14T14:04:02.058Z</situationRecordCreationTime>
+                <situationRecordVersionTime>2026-07-14T14:04:02.057Z</situationRecordVersionTime>
+                <situationRecordFirstSupplierVersionTime>2026-07-14T14:04:02.058Z</situationRecordFirstSupplierVersionTime>
+                <probabilityOfOccurrence>certain</probabilityOfOccurrence>
+                <severity>highest</severity>
+                <validity>
+                    <validityStatus>definedByValidityTimeSpec</validityStatus>
+                    <validityTimeSpecification>
+                        <overallStartTime>2026-07-19T21:00:00.000Z</overallStartTime>
+                        <overallEndTime>2026-07-31T20:59:59.999Z</overallEndTime>
+                    </validityTimeSpecification>
+                </validity>
+                <groupOfLocations xsi:type="Linear">
+                    <alertCLinear xsi:type="AlertCMethod2Linear">
+                        <alertCLocationCountryCode>6</alertCLocationCountryCode>
+                        <alertCLocationTableNumber>17</alertCLocationTableNumber>
+                        <alertCLocationTableVersion>1.11.45</alertCLocationTableVersion>
+                        <alertCDirection>
+                            <alertCDirectionCoded>both</alertCDirectionCoded>
+                        </alertCDirection>
+                        <alertCMethod2PrimaryPointLocation>
+                            <alertCLocation>
+<specificLocation>7628</specificLocation>
+                            </alertCLocation>
+                        </alertCMethod2PrimaryPointLocation>
+                        <alertCMethod2SecondaryPointLocation>
+                            <alertCLocation>
+<specificLocation>7627</specificLocation>
+                            </alertCLocation>
+                        </alertCMethod2SecondaryPointLocation>
+                    </alertCLinear>
+                </groupOfLocations>
+                <complianceOption>mandatory</complianceOption>
+                <reroutingManagementType>followLocalDiversion</reroutingManagementType>
+            </situationRecord>
+        </situation>
+    </payloadPublication>
+</d2LogicalModel>
