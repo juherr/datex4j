@@ -7,7 +7,7 @@
   <parent>
     <groupId>dev.juherr.datex4j</groupId>
     <artifactId>datex4j</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
   </parent>
 
   <artifactId>datex4j-model</artifactId>
@@ -81,7 +81,7 @@
 
   <build>
     <plugins>
-      <!-- Keep the historical automatic-module name for the aggregate jar (no classes of its own). -->
+      <!-- Keep the historical automatic-module name for the aggregate jar. -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -94,7 +94,17 @@
         </configuration>
       </plugin>
 
-      <!-- No hand-written code to cover here; the generated models live in the per-version modules. -->
+      <!-- Document the package-private marker so this aggregate has a valid Javadoc artifact. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven-javadoc-plugin.version}</version>
+        <configuration>
+          <show>package</show>
+        </configuration>
+      </plugin>
+
+      <!-- No supported behavior to cover here; the generated models live in per-version modules. -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>

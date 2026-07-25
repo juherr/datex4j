@@ -42,7 +42,7 @@ import java.lang.reflect.InvocationTargetException;
  * the generated model; callers register it per wrapper type. The corresponding deserialization
  * direction is handled by {@link DatexJsonModule}'s own contextual deserializer.
  */
-public final class DatexEnumJson {
+final class DatexEnumJson {
 
     private DatexEnumJson() {}
 
