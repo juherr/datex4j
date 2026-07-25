@@ -26,7 +26,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 /** Creates fail-closed SAX sources for untrusted DATEX II XML documents. */
-final class SecureXmlSource {
+public final class SecureXmlSource {
 
     private static final String DISALLOW_DOCTYPE = "http://apache.org/xml/features/disallow-doctype-decl";
     private static final String EXTERNAL_GENERAL_ENTITIES = "http://xml.org/sax/features/external-general-entities";
@@ -35,7 +35,15 @@ final class SecureXmlSource {
 
     private SecureXmlSource() {}
 
-    static SAXSource from(InputStream input) throws ParserConfigurationException, SAXException {
+    /**
+     * Creates a fail-closed SAX source for an untrusted XML stream.
+     *
+     * @param input the XML stream
+     * @return a SAX source with DTDs and external entities disabled
+     * @throws ParserConfigurationException if the secure parser cannot be configured
+     * @throws SAXException if the secure parser cannot be created
+     */
+    public static SAXSource from(InputStream input) throws ParserConfigurationException, SAXException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
         factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
