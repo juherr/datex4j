@@ -1,5 +1,9 @@
 # Netherlands
 
+> Last verified: 2026-07-25.
+
+This page records the Netherlands' verified NAP, AFIR datasets, access constraints, and test coverage.
+
 ## General information
 
 - **Country:** Netherlands
@@ -10,8 +14,8 @@
 - **AFIR status:** DOT-NL currently exchanges charging-point data in **OCPI 2.2.1**, which the NDW
   documentation itself notes "does not fully meet the European AFIR requirements" — a migration to
   OCPI 2.3 is planned, alongside a transition to **DATEX II**, which becomes the mandatory EU-wide
-  format for the AFIR Article 20(2) charging-point data from 14 April 2026 under [Commission
-  Implementing Regulation (EU) 2025/655](https://transport.ec.europa.eu/news-events/news/commission-enhances-interoperability-and-transparency-alternative-fuels-infrastructure-data-2025-04-11_en)
+  format for the AFIR Article 20(2) charging-point data from 14 April 2026 under
+  [Commission Implementing Regulation (EU) 2025/655][afir-implementation]
   (the underlying AFIR Article 20 data-via-NAP obligation has applied since 14 April 2025; see
   [`../README.md#afir`](../README.md#afir)). At the time of writing, DOT-NL's public interface is
   OCPI-based, not DATEX II.
@@ -23,16 +27,19 @@
 
 ## Available datasets
 
-- **DOT-NL charging-point data** — location, availability and tariff information for publicly
-  accessible charging points.
-  - **Format:** **OCPI 2.2.1** today (per the NDW FAQ); GeoJSON is also mentioned as an access
-    format. A DATEX II-format publication is planned but **not yet confirmed as live** at the time of
-    writing — no DATEX II endpoint URL was found to cite.
-  - **Licence:** not explicitly stated in the NDW documentation reviewed; data is described as
-    accessible "free of charge" via pull-based APIs, with push delivery planned for late 2026.
-  - **Update frequency:** not specified beyond "pull-based" access; push delivery is planned.
-  - **Access:** open to any consumer (manufacturers, service providers, researchers, governments)
-    without charge, per the NDW FAQ.
+### DOT-NL charging-point data
+
+This dataset covers the location, availability, and tariff information for publicly accessible
+charging points.
+
+- **Format:** **OCPI 2.2.1** today (per the NDW FAQ); GeoJSON is also mentioned as an access
+  format. A DATEX II-format publication is planned but **not yet confirmed as live** at the time of
+  writing — no DATEX II endpoint URL was found to cite.
+- **License:** not explicitly stated in the NDW documentation reviewed; data is described as
+  accessible "free of charge" via pull-based APIs, with push delivery planned for late 2026.
+- **Update frequency:** not specified beyond "pull-based" access; push delivery is planned.
+- **Access:** open to any consumer (manufacturers, service providers, researchers, governments)
+  without charge, per the NDW FAQ.
 
 ## Other NDW DATEX II feeds (open data portal)
 
@@ -41,7 +48,7 @@ Separately from the AFIR/charging story above, NDW runs a **public open-data por
 the richest openly-licensed DATEX II source found for testing this library — it spans several of the
 domains the library models (situations, SRTI, parking, VMS, roadworks).
 
-- **Licence:** **Creative Commons Zero (CC0)** — public domain, redistribution allowed, no
+- **License:** **Creative Commons Zero (CC0)** — public domain, redistribution allowed, no
   attribution required (per NDW's [copyright statement](https://www.ndw.nu/copyright); the CC0 waiver
   excludes images/video, which do not apply to these data files).
 - **Access:** **anonymous**, no login. Files are gzip-compressed (`.xml.gz`) except where noted;
@@ -80,7 +87,7 @@ errors. The small `Truckparking_Parking_Status.xml` **parses** into a `ParkingSt
 **3.0** profile with a producer `targetClass="par:ParkingTable"` vs the schema's fixed
 `prk:ParkingTable`. See the cross-domain catalogue's
 [version coverage & gaps](../../datex-test-data-sources.md#datex-ii-version-coverage--gaps) and
-[`Datex3TrafficFeedReadValidateTest`](../../../datex4j-integration-tests/src/test/java/dev/juherr/datex4j/it/Datex3TrafficFeedReadValidateTest.java).
+[v3 traffic-feed test][v3-traffic-test].
 
 ## Notes
 
@@ -91,5 +98,9 @@ errors. The small `Truckparking_Parking_Status.xml` **parses** into a `ParkingSt
 
 ## See also
 
-- [`../../../datex4j-integration-tests/src/test/resources/datasets/netherlands/README.md`](../../../datex4j-integration-tests/src/test/resources/datasets/netherlands/README.md)
+- [Netherlands fixture metadata](../../../datex4j-integration-tests/src/test/resources/datasets/netherlands/README.md)
 - [`../official-datex-resources.md`](../official-datex-resources.md)
+
+[afir-implementation]: https://transport.ec.europa.eu/news-events/news/commission-enhances-interoperability-and-transparency-alternative-fuels-infrastructure-data-2025-04-11_en
+[v3-traffic-test]:
+  ../../../datex4j-integration-tests/src/test/java/dev/juherr/datex4j/it/Datex3TrafficFeedReadValidateTest.java

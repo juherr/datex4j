@@ -1,5 +1,9 @@
 # Denmark
 
+> Last verified: 2026-07-25.
+
+This page records Denmark's verified NAP, AFIR datasets, access constraints, and test coverage.
+
 ## General information
 
 - **Country:** Denmark
@@ -15,7 +19,7 @@
   [Commission Implementing Regulation (EU) 2025/655](https://transport.ec.europa.eu/news-events/news/commission-enhances-interoperability-and-transparency-alternative-fuels-infrastructure-data-2025-04-11_en);
   the underlying AFIR Article 20 data-via-NAP obligation has applied since 14 April 2025 (see
   [`../README.md#afir`](../README.md#afir)). **Neither a public dataset URL, a confirmed format, nor a
-  licence could be confirmed** for Denmark's AFIR recharging data at the time of writing — see
+  license could be confirmed** for Denmark's AFIR recharging data at the time of writing — see
   "Available datasets" below.
 
 ## Useful links
@@ -26,15 +30,14 @@
   <https://www.eng.klimadatastyrelsen.dk/green-transition-and-climate-adaptation/national-mapping-of-charging-point-data> —
   describes a **planned** system to "receive, display and distribute standardised data" (location,
   payment options, operational status, usage levels, availability); the page does not describe this
-  as already operational, nor does it name a format or licence.
+  as already operational, nor does it name a format or license.
 
 ## Available datasets
 
 - **No public, directly downloadable AFIR/DATEX II dataset for Denmark could be confirmed** at the
   time of writing. The Vejdirektoratet data-exchange portal requires requesting credentials before
-  any data can be accessed, and the Klimadatastyrelsen initiative describes work in progress rather
-  than a live, citable dataset. This page will be updated once a concrete, accessible dataset (URL,
-  format, licence) can be confirmed, rather than guessing at one now.
+  any data can be accessed, and the Klimadatastyrelsen initiative does not yet provide a live,
+  citable dataset. Update this page after confirming a concrete dataset URL, format, and license.
 
 ## Other DATEX II feeds (road traffic, beyond AFIR)
 
@@ -46,10 +49,12 @@ only AFIR. Its **catalogue metadata is browsable anonymously**, but the actual d
   `application/rdf+xml` (~1.4 MB) listing the platform's datasets. Several are tagged `datex-II`
   (e.g. traffic messages "Trafikmeldinger", lorry-parking, state-road speed limits, road-weather
   condition reports).
-  - **Important (verified):** every dataset's `dcat:accessURL` points to a
-    `https://du-portal-ui.dataudveksler.app.vd.dk/data/<id>/overview` page, and the catalogue
-    contains **no anonymous `downloadURL`/`endpointURL`**. In other words, the metadata is public but
-    the DATEX II data itself is behind the portal.
+
+**Verified access limitation:** every dataset's `dcat:accessURL` points to a
+`https://du-portal-ui.dataudveksler.app.vd.dk/data/<id>/overview` page, and the catalogue contains
+**no anonymous `downloadURL`/`endpointURL`**. The metadata is public, but the DATEX II data is behind
+the portal.
+
 - **Data endpoints (registration-gated):** obtaining the data requires portal credentials /
   an API key from the Dataudveksler ("Kom godt i gang" / Get started). The related host
   `data.vd-nap.dk` did **not resolve** at the time of writing, and `nap.vd.dk` redirects to the
@@ -73,5 +78,5 @@ confirmed from official sources at the time of writing.
 
 ## See also
 
-- [`../../../datex4j-integration-tests/src/test/resources/datasets/denmark/README.md`](../../../datex4j-integration-tests/src/test/resources/datasets/denmark/README.md)
+- [Denmark fixture metadata](../../../datex4j-integration-tests/src/test/resources/datasets/denmark/README.md)
 - [`../official-datex-resources.md`](../official-datex-resources.md)

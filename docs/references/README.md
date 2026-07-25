@@ -3,14 +3,14 @@
 External specifications the datex4j mappers are built against. Archived here so the
 build stays reproducible and reviewable offline.
 
-## IDACS Deliverable 2.2.1 — Unlocked data through National Access Points in DATEX II format
+## IDACS deliverable 2.2.1 — unlocked data through National Access Points in DATEX II format
 
 - **File:** [`idacs-2.2.1-unlocked-data-nap-datex-ii.pdf`](./idacs-2.2.1-unlocked-data-nap-datex-ii.pdf)
 - **Project:** IDACS — *ID and Data Collection for Sustainable Fuels in Europe*
   (Grant Agreement MOVE/B4/SUB/2018-498/CEF/PSA/SI2.792684)
 - **Authors:** J. Wegener (NOW GmbH), H. Schurer & J. Vrooland (RVO / Netherlands Enterprise Agency)
 - **Version / date:** V1.0 (final) / 30-06-2022
-- **Source:** <https://english.rvo.nl/files/file/2023-07/20220630_IDACSActivity_2.2Deliverable_2.2.1_0.pdf>
+- **Source:** [RVO publication][idacs-pdf]
 
 This deliverable (and its embedded *Annex 1 — Deployment scenarios for IDACS datasets in
 DATEX II format*, U-Trex b.v. / RVO, 2021) is the reference that defines how EV-charging,
@@ -22,7 +22,9 @@ It is the normative basis for the `datex4j-ocpi` mapping module. The field-level
 lives in the deliverable's **Annex 1 (static)** and **Annex 2 (dynamic)** tables and the
 **RSP class diagrams** (§6.3–6.6). The relevant structure is:
 
-```
+[idacs-pdf]: https://english.rvo.nl/files/file/2023-07/20220630%5FIDACSActivity%5F2.2Deliverable%5F2.2.1%5F0.pdf
+
+```text
 EnergyInfrastructureSite            (= OCPI Location)
  ├─ name, siteLocation, operator/owner, operatingHours, lastUpdate
  ├─ siteLocation → LocationReference → FacilityLocation → { timeZone, Address }
@@ -72,39 +74,6 @@ EnergyInfrastructureSite            (= OCPI Location)
 > v3.7 (e.g. `detailedAddressInformation` → `addressLine`). datex4j targets the **released
 > v3.7** model, so we follow the *structure* the deliverable prescribes, not its draft names.
 
-### Conformance of `datex4j-ocpi` (as of this commit)
-
-| Area | Status |
-|---|---|
-| Coordinates, name, operator/owner name, last-updated | ✅ conform |
-| Connector: type, format, max power at socket, voltage, current | ✅ conform |
-| Energy mix / green-energy ratio | ✅ conform |
-| Opening hours (24/7 + regular weekly subset) | ✅ conform (documented subset; exceptional openings not mapped) |
-| Availability status (`RefillPointStatus.currentStatus`) | ✅ conform |
-| Ad-hoc price (`EnergyPricingPolicy`) | ✅ conform |
-| **Address (street/postcode/city/country)** | ✅ conform — `FacilityLocation → Address`, via `AddressMapper` |
-| **Timezone** | ✅ conform — `FacilityLocation → timeZone`, via `AddressMapper` |
-| **Suboperator** | ✅ conform — OCPI `suboperator` → operator `OrganisationSpecification.subOrganisation` |
-| **Operator code** | ✅ conform — OCPI `country_code`+`party_id` (eMI3) → operator `nationalOrganisationNumber` |
-| Telephone | ⚠️ not mappable — OCPI `BusinessDetails` has no phone field (no source exists) |
-| Operator website | ⚠️ mapped to `linkToWebform` (deliverable uses `linkToGeneralInformation`) |
-
-**Address & time zone anchoring.** `FacilityLocation` (carrying `timeZone` and `Address`) is
-reachable through a **fully typed** chain —
-`LocationReference.get_LocationReferenceExtension().getFacilityLocation()` — not only through the
-generic `xs:any` extension. `AddressMapper` maps the OCPI `address` / `city` / `postal_code` /
-`country` / `time_zone` scalars onto it and anchors it on the site's location reference. Because
-that anchor is the location reference, a location with no coordinates has nowhere to carry the
-facility location, so address and time zone are dropped in that case (documented limitation).
-
-**Operator identity.** OCPI `country_code` + `party_id` (the eMI3 CPO identifier) map to the
-operator `OrganisationSpecification.nationalOrganisationNumber` as `"<countryCode>*<partyId>"`
-(round-tripping requires that form); OCPI `suboperator` maps to the operator's first
-`subOrganisation`. When the OCPI `operator` business details are absent, an operator specification
-is still created to carry these.
-
-**Remaining gaps.** Operator **telephone**
-(`OrganisationSpecification.organisationUnit.contactInformation.telephoneNumber`) has no OCPI
-source — OCPI `BusinessDetails` carries only name, website and logo — so it cannot be mapped.
-Operator **website** currently uses `linkToWebform` where the deliverable uses
-`linkToGeneralInformation`.
+The reference metadata and normative tables above remain stable. The current implementation
+coverage, executable test links, and known mapping limitations live in the
+[OCPI mapping guide](../guides/ocpi-mapping.md).

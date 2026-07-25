@@ -1,12 +1,14 @@
 # Dataset: france
 
-This directory holds committed real-world DATEX II datasets: one **v3** feed (**DiaLog traffic
-regulations**) and two **v2** feeds (**speeds** and **events**, both from Bison Futé / Tipi). A
+> Source access last verified: 2026-07-25. Snapshot dates belong to individual dataset records.
+
+This directory holds three committed real-world DATEX II datasets: one v3 DiaLog traffic-regulation
+feed and two v2 feeds for speeds and events, both from Bison Futé / Tipi. A
 separate AFIR charging-point source is documented but not committed (it is CSV/GeoJSON, not DATEX
 II).
 
 The two v2 feeds are covered offline by
-[`Datex2TrafficFeedReadValidateTest`](../../../../java/dev/juherr/datex4j/it/Datex2TrafficFeedReadValidateTest.java),
+[`Datex2TrafficFeedReadValidateTest`](../../../java/dev/juherr/datex4j/it/Datex2TrafficFeedReadValidateTest.java),
 which reads each into the version-scoped `D2LogicalModel` (a v2 document is rooted at
 `d2LogicalModel`, not at a bare publication) and reports its XSD verdict.
 
@@ -14,8 +16,8 @@ which reads each into the version-scoped `D2LogicalModel` (a v2 document is root
 
 - **Source URL:** <https://transport.data.gouv.fr/resources/79165/download> (Bison Futé / Tipi,
   published on France's National Access Point transport.data.gouv.fr)
-- **Licence:** Licence Ouverte / Open Licence, version 2.0 — attribution: **"Source: Bison Futé /
-  Tipi (transport.data.gouv.fr), Licence Ouverte 2.0"**.
+- **License:** License Ouverte / Open License, version 2.0 — attribution: **"Source: Bison Futé /
+  Tipi (transport.data.gouv.fr), License Ouverte 2.0"**.
 - **Download date:** 2026-07-25
 - **DATEX version:** 2.2 (`d2LogicalModel`, `modelBaseVersion="2"`, namespace
   `http://datex2.eu/schema/2/2_0`)
@@ -32,8 +34,8 @@ which reads each into the version-scoped `D2LogicalModel` (a v2 document is root
 
 - **Source URL:** <https://transport.data.gouv.fr/resources/79173/download> (Bison Futé / Tipi
   "Evenementiel-DIR" event feed, transport.data.gouv.fr)
-- **Licence:** Licence Ouverte / Open Licence, version 2.0 — attribution: **"Source: Bison Futé /
-  Tipi (transport.data.gouv.fr), Licence Ouverte 2.0"**.
+- **License:** License Ouverte / Open License, version 2.0 — attribution: **"Source: Bison Futé /
+  Tipi (transport.data.gouv.fr), License Ouverte 2.0"**.
 - **Download date:** 2026-07-25
 - **DATEX version:** 2.2 (`d2LogicalModel`, `modelBaseVersion="2"`, namespace
   `http://datex2.eu/schema/2/2_0`)
@@ -54,8 +56,8 @@ which reads each into the version-scoped `D2LogicalModel` (a v2 document is root
 
 - **Source URL:** <https://dialog.beta.gouv.fr/api/regulations.xml> (DiaLog, MTES-MCT — French
   Ministry for the Ecological Transition)
-- **Licence:** Licence Ouverte / Open Licence, version 2.0 — attribution: **"Source: DiaLog,
-  MTES-MCT (dialog.beta.gouv.fr), Licence Ouverte 2.0"**.
+- **License:** License Ouverte / Open License, version 2.0 — attribution: **"Source: DiaLog,
+  MTES-MCT (dialog.beta.gouv.fr), License Ouverte 2.0"**.
 - **Download date:** 2026-07-24
 - **DATEX version:** v3 bare payload (`d2:payload` → `TrafficRegulationPublication`). Authored against
   an **older DATEX II minor**: the feed uses `xsi:type="ValidityCondition"`, a `TrafficRegulation`
@@ -71,7 +73,7 @@ which reads each into the version-scoped `D2LogicalModel` (a v2 document is root
   with all namespaces (including the `dx:` DiaLog extension) preserved and values unmodified. Reads
   into a v3.3 `TrafficRegulationPublication`; the order id `018a45df-58c3-740c-b712-37d3d2ca25f8`
   survives re-serialization. Covered offline by
-  [`Datex3TrafficFeedReadValidateTest`](../../../../java/dev/juherr/datex4j/it/Datex3TrafficFeedReadValidateTest.java).
+  [`Datex3TrafficFeedReadValidateTest`](../../../java/dev/juherr/datex4j/it/Datex3TrafficFeedReadValidateTest.java).
 - **Known quirks:** v3.3 validation reports it invalid (~13 errors) — chiefly the producer using
   `commercial` as a `VehicleTypeEnum` value, which is not in the DATEX II enumeration. This is a
   producer data-quality issue, not a vendoring defect.
@@ -85,7 +87,7 @@ which reads each into the version-scoped `D2LogicalModel` (a v2 document is root
   <https://transport.data.gouv.fr/datasets/fichier-consolide-des-bornes-de-recharge-pour-vehicules-electriques>.
 - **How to obtain:** download the consolidated CSV or GeoJSON resource directly from that dataset
   page — no registration or authentication is required.
-- **Licence:** Licence Ouverte / Open Licence, version 1.0.
+- **License:** License Ouverte / Open License, version 1.0.
 - **Format / DATEX version:** **CSV and GeoJSON**, structured per the
   [decree of 4 May 2021](https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000043475441) — **not DATEX
   II**. No DATEX II-format endpoint for French AFIR recharging data was confirmed at the time of

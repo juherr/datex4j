@@ -1,5 +1,9 @@
 # Finland
 
+> Last verified: 2026-07-25.
+
+This page records Finland's verified NAP, AFIR datasets, access constraints, and test coverage.
+
 ## General information
 
 - **Country:** Finland
@@ -20,41 +24,44 @@
 ## Useful links
 
 - **AFIR overview page:** <https://www.digitraffic.fi/en/road-traffic/afir/>
-- **API/technical docs:** described on the same AFIR overview page; endpoints observed there:
-  - `/api/charging-network/v1/locations` — GeoJSON, static location data.
-  - `/api/charging-network/v1/locations/datex2-3.6` — the **DATEX II v3.6** equivalent.
-  - `/api/charging-network/v1/locations/statuses` — real-time availability status.
-  - `/api/charging-network/v1/operators` — operator metadata.
-  - `/api/charging-network/v1/tariffs` — tariff/pricing data.
-  - MQTT (real-time push): `wss://afir.digitraffic.fi:443/mqtt` (production),
-    `wss://afir-test.digitraffic.fi:443/mqtt` (test).
 - **Terms of service:** <https://www.digitraffic.fi/en/terms-of-service/>
+
+The AFIR overview documents these API endpoints:
+
+- `/api/charging-network/v1/locations` — GeoJSON, static location data.
+- `/api/charging-network/v1/locations/datex2-3.6` — the **DATEX II v3.6** equivalent.
+- `/api/charging-network/v1/locations/statuses` — real-time availability status.
+- `/api/charging-network/v1/operators` — operator metadata.
+- `/api/charging-network/v1/tariffs` — tariff/pricing data.
+- MQTT (real-time push): `wss://afir.digitraffic.fi:443/mqtt` (production),
+  `wss://afir-test.digitraffic.fi:443/mqtt` (test).
 
 ## Available datasets
 
-- **Digitraffic AFIR / charging-network data**
-  - **Format:** **DATEX II v3.6** (`/locations/datex2-3.6`) and GeoJSON (`/locations`); tariff and
-    MQTT payloads in JSON.
-  - **Licence:** **Creative Commons 4.0 BY (CC BY 4.0)** — Fintraffic's stated licence for all
-    Digitraffic open data, per its
-    [Terms of use](https://www.fintraffic.fi/en/fintraffic/terms-use); attribution format suggested
-    by Fintraffic: "Source: Fintraffic / digitraffic.fi, license CC 4.0 BY".
-  - **Update frequency:** paginated location snapshots are regenerated **every minute**; real-time
-    status and MQTT push data update continuously.
-  - **Access:** open, no registration mentioned for the REST endpoints; MQTT has separate
-    production/test hosts.
-  - **Committed in this repository:** a **trimmed excerpt** of the `datex2-3.6` feed (one site) is
-    committed as the integration suite's **first real-world dataset**, at
-    [`datex4j-integration-tests/.../datasets/finland/afir-messagecontainer.v3_6.json`](../../../datex4j-integration-tests/src/test/resources/datasets/finland/afir-messagecontainer.v3_6.json).
-    The feed serves conformant DATEX II JSON (not XML), so the harness round-trips it through
-    `datex4j-json`. See its [dataset README](../../../datex4j-integration-tests/src/test/resources/datasets/finland/README.md)
-    for provenance, attribution and the trimming.
+### Digitraffic AFIR / charging-network data
+
+- **Format:** **DATEX II v3.6** (`/locations/datex2-3.6`) and GeoJSON (`/locations`); tariff and
+  MQTT payloads in JSON.
+- **License:** **Creative Commons 4.0 BY (CC BY 4.0)** — Fintraffic's stated license for all
+  Digitraffic open data, per its
+  [Terms of use](https://www.fintraffic.fi/en/fintraffic/terms-use); attribution format suggested
+  by Fintraffic: "Source: Fintraffic / digitraffic.fi, license CC 4.0 BY".
+- **Update frequency:** paginated location snapshots are regenerated **every minute**; real-time
+  status and MQTT push data update continuously.
+- **Access:** open, no registration mentioned for the REST endpoints; MQTT has separate
+  production/test hosts.
+- **Committed in this repository:** a **trimmed excerpt** of the `datex2-3.6` feed (one site) is
+  committed as the integration suite's **first real-world dataset** in
+  `afir-messagecontainer.v3_6.json`.
+  The feed serves conformant DATEX II JSON (not XML), so the harness round-trips it through
+  `datex4j-json`. See the [fixture metadata][finland-fixture] for provenance, attribution and
+  trimming details.
 
 ## Other Fintraffic DATEX II feeds (road traffic, beyond AFIR)
 
 Beyond the AFIR charging feed, Digitraffic publishes general **road-traffic** data as DATEX II — a
 useful test surface for the `situation`, `srti` and `roadTrafficData` sides of the library.
-Verified live at the time of writing (base host `tie.digitraffic.fi`, licence **CC BY 4.0**):
+Verified live at the time of writing (base host `tie.digitraffic.fi`, license **CC BY 4.0**):
 
 | Feed | URL | DATEX II | Root |
 |---|---|---|---|
@@ -89,5 +96,7 @@ confirmed from official sources beyond the endpoints listed above at the time of
 
 ## See also
 
-- [`../../../datex4j-integration-tests/src/test/resources/datasets/finland/README.md`](../../../datex4j-integration-tests/src/test/resources/datasets/finland/README.md)
+- [Finland fixture metadata](../../../datex4j-integration-tests/src/test/resources/datasets/finland/README.md)
 - [`../official-datex-resources.md`](../official-datex-resources.md)
+
+[finland-fixture]: ../../../datex4j-integration-tests/src/test/resources/datasets/finland/README.md

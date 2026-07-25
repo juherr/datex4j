@@ -1,5 +1,9 @@
 # Sweden
 
+> Last verified: 2026-07-25.
+
+This page records Sweden's verified NAP, AFIR datasets, access constraints, and test coverage.
+
 ## General information
 
 - **Country:** Sweden
@@ -28,18 +32,19 @@
 
 ## Available datasets
 
-- **Charging points for electric vehicles — NOBIL** (listed on trafficdata.se)
-  - **URL:** <https://trafficdata.se/dataset/charging-points-for-electric-vehicles-nobil>
-  - **Format:** **API** (the catalogue entry describes it as "NOBIL database for charging points for
-    electric vehicles, API"); DATEX II is **not** stated as the format on this entry.
-  - **Licence:** listed as **"License not specified"** on the trafficdata.se catalogue entry itself.
-    Note that registering directly for the underlying NOBIL API (via info.nobil.no) requires
-    accepting Creative Commons terms of use, per NOBIL's own documentation — but that is a separate
-    registration path from the trafficdata.se catalogue listing, and the licence terms of the
-    Swedish register specifically were not confirmed.
-  - **Update frequency:** **daily**, per the catalogue entry.
-  - **Coverage:** location and conditions of charging points, and availability of charging points for
-    electric vehicles, for Sweden.
+### Charging points for electric vehicles — NOBIL
+
+- **URL:** <https://trafficdata.se/dataset/charging-points-for-electric-vehicles-nobil>
+- **Format:** **API** (the catalogue entry describes it as "NOBIL database for charging points for
+  electric vehicles, API"); DATEX II is **not** stated as the format on this entry.
+- **License:** listed as **"License not specified"** on the trafficdata.se catalogue entry itself.
+  Note that registering directly for the underlying NOBIL API (via info.nobil.no) requires
+  accepting Creative Commons terms of use, per NOBIL's own documentation — but that is a separate
+  registration path from the trafficdata.se catalogue listing, and the license terms of the
+  Swedish register specifically were not confirmed.
+- **Update frequency:** **daily**, per the catalogue entry.
+- **Coverage:** location and conditions of charging points, and availability of charging points for
+  electric vehicles, for Sweden.
 
 ## Other DATEX II feeds (road traffic, beyond AFIR)
 
@@ -72,5 +77,5 @@ are gated, nothing is committed to
 
 ## See also
 
-- [`../../../datex4j-integration-tests/src/test/resources/datasets/sweden/README.md`](../../../datex4j-integration-tests/src/test/resources/datasets/sweden/README.md)
+- [Sweden fixture metadata](../../../datex4j-integration-tests/src/test/resources/datasets/sweden/README.md)
 - [`../official-datex-resources.md`](../official-datex-resources.md)

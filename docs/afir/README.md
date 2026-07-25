@@ -1,5 +1,8 @@
 # AFIR / DATEX II knowledge base
 
+> Last verified: 2026-07-25. Country pages own current National Access Point status; fixture
+> READMEs own the provenance and expected behavior of committed snapshots.
+
 ## What this is
 
 This is a knowledge base for Java developers who need to consume or produce **AFIR-compliant
@@ -38,7 +41,7 @@ model (`AfirEnergyInfrastructure`, `AfirFacilities`), generated straight from th
 schemas — see [official-datex-resources.md](./official-datex-resources.md) for exact schema
 locations and links.
 
-## National Access Points
+## National access points
 
 A **National Access Point (NAP)** is the single, official online point through which a Member State
 publishes its transport and mobility datasets — including, since AFIR Article 20(4), recharging and
@@ -52,9 +55,9 @@ access point, then confirm details against that country's own NAP (see the
 
 ## How datex4j relates
 
-- [`datex4j-model`](../../datex4j-model) — the generated DATEX II v3.7 (and v3.6) object model,
-  including the AFIR energy-infrastructure and facilities packages, vendored straight from the
-  official XSD schemas (never hand-edited).
+- [`datex4j-model`](../../datex4j-model) — the aggregate of every bundled DATEX II model (v2.0–v2.3
+  and v3.0–v3.7). The AFIR-specific energy-infrastructure and facilities packages belong to the
+  v3.7 artifact and are generated from the official XSD schemas.
 - [`datex4j-xml`](../../datex4j-xml), [`datex4j-validation`](../../datex4j-validation),
   [`datex4j-json`](../../datex4j-json) — the facades for marshalling/unmarshalling, XSD validation
   and JSON (de)serialization of that model, used throughout this knowledge base's examples and by
@@ -64,7 +67,7 @@ access point, then confirm details against that country's own NAP (see the
   [`docs/references/`](../references/README.md) (the IDACS Deliverable 2.2.1 reference).
 - [`datex4j-integration-tests`](../../datex4j-integration-tests) — the offline round-trip test
   suite this knowledge base accompanies: it parses, validates, re-serializes and diffs committed
-  AFIR datasets (synthetic today, real per-country datasets as they are added — see
+  synthetic and real-world datasets — see
   [`datasets/README.md`](../../datex4j-integration-tests/src/test/resources/datasets/README.md)).
 
 ## Country pages

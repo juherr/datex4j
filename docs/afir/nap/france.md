@@ -1,5 +1,9 @@
 # France
 
+> Last verified: 2026-07-25.
+
+This page records France's verified NAP, AFIR datasets, access constraints, and test coverage.
+
 ## General information
 
 - **Country:** France
@@ -14,8 +18,8 @@
   charging points to make static data (location, connectors, access/payment conditions) and dynamic
   data (real-time availability, operating status, price) available free of charge via the NAP (see
   [`../README.md#afir`](../README.md#afir)); DATEX II then becomes the mandatory EU-wide format for
-  that Article 20(2) data from 14 April 2026 under [Commission Implementing Regulation (EU)
-  2025/655](https://transport.ec.europa.eu/news-events/news/commission-enhances-interoperability-and-transparency-alternative-fuels-infrastructure-data-2025-04-11_en).
+  that Article 20(2) data from 14 April 2026 under
+  [Commission Implementing Regulation (EU) 2025/655][afir-implementation].
   **No France-specific public DATEX II endpoint for
   recharging data was confirmed at the time of writing** — see "Available datasets" below for what
   is confirmed today.
@@ -33,28 +37,30 @@
 
 ## Available datasets
 
-- **Base nationale des IRVE (Infrastructures de Recharge pour Véhicules Électriques)** — the
-  consolidated national dataset of publicly accessible charging points, published on
-  transport.data.gouv.fr.
-  - **URL:** <https://transport.data.gouv.fr/datasets/fichier-consolide-des-bornes-de-recharge-pour-vehicules-electriques>
-  - **Format:** **CSV and GeoJSON** (two consolidation CSV files plus a GeoJSON export) — **not
-    DATEX II** at the time of writing.
-  - **Licence:** Licence Ouverte / Open Licence, version 1.0.
-  - **Update frequency:** daily.
-  - **Basis:** static-data structure defined by the
-    [decree of 4 May 2021](https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000043475441) (not the
-    AFIR DATEX II profile).
+### Base nationale des IRVE
+
+The consolidated national dataset of publicly accessible charging points is published on
+transport.data.gouv.fr.
+
+- **URL:** <https://transport.data.gouv.fr/datasets/fichier-consolide-des-bornes-de-recharge-pour-vehicules-electriques>
+- **Format:** **CSV and GeoJSON** (two consolidation CSV files plus a GeoJSON export) — **not
+  DATEX II** at the time of writing.
+- **License:** Open License, version 1.0.
+- **Update frequency:** daily.
+- **Basis:** static-data structure defined by the
+  [decree of 4 May 2021](https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000043475441) (not the
+  AFIR DATEX II profile).
+
 - **A dedicated DATEX II feed for AFIR recharging data could not be confirmed** on
   transport.data.gouv.fr as of this writing. QualiCharge's role (collecting operator data and
   relaying it onward) suggests a DATEX II-format publication may follow the EU-wide 14 April 2026
   DATEX II deadline (Commission Implementing Regulation (EU) 2025/655, cited above), but no such
-  endpoint, URL, or schema reference was found to cite here — this page will be updated once one is
-  confirmed rather than guessing at a URL.
+  endpoint, URL, or schema reference was found to cite here. Update this page after confirming one.
 
 ## Other DATEX II feeds (road traffic, beyond AFIR)
 
 Although no AFIR/EV-charging DATEX II feed is confirmed yet, transport.data.gouv.fr does publish
-**road-traffic** data as DATEX II, all under **Licence Ouverte 2.0**, most of it anonymously
+**road-traffic** data as DATEX II, all under **License Ouverte 2.0**, most of it anonymously
 downloadable. The single **DATEX II v3** source (the only one the library's v3-only model can read)
 is the DiaLog traffic-regulation database; the Bison Futé / TIPI real-time feeds are still DATEX II
 **v2.2.2**.
@@ -94,5 +100,7 @@ national extension noted above.
 
 ## See also
 
-- [`../../../datex4j-integration-tests/src/test/resources/datasets/france/README.md`](../../../datex4j-integration-tests/src/test/resources/datasets/france/README.md)
+- [France fixture metadata](../../../datex4j-integration-tests/src/test/resources/datasets/france/README.md)
 - [`../official-datex-resources.md`](../official-datex-resources.md)
+
+[afir-implementation]: https://transport.ec.europa.eu/news-events/news/commission-enhances-interoperability-and-transparency-alternative-fuels-infrastructure-data-2025-04-11_en

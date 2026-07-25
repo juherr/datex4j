@@ -1,7 +1,9 @@
 # Dataset: denmark
 
+> Source access last verified: 2026-07-25. Snapshot dates belong to individual dataset records.
+
 **No data file is committed in this directory yet.** See
-[`../README.md`](../README.md) for why (licence/size policy) and how to contribute one.
+[`../README.md`](../README.md) for why (license/size policy) and how to contribute one.
 
 ## How to obtain a real dataset
 
@@ -18,5 +20,5 @@ writing:
 
 See
 [`../../../../../../docs/afir/nap/denmark.md`](../../../../../../docs/afir/nap/denmark.md) for the
-full picture. This README will be updated with concrete download instructions (source URL, licence,
-format) once a public dataset is confirmed — no URL or format is guessed here in the meantime.
+full picture. Add concrete source, license, and format instructions here after confirming a public
+dataset; do not guess its URL or format.
