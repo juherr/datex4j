@@ -169,3 +169,14 @@ Release steps:
 
 The workflow safely resumes when its signed tag or GitHub Release already exists at the same
 commit. It refuses conflicting tags or releases.
+
+Resume a failed release with `gh run rerun <run-id> --failed` rather than a new dispatch. A re-run
+keeps the original commit, so the signed tag still points at the code that produced the published
+artifacts. The publishing job skips the deploy when every artifact already resolves from Central,
+so the re-run only replays the remaining verification, tag, and release steps.
+
+The publishing job drives `central-publishing-maven-plugin` through the `central.autoPublish` and
+`central.waitUntil` properties. The root POM binds them into an explicit plugin `<configuration>`,
+which takes precedence over the plugin's own `autoPublish` and `waitUntil` user properties — those
+`-D` flags are silently ignored. `Validate release inputs` asserts the effective POM resolves to
+`true` and `published` before anything is uploaded.
